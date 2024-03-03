@@ -16,27 +16,19 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-async function main() {
-  // ... you will write your Prisma Client queries here
-  await prisma.post.create({
-    data: {
-      title: "First",
-    },
-  });
-}
-
-main()
-  .catch(async (e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
 app.get("/", (req: Request, res: Response) => {
   return res.json("Hello");
 });
 const PORT = process.env.PORT || 3999;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Listenting on port no ${PORT}`);
+});
+process.on("SIGINT", async () => {
+  console.log("Closing Prisma Client connection");
+  await prisma.$disconnect();
+  console.log("Prisma Client connection closed");
+  server.close(() => {
+    console.log("Server shut down gracefully");
+    process.exit(0);
+  });
 });
