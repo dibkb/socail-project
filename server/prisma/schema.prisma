@@ -12,3 +12,18 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  username     String   @unique
+  email        String   @unique
+  password     String
+  profilePic   String?  @default("")
+  bio          String?  @default("")
+  isFrozen     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  followingIds String[] @db.ObjectId
+  followerIds  String[] @db.ObjectId
+}
