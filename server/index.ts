@@ -20,7 +20,7 @@ app.use(cookieParser());
 
 // routes
 app.use(router);
-const prisma = new PrismaClient();
+export const prisma = new PrismaClient();
 const PORT = process.env.PORT || 3999;
 const server = app.listen(PORT, () => {
   console.log(`Listenting on port no ${PORT}`);
