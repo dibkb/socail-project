@@ -32,6 +32,10 @@ export const signupUser = async (req: Request, res: Response) => {
         email: newUser.email,
         username: newUser.username,
       });
+    } else {
+      res.status(400).json({
+        error: "Invalid user data",
+      });
     }
   } catch (error: any) {
     res.status(500).json({
