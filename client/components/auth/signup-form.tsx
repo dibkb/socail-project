@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState, useTransition } from "react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,6 +25,9 @@ import { useForm } from "react-hook-form";
 import { signinSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 const SignupForm = () => {
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
+  const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof signinSchema>>({
     resolver: zodResolver(signinSchema),
     defaultValues: {
@@ -33,29 +36,89 @@ const SignupForm = () => {
       password: "",
     },
   });
+  const onSubmit = (values: z.infer<typeof signinSchema>) => {
+    setError("");
+    setSuccess("");
+    startTransition(() => {
+      // TODO : api call
+    });
+  };
+
   return (
     <div className="">
       <Card className="min-w-[400px] border-none drop-shadow-2xl">
         <CardHeader>
-          <CardTitle className="text-center">
-            Log in with your Github account
-          </CardTitle>
+          <CardTitle className="text-center">Signin to join Threads</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              {/* Name */}
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem className="bg-stone-900 rounded-xl">
+                    <FormControl>
+                      <Input
+                        placeholder="Username"
+                        {...field}
+                        className="focus-visible:ring-stone-700 py-6 rounded-xl"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* Username */}
               <FormField
                 control={form.control}
                 name="username"
                 render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Username</FormLabel>
+                  <FormItem className="bg-stone-900 rounded-xl">
                     <FormControl>
-                      <Input placeholder="shadcn" {...field} />
+                      <Input
+                        placeholder="Name"
+                        {...field}
+                        className="focus-visible:ring-stone-700 py-6 rounded-xl"
+                      />
                     </FormControl>
-                    <FormDescription>
-                      This is your public display name.
-                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* Email */}
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="bg-stone-900 rounded-xl">
+                    <FormControl>
+                      <Input
+                        placeholder="Email"
+                        {...field}
+                        className="focus-visible:ring-stone-700 py-6 rounded-xl"
+                        type="email"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {/* Password */}
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem className="bg-stone-900 rounded-xl">
+                    <FormControl>
+                      <Input
+                        placeholder="Password"
+                        {...field}
+                        className="focus-visible:ring-stone-700 py-6 rounded-xl"
+                        type="password"
+                      />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -63,22 +126,8 @@ const SignupForm = () => {
               <Button type="submit">Submit</Button>
             </form>
           </Form>
-          <form>
-            <div className="grid w-full items-center gap-4">
-              <div className="flex flex-col bg-stone-900 rounded-xl">
-                <Input
-                  id="name"
-                  placeholder="Username"
-                  className="focus-visible:ring-stone-700 py-6 rounded-xl
-                  "
-                />
-              </div>
-            </div>
-          </form>
         </CardContent>
-        <CardFooter className="flex justify-between">
-          <Button>Deploy</Button>
-        </CardFooter>
+        <CardFooter className="flex justify-between"></CardFooter>
       </Card>
     </div>
   );
