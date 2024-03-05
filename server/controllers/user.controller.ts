@@ -87,3 +87,13 @@ export const loginUser = async (req: Request, res: Response) => {
     res.status(500).json({ error: error?.message });
   }
 };
+// logout user
+export const logoutUser = (req: Request, res: Response) => {
+  try {
+    res.cookie("jwt", "", { maxAge: 1 });
+    res.status(200).json({ message: "User logged out successfully" });
+  } catch (err: any) {
+    res.status(500).json({ error: err?.message });
+    console.log("Error in signupUser: ", err.message);
+  }
+};
