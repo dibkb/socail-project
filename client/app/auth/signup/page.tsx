@@ -1,7 +1,7 @@
 import React from "react";
 
 const Signup = () => {
-  return <div>page</div>;
+  return <div className="border"></div>;
 };
 
 export default Signup;

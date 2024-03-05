@@ -6,4 +6,5 @@ html,
 body {
   background-color: #0c0a09;
   color: #f1f5f9;
+  height: 100vh;
 }
