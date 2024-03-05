@@ -24,7 +24,7 @@ import {
 import { useForm } from "react-hook-form";
 import { signinSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
+import CardContainer from "@/app/auth/card-container";
 const SignupForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -47,99 +47,103 @@ const SignupForm = () => {
 
   return (
     <div className="">
-      <Card className="min-w-[400px] border-none drop-shadow-2xl">
-        <CardHeader>
-          <CardTitle className="text-center text-lg">
-            Join Threads today !
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col space-y-6">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              {/* Name */}
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem className="bg-stone-900 rounded-xl">
-                    <FormControl>
-                      <Input
-                        placeholder="Username"
-                        {...field}
-                        className="focus-visible:ring-stone-700 py-6 rounded-xl"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {/* Username */}
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem className="bg-stone-900 rounded-xl">
-                    <FormControl>
-                      <Input
-                        placeholder="Name"
-                        {...field}
-                        className="focus-visible:ring-stone-700 py-6 rounded-xl"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {/* Email */}
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem className="bg-stone-900 rounded-xl">
-                    <FormControl>
-                      <Input
-                        placeholder="Email"
-                        {...field}
-                        className="focus-visible:ring-stone-700 py-6 rounded-xl"
-                        type="email"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              {/* Password */}
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem className="bg-stone-900 rounded-xl">
-                    <FormControl>
-                      <Input
-                        placeholder="Password"
-                        {...field}
-                        className="focus-visible:ring-stone-700 py-6 rounded-xl"
-                        type="password"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" className="w-full py-6">
-                Register
-              </Button>
-            </form>
-          </Form>
-          <Link
+      <CardContainer>
+        <Card className="border-none">
+          <CardHeader>
+            <CardTitle className="text-center text-lg">
+              Join Threads today !
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="space-y-8"
+              >
+                {/* Name */}
+                <FormField
+                  control={form.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem className="bg-stone-900 rounded-xl">
+                      <FormControl>
+                        <Input
+                          placeholder="Username"
+                          {...field}
+                          className="focus-visible:ring-stone-700 py-6 rounded-xl"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {/* Username */}
+                <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <FormItem className="bg-stone-900 rounded-xl">
+                      <FormControl>
+                        <Input
+                          placeholder="Name"
+                          {...field}
+                          className="focus-visible:ring-stone-700 py-6 rounded-xl"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {/* Email */}
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem className="bg-stone-900 rounded-xl">
+                      <FormControl>
+                        <Input
+                          placeholder="Email"
+                          {...field}
+                          className="focus-visible:ring-stone-700 py-6 rounded-xl"
+                          type="email"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {/* Password */}
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem className="bg-stone-900 rounded-xl">
+                      <FormControl>
+                        <Input
+                          placeholder="Password"
+                          {...field}
+                          className="focus-visible:ring-stone-700 py-6 rounded-xl"
+                          type="password"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" className="w-full py-6">
+                  Register
+                </Button>
+              </form>
+            </Form>
+            {/* <Link
             href={"/"}
             className="text-center hover:underline text-stone-500 text-sm"
           >
             Forgotten Password?
-          </Link>
-        </CardContent>
-        <CardFooter className="flex justify-between"></CardFooter>
-      </Card>
+          </Link> */}
+          </CardContent>
+        </Card>
+      </CardContainer>
     </div>
   );
 };
