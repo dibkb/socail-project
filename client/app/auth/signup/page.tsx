@@ -14,7 +14,7 @@ import React from "react";
 
 const Signup = () => {
   return (
-    <Card className="min-w-[400px]">
+    <Card className="min-w-[400px] border border-stone-800 drop-shadow-2xl">
       <CardHeader>
         <CardTitle>Create project</CardTitle>
         <CardDescription>Deploy your new project in one-click.</CardDescription>
