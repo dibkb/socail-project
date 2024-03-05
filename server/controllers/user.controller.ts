@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import { prisma } from "../index";
 import { generateAndSetCookie } from "../utils/helpers";
+// signup user
 export const signupUser = async (req: Request, res: Response) => {
   try {
     const { name, email, username, password } = req.body;
@@ -47,5 +48,42 @@ export const signupUser = async (req: Request, res: Response) => {
     res.status(500).json({
       message: error.message,
     });
+  }
+};
+// login user
+export const loginUser = async (req: Request, res: Response) => {
+  try {
+    const { username, password } = req.body;
+    const user = await prisma.user.findUnique({
+      where: {
+        username,
+      },
+    });
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      user?.password || ""
+    );
+    if (!user) {
+      return res.status(400).json({ error: "Invalid User" });
+    }
+    if (!isPasswordCorrect) {
+      return res.status(400).json({
+        error: "Invalid Password",
+      });
+    }
+    generateAndSetCookie({
+      userid: user.id,
+      res,
+    });
+    res.status(200).json({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      username: user.username,
+      bio: user.bio,
+      profilePic: user.profilePic,
+    });
+  } catch (error: any) {
+    res.status(500).json({ error: error?.message });
   }
 };
