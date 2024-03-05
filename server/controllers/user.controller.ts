@@ -3,7 +3,10 @@ import bcrypt from "bcrypt";
 import { prisma } from "../index";
 import { generateAndSetCookie } from "../utils/helpers";
 import { findUserById } from "../utils/get-user";
-import { updateUserFollowing } from "../utils/following-user";
+import {
+  updateUserFollowers,
+  updateUserFollowing,
+} from "../utils/following-user";
 export const getuserProfile = async (req: Request, res: Response) => {
   const { userid } = req.params;
   try {
@@ -114,14 +117,23 @@ export const logoutUser = (req: Request, res: Response) => {
 export const followUser = async (req: Request, res: Response) => {
   const { userid } = req.params;
   try {
+    const currUserId = req?.user?.id;
     const userToModify = await findUserById(userid);
-    if (!userToModify || !req.user?.id) throw new Error("No userid provided");
-    const user = await updateUserFollowing({
-      userId: req.user.id,
+    //   throw errors
+    if (currUserId === userToModify?.id) {
+      throw new Error("Cannot follow self");
+    }
+    if (!userToModify || !currUserId) throw new Error("No userid provided");
+    await updateUserFollowing({
+      userId: currUserId,
       followingIdToAdd: userToModify?.id,
     });
+    await updateUserFollowers({
+      userId: userToModify?.id,
+      followerToAdd: currUserId,
+    });
     return res.status(200).json({
-      message: `Following list updated for ${req.user.id}`,
+      message: `Following updated for ${currUserId}`,
     });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
