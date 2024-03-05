@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import { prisma } from "../index";
 import { generateAndSetCookie } from "../utils/helpers";
 import { findUserById } from "../utils/get-user";
+import { updateUserFollowing } from "../utils/following-user";
 export const getuserProfile = async (req: Request, res: Response) => {
   const { userid } = req.params;
   try {
@@ -107,5 +108,22 @@ export const logoutUser = (req: Request, res: Response) => {
   } catch (err: any) {
     res.status(500).json({ error: err?.message });
     console.log("Error in signupUser: ", err.message);
+  }
+};
+// follow user
+export const followUser = async (req: Request, res: Response) => {
+  const { userid } = req.params;
+  try {
+    const userToModify = await findUserById(userid);
+    if (!userToModify || !req.user?.id) throw new Error("No userid provided");
+    const user = await updateUserFollowing({
+      userId: req.user.id,
+      followingIdToAdd: userToModify?.id,
+    });
+    return res.status(200).json({
+      message: `Following list updated for ${req.user.id}`,
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
   }
 };
