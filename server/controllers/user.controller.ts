@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import { prisma } from "../index";
+import { generateAndSetCookie } from "../utils/helpers";
 export const signupUser = async (req: Request, res: Response) => {
   try {
     const { name, email, username, password } = req.body;
@@ -26,6 +27,11 @@ export const signupUser = async (req: Request, res: Response) => {
       },
     });
     if (newUser) {
+      // lgoin user
+      generateAndSetCookie({
+        userid: newUser.id,
+        res,
+      });
       res.status(201).json({
         id: newUser.id,
         name: newUser.name,
