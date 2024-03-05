@@ -2,23 +2,13 @@
 import React, { useState, useTransition } from "react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "../ui/form";
 import { useForm } from "react-hook-form";
@@ -46,8 +36,11 @@ const SignupForm = () => {
   };
 
   return (
-    <div className="">
-      <CardContainer>
+    <div className="w-full">
+      <CardContainer
+        alternateLabel="Already have an account"
+        alternateLink={"/auth/login"}
+      >
         <Card className="border-none">
           <CardHeader>
             <CardTitle className="text-center text-lg">
@@ -130,7 +123,7 @@ const SignupForm = () => {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full py-6">
+                <Button type="submit" className="w-full py-8">
                   Register
                 </Button>
               </form>
