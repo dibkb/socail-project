@@ -16,3 +16,6 @@ export const generateAndSetCookie = ({
   });
   return token;
 };
+export interface Token {
+  userId: string;
+}
