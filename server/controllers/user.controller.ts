@@ -2,6 +2,18 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import { prisma } from "../index";
 import { generateAndSetCookie } from "../utils/helpers";
+import { findUserById } from "../utils/get-user";
+export const getuserProfile = async (req: Request, res: Response) => {
+  const { userid } = req.params;
+  try {
+    const user = await findUserById(userid);
+    return res.status(200).json(user);
+  } catch (error: any) {
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 // signup user
 export const signupUser = async (req: Request, res: Response) => {
   try {
