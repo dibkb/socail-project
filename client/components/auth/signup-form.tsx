@@ -14,7 +14,8 @@ import {
 import { useForm } from "react-hook-form";
 import { signinSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
-import CardContainer from "@/app/auth/card-container";
+import CardContainer from "./card-container";
+
 const SignupForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -38,13 +39,13 @@ const SignupForm = () => {
   return (
     <div className="w-full">
       <CardContainer
-        alternateLabel="Already have an account"
+        alternateLabel="Already have an account?"
         alternateLink={"/auth/login"}
       >
         <Card className="border-none">
           <CardHeader>
             <CardTitle className="text-center text-lg">
-              Join Threads today !
+              @ Join Threads today
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -53,37 +54,37 @@ const SignupForm = () => {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-8"
               >
-                {/* Name */}
+                {/* Username */}
                 <FormField
                   control={form.control}
-                  name="name"
+                  name="username"
                   render={({ field }) => (
-                    <FormItem className="bg-stone-900 rounded-xl">
+                    <FormItem>
                       <FormControl>
                         <Input
                           placeholder="Username"
                           {...field}
-                          className="focus-visible:ring-stone-700 py-6 rounded-xl"
+                          className="focus-visible:ring-stone-700 py-6 bg-stone-900 rounded-xl"
                         />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                {/* Username */}
+                {/* Name */}
                 <FormField
                   control={form.control}
-                  name="username"
+                  name="name"
                   render={({ field }) => (
-                    <FormItem className="bg-stone-900 rounded-xl">
+                    <FormItem>
                       <FormControl>
                         <Input
                           placeholder="Name"
                           {...field}
-                          className="focus-visible:ring-stone-700 py-6 rounded-xl"
+                          className="focus-visible:ring-stone-700 py-6 bg-stone-900 rounded-xl"
                         />
                       </FormControl>
-                      <FormMessage />
+                      <FormMessage className="text-destructive" />
                     </FormItem>
                   )}
                 />
@@ -92,12 +93,12 @@ const SignupForm = () => {
                   control={form.control}
                   name="email"
                   render={({ field }) => (
-                    <FormItem className="bg-stone-900 rounded-xl">
+                    <FormItem>
                       <FormControl>
                         <Input
                           placeholder="Email"
                           {...field}
-                          className="focus-visible:ring-stone-700 py-6 rounded-xl"
+                          className="focus-visible:ring-stone-700 py-6 bg-stone-900 rounded-xl"
                           type="email"
                         />
                       </FormControl>
@@ -110,12 +111,12 @@ const SignupForm = () => {
                   control={form.control}
                   name="password"
                   render={({ field }) => (
-                    <FormItem className="bg-stone-900 rounded-xl">
+                    <FormItem>
                       <FormControl>
                         <Input
                           placeholder="Password"
                           {...field}
-                          className="focus-visible:ring-stone-700 py-6 rounded-xl"
+                          className="focus-visible:ring-stone-700 py-6 bg-stone-900 rounded-xl"
                           type="password"
                         />
                       </FormControl>
