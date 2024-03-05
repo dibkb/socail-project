@@ -24,6 +24,7 @@ import {
 import { useForm } from "react-hook-form";
 import { signinSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 const SignupForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -48,9 +49,11 @@ const SignupForm = () => {
     <div className="">
       <Card className="min-w-[400px] border-none drop-shadow-2xl">
         <CardHeader>
-          <CardTitle className="text-center">Signin to join Threads</CardTitle>
+          <CardTitle className="text-center text-lg">
+            Join Threads today !
+          </CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex flex-col space-y-6">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               {/* Name */}
@@ -123,9 +126,17 @@ const SignupForm = () => {
                   </FormItem>
                 )}
               />
-              <Button type="submit">Submit</Button>
+              <Button type="submit" className="w-full py-6">
+                Register
+              </Button>
             </form>
           </Form>
+          <Link
+            href={"/"}
+            className="text-center hover:underline text-stone-500 text-sm"
+          >
+            Forgotten Password?
+          </Link>
         </CardContent>
         <CardFooter className="flex justify-between"></CardFooter>
       </Card>
