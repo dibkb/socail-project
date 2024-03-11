@@ -30,7 +30,7 @@ const CardContainer = ({
           <p className="font-semibold">Continue with Github</p>
           <ChevronRightIcon />
         </Card>
-        <div className="mt-4 text-center text-stone-500 hover:underline">
+        <div className="mt-4 text-sm text-center text-stone-500 hover:underline">
           <Link href={alternateLink}>{alternateLabel}</Link>
         </div>
       </CardContent>

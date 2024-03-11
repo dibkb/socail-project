@@ -13,3 +13,11 @@ export const signinSchema = z.object({
     message: "Username is required",
   }),
 });
+export const loginSchema = z.object({
+  password: z.string().min(3, {
+    message: "Minimum 3 characters required",
+  }),
+  username: z.string().min(1, {
+    message: "Username is required",
+  }),
+});
