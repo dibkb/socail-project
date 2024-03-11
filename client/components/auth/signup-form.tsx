@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { signinSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CardContainer from "./card-container";
+import Forminput from "./Input";
 
 const SignupForm = () => {
   const [error, setError] = useState<string | undefined>("");
@@ -52,7 +53,7 @@ const SignupForm = () => {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-8"
+                className="space-y-3"
               >
                 {/* Username */}
                 <FormField
@@ -61,10 +62,10 @@ const SignupForm = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input
-                          placeholder="Username"
+                        <Forminput
                           {...field}
-                          className="focus-visible:ring-stone-700 py-6 bg-stone-900 rounded-xl"
+                          type="password"
+                          placeholder="Username"
                         />
                       </FormControl>
                       <FormMessage />
@@ -78,11 +79,7 @@ const SignupForm = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input
-                          placeholder="Name"
-                          {...field}
-                          className="focus-visible:ring-stone-700 py-6 bg-stone-900 rounded-xl"
-                        />
+                        <Forminput {...field} placeholder="Name" />
                       </FormControl>
                       <FormMessage className="text-destructive" />
                     </FormItem>
@@ -95,10 +92,9 @@ const SignupForm = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input
-                          placeholder="Email"
+                        <Forminput
                           {...field}
-                          className="focus-visible:ring-stone-700 py-6 bg-stone-900 rounded-xl"
+                          placeholder="Email"
                           type="email"
                         />
                       </FormControl>
@@ -113,10 +109,9 @@ const SignupForm = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input
-                          placeholder="Password"
+                        <Forminput
                           {...field}
-                          className="focus-visible:ring-stone-700 py-6 bg-stone-900 rounded-xl"
+                          placeholder="Password"
                           type="password"
                         />
                       </FormControl>
