@@ -6,6 +6,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import { HiOutlinePencilSquare } from "react-icons/hi2";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { CiUser } from "react-icons/ci";
+import { DropdownMenuDemo } from "./menu-icon";
 const classNames: Record<"active" | "inactive", HTMLElement["className"]> = {
   active: "h-7 w-7",
   inactive: "h-7 w-7 text-stone-600",
@@ -46,7 +47,9 @@ const Navbar = () => {
         />
       </div>
       {/* rights */}
-      <div></div>
+      <div className="flex items-center justify-center h-16 w-20">
+        <DropdownMenuDemo />
+      </div>
     </nav>
   );
 };
