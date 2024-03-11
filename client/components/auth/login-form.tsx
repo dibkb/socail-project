@@ -3,7 +3,6 @@ import React, { useState, useTransition } from "react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import {
   Form,
   FormControl,
@@ -45,9 +44,7 @@ const LoginForm = () => {
       >
         <Card className="border-none">
           <CardHeader>
-            <CardTitle className="text-center text-lg">
-              @ Join Threads today
-            </CardTitle>
+            <CardTitle className="text-center text-lg">@ Log in now</CardTitle>
           </CardHeader>
           <CardContent>
             <Form {...form}>
@@ -95,7 +92,7 @@ const LoginForm = () => {
               </form>
             </Form>
           </CardContent>
-          <CardContent className="">
+          <CardContent>
             <Link
               href={"/"}
               className="hover:underline text-stone-500 text-sm flex justify-center"
