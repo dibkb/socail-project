@@ -15,6 +15,11 @@ const CardContainer = ({
   return (
     <div className="max-w-[500px] mx-auto">
       {children}
+      <CardContent className="flex items-center gap-x-4">
+        <hr className="w-full rounded-lg border-stone-700" />
+        <p className="text-sm text-stone-500">OR</p>
+        <hr className="w-full border-stone-700 rounded-lg" />
+      </CardContent>
       <CardContent className="border-none cursor-pointer">
         <Card
           className="border border-stone-700
