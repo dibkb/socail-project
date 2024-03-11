@@ -24,7 +24,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <main className="">
+            <nav>dsfs</nav>
+            {children}
+          </main>
         </ThemeProvider>
       </body>
     </html>
