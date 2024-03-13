@@ -2,7 +2,6 @@
 import { TbMenu } from "react-icons/tb";
 import menuitems from "../../utils/nav-dropdown-menu";
 import { cn } from "@/lib/utils";
-import { Card, CardContent } from "../ui/card";
 import { useState } from "react";
 export function DropdownMenu() {
   const [showMenu, setShowMenu] = useState(false);
