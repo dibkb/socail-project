@@ -20,7 +20,7 @@ const Modallayout: React.FC<PortalProps> = ({ children }) => {
       }}
     >
       <div
-        className="border fixed"
+        className="fixed"
         style={{
           top: "50%",
           left: "50%",
