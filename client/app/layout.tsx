@@ -26,7 +26,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Navbar />
-          {children}
+          <div className="absolute top-20 w-full">{children}</div>
         </ThemeProvider>
       </body>
     </html>
