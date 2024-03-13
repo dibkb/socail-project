@@ -6,7 +6,7 @@ import { useState } from "react";
 export function DropdownMenu() {
   const [showMenu, setShowMenu] = useState(false);
   return (
-    <div className="relative">
+    <div className="relative z-100">
       <span
         className="cursor-pointer"
         onClick={() => setShowMenu((prev) => !prev)}
@@ -14,7 +14,7 @@ export function DropdownMenu() {
         <TbMenu className="h-8 w-8 text-stone-700 hover:text-white" />
       </span>
       {showMenu && (
-        <div className="w-44 border-none bg-stone-800 rounded-xl absolute top-8 right-0 select-none">
+        <div className="w-44 border-none bg-stone-800 rounded-xl absolute top-8 right-0 select-none z-50">
           <div className="flex flex-col">
             {menuitems.map((item, id) => {
               return (

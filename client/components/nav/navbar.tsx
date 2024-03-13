@@ -20,7 +20,7 @@ const Navbar = () => {
   if (isBelowWidth) {
     NAVBAR = (
       <>
-        <nav className="flex justify-between min-h-14 py-1 bg-stone-950 w-full fixed">
+        <nav className="flex justify-between min-h-14 py-1 bg-stone-950 w-full fixed z-50">
           {left}
           {right}
         </nav>
@@ -29,7 +29,7 @@ const Navbar = () => {
     );
   } else {
     NAVBAR = (
-      <nav className="flex justify-between min-h-14 py-1 bg-stone-950 w-full fixed">
+      <nav className="flex justify-between min-h-14 py-1 bg-stone-950 w-full fixed z-50">
         {left}
         <NavbarCenter />
         {right}

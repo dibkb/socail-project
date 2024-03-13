@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={"inter.className"}>
+      <body className={inter.className}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
@@ -26,7 +26,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <Navbar />
-          <div className="absolute top-20 w-full">{children}</div>
+          <div className="absolute top-20 w-full z-10">{children}</div>
         </ThemeProvider>
       </body>
     </html>
