@@ -11,11 +11,11 @@ const classNames: Record<"active" | "inactive", HTMLElement["className"]> = {
   inactive: "h-7 w-7 text-stone-600",
 };
 interface NavbarCenter {
-  className?: string;
+  className?: HTMLElement["className"];
 }
-const NavbarCenter = (className: NavbarCenter) => {
+const NavbarCenter = ({ className }: NavbarCenter) => {
   return (
-    <div className={cn("flex gap-x-1", className)}>
+    <div className={cn("flex gap-x-1 justify-between", className)}>
       <Navicons
         src={"/"}
         active={<GoHomeFill className={classNames.active} />}

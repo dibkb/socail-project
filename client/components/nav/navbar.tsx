@@ -24,7 +24,7 @@ const Navbar = () => {
           {left}
           {right}
         </nav>
-        <NavbarCenter />
+        <NavbarCenter className="absolute bottom-0 w-full" />
       </>
     );
   } else {
