@@ -28,6 +28,7 @@ export default function RootLayout({
           <Navbar />
           <div className="absolute top-20 w-full z-10">{children}</div>
         </ThemeProvider>
+        <div id="portal-root"></div>
       </body>
     </html>
   );
