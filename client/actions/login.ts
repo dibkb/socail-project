@@ -1,7 +1,7 @@
 import { loginSchema } from "@/schemas";
 import { z } from "zod";
 import axios from "axios";
-const SERVER = process.env.SERVER_URL;
+const SERVER = process.env.NEXT_PUBLIC_SERVER_URL;
 export const login = async (values: z.infer<typeof loginSchema>) => {
   const validatedFields = loginSchema.safeParse(values);
   if (!validatedFields.success) {
