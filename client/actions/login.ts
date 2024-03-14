@@ -1,6 +1,7 @@
 import { loginSchema } from "@/schemas";
 import { z } from "zod";
 import axios from "axios";
+const SERVER = process.env.SERVER_URL;
 export const login = async (values: z.infer<typeof loginSchema>) => {
   const validatedFields = loginSchema.safeParse(values);
   if (!validatedFields.success) {
@@ -8,7 +9,7 @@ export const login = async (values: z.infer<typeof loginSchema>) => {
   }
   const { password, username } = validatedFields.data;
   const serverResponse = axios.post(
-    "http://localhost:3999/api/v1/users/login",
+    `${SERVER}/api/v1/users/login`,
     {
       password,
       username,
@@ -17,5 +18,4 @@ export const login = async (values: z.infer<typeof loginSchema>) => {
       withCredentials: true,
     }
   );
-  console.log(serverResponse);
 };
