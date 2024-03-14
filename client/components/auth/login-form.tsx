@@ -17,8 +17,12 @@ import CardContainer from "./card-container";
 import Link from "next/link";
 import { Input } from "../ui/input";
 import { login } from "@/actions/login";
-
+import { useCounterStore } from "../../src/providers/user-store-provider";
 const LoginForm = () => {
+  const { count, incrementCount, decrementCount } = useCounterStore(
+    (state) => state
+  );
+  console.log(count);
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
@@ -32,10 +36,9 @@ const LoginForm = () => {
   const onSubmit = (values: z.infer<typeof loginSchema>) => {
     setError("");
     setSuccess("");
-    startTransition(() => {
-      // TODO : api call
-      login(values);
-    });
+    // startTransition(() => {
+    //   login(values);
+    // });
   };
 
   return (
