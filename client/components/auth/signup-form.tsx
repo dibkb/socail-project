@@ -15,7 +15,7 @@ import { useForm } from "react-hook-form";
 import { signinSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CardContainer from "./card-container";
-import Forminput from "./Input";
+import { register } from "@/actions/signup";
 
 const SignupForm = () => {
   const [error, setError] = useState<string | undefined>("");
@@ -27,13 +27,14 @@ const SignupForm = () => {
       username: "",
       email: "",
       password: "",
+      name: "",
     },
   });
   const onSubmit = (values: z.infer<typeof signinSchema>) => {
     setError("");
     setSuccess("");
     startTransition(() => {
-      // TODO : api call
+      register(values);
     });
   };
 
@@ -59,18 +60,21 @@ const SignupForm = () => {
                 <FormField
                   control={form.control}
                   name="username"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Forminput
-                          {...field}
-                          type="password"
-                          placeholder="Username"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  render={({ field }) => {
+                    return (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            {...field}
+                            placeholder={"Username"}
+                            className="focus-visible:ring-stone-700 py-8 bg-stone-900 rounded-xl"
+                            type={"text"}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    );
+                  }}
                 />
                 {/* Name */}
                 <FormField
@@ -79,7 +83,12 @@ const SignupForm = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Forminput {...field} placeholder="Name" />
+                        <Input
+                          {...field}
+                          placeholder={"Name"}
+                          className="focus-visible:ring-stone-700 py-8 bg-stone-900 rounded-xl"
+                          type={"text"}
+                        />
                       </FormControl>
                       <FormMessage className="text-destructive" />
                     </FormItem>
@@ -92,10 +101,11 @@ const SignupForm = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Forminput
+                        <Input
                           {...field}
-                          placeholder="Email"
-                          type="email"
+                          placeholder={"Email"}
+                          className="focus-visible:ring-stone-700 py-8 bg-stone-900 rounded-xl"
+                          type={"email"}
                         />
                       </FormControl>
                       <FormMessage />
@@ -109,10 +119,11 @@ const SignupForm = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Forminput
+                        <Input
                           {...field}
-                          placeholder="Password"
-                          type="password"
+                          placeholder={"Password"}
+                          className="focus-visible:ring-stone-700 py-8 bg-stone-900 rounded-xl"
+                          type={"password"}
                         />
                       </FormControl>
                       <FormMessage />

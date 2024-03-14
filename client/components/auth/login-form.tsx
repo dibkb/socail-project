@@ -15,7 +15,7 @@ import { loginSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CardContainer from "./card-container";
 import Link from "next/link";
-import Forminput from "./Input";
+import { Input } from "../ui/input";
 
 const LoginForm = () => {
   const [error, setError] = useState<string | undefined>("");
@@ -59,10 +59,11 @@ const LoginForm = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Forminput
+                        <Input
                           {...field}
-                          type="text"
-                          placeholder="Username"
+                          placeholder={"Username"}
+                          className="focus-visible:ring-stone-700 py-8 bg-stone-900 rounded-xl"
+                          type={"text"}
                         />
                       </FormControl>
                       <FormMessage />
@@ -76,10 +77,11 @@ const LoginForm = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Forminput
+                        <Input
                           {...field}
-                          type="password"
-                          placeholder="Password"
+                          placeholder={"Password"}
+                          className="focus-visible:ring-stone-700 py-8 bg-stone-900 rounded-xl"
+                          type={"password"}
                         />
                       </FormControl>
                       <FormMessage />

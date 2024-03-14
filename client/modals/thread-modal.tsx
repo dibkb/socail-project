@@ -19,15 +19,10 @@ const ThreadformPortal = () => {
           }}
         >
           Content
-          <Button
-            className="rounded-3xl fixed"
-            style={{
-              right: 16,
-              bottom: 16,
-            }}
-          >
-            Post
-          </Button>
+          <div className="flex justify-between items-center">
+            <p className="text-stone-500 text-sm">Anyone can reply</p>
+            <Button className="rounded-3xl">Post</Button>
+          </div>
         </div>
       </div>
     </Modallayout>
