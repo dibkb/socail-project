@@ -9,7 +9,7 @@ const Threadform = () => {
   return (
     <>
       <div
-        className="flex flex-col gap-y-6"
+        className="flex flex-col gap-y-6 z-0"
         onClick={() => setOpenThreadModal(true)}
       >
         <div className="flex items-center w-full justify-between gap-4 cursor-pointer">

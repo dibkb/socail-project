@@ -35,9 +35,10 @@ const Modallayout: React.FC<PortalProps> = ({ children, setOpen }) => {
   }, []);
   const content = (
     <main
-      className="h-full w-full fixed top-0 left-0 z-[1000]"
+      className="h-full w-full fixed top-0 left-0 "
       style={{
         backgroundColor: "rgba(0,0,0,0.7)",
+        zIndex: 1000,
       }}
     >
       <div
