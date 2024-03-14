@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,6 +20,7 @@ import { Input } from "../ui/input";
 import { login } from "@/actions/login";
 import { useUserStore } from "../../src/providers/user-store-provider";
 const LoginForm = () => {
+  const router = useRouter();
   const { user, setUser } = useUserStore((state) => state);
   const [error, setError] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
@@ -30,11 +32,15 @@ const LoginForm = () => {
     },
   });
   const onSubmit = (values: z.infer<typeof loginSchema>) => {
+    // TODO:
+    // 1 pending state
+    // 2 error message
     setError("");
     startTransition(async () => {
       login(values).then((res) => {
         if (res.data) {
           setUser(res.data);
+          router.push("/");
         }
         if (res.error) {
           setError(res.error);
