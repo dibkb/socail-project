@@ -8,14 +8,23 @@ export const login = async (values: z.infer<typeof loginSchema>) => {
     return { error: "Invalid fields!" };
   }
   const { password, username } = validatedFields.data;
-  const serverResponse = axios.post(
-    `${SERVER}/api/v1/users/login`,
-    {
-      password,
-      username,
-    },
-    {
-      withCredentials: true,
-    }
-  );
+  try {
+    const serverResponse = await axios.post(
+      `${SERVER}/api/v1/users/login`,
+      {
+        password,
+        username,
+      },
+      {
+        withCredentials: true,
+      }
+    );
+    return {
+      data: serverResponse.data,
+    };
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
 };

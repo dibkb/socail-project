@@ -1,31 +1,34 @@
 // src/stores/counter-store.ts
 import { createStore } from "zustand/vanilla";
-
-export type CounterState = {
-  count: number;
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  username: string;
+  bio: string;
+  profilePic: string;
+}
+export type UserState = {
+  user: User | null;
 };
 
-export type CounterActions = {
-  decrementCount: () => void;
-  incrementCount: () => void;
+export type UserActions = {
+  setUser: (user: User) => void;
 };
 
-export type CounterStore = CounterState & CounterActions;
+export type UserStore = UserState & UserActions;
 
-export const initCounterStore = (): CounterState => {
-  return { count: 0 };
+export const initUserStore = (): UserState => {
+  return { user: null };
 };
 
-export const defaultInitState: CounterState = {
-  count: 0,
+export const defaultInitState: UserState = {
+  user: null,
 };
 
-export const createCounterStore = (
-  initState: CounterState = defaultInitState
-) => {
-  return createStore<CounterStore>()((set) => ({
+export const createUserStore = (initState: UserState = defaultInitState) => {
+  return createStore<UserStore>()((set) => ({
     ...initState,
-    decrementCount: () => set((state) => ({ count: state.count - 1 })),
-    incrementCount: () => set((state) => ({ count: state.count + 1 })),
+    setUser: (user) => set({ user }),
   }));
 };
