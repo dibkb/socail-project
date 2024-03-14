@@ -13,6 +13,7 @@ export const generateAndSetCookie = ({
     httpOnly: true,
     maxAge: 15 * 24 * 60 * 60 * 1000,
     sameSite: true,
+    secure: false,
   });
   return token;
 };

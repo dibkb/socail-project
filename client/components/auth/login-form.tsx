@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import CardContainer from "./card-container";
 import Link from "next/link";
 import { Input } from "../ui/input";
+import { login } from "@/actions/login";
 
 const LoginForm = () => {
   const [error, setError] = useState<string | undefined>("");
@@ -33,6 +34,7 @@ const LoginForm = () => {
     setSuccess("");
     startTransition(() => {
       // TODO : api call
+      login(values);
     });
   };
 

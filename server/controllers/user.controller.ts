@@ -45,7 +45,7 @@ export const signupUser = async (req: Request, res: Response) => {
     });
     if (newUser) {
       // lgoin user
-      generateAndSetCookie({
+      const cookie = generateAndSetCookie({
         userid: newUser.id,
         res,
       });
