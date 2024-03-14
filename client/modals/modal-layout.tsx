@@ -1,15 +1,36 @@
 "use client";
-import React from "react";
+import React, {
+  useRef,
+  useEffect,
+  useState,
+  RefObject,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import ReactDOM from "react-dom";
 
 interface PortalProps {
   children: React.ReactNode;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 }
-const Modallayout: React.FC<PortalProps> = ({ children }) => {
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => {
-    setMounted(true);
+const Modallayout: React.FC<PortalProps> = ({ children, setOpen }) => {
+  const ref: RefObject<HTMLDivElement> = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const targetElement = event.target as HTMLElement;
+      if (ref.current && !ref.current?.contains(targetElement)) {
+        setOpen(false);
+      }
+    };
 
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref, setOpen]);
+  const [mounted, setMounted] = React.useState(false);
+  useEffect(() => {
+    setMounted(true);
     return () => setMounted(false);
   }, []);
   const content = (
@@ -20,6 +41,7 @@ const Modallayout: React.FC<PortalProps> = ({ children }) => {
       }}
     >
       <div
+        ref={ref}
         className="fixed"
         style={{
           top: "50%",
