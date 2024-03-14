@@ -21,7 +21,6 @@ import { useUserStore } from "../../src/providers/user-store-provider";
 const LoginForm = () => {
   const { user, setUser } = useUserStore((state) => state);
   const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
@@ -32,9 +31,15 @@ const LoginForm = () => {
   });
   const onSubmit = (values: z.infer<typeof loginSchema>) => {
     setError("");
-    setSuccess("");
     startTransition(async () => {
-      login(values).then((res) => console.log(res));
+      login(values).then((res) => {
+        if (res.data) {
+          setUser(res.data);
+        }
+        if (res.error) {
+          setError(res.error);
+        }
+      });
     });
   };
 
