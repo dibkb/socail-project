@@ -20,12 +20,18 @@ const styles: Record<string, React.CSSProperties> = {
   },
   leftContainer: {
     rowGap: ".5rem",
+    maxWidth: "20px",
   },
   textarea: {
     overflow: "hidden",
     resize: "none",
     outline: "none",
     padding: ".5rem 0",
+  },
+  addThread: {
+    color: "#57534e",
+    cursor: "pointer",
+    marginTop: ".5rem",
   },
 };
 export default styles;

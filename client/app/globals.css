@@ -8,7 +8,10 @@ body,
   height: 100%;
   background-color: #0c0a09;
 }
-
+textarea::placeholder {
+  /* Your placeholder styles here */
+  color: #78716c; /* Placeholder text color */
+}
 @layer base {
   :root {
     --background: 0 0% 100%;

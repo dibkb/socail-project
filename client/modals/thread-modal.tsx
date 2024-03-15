@@ -49,6 +49,10 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
                 style={styles.textarea}
                 onChange={onChangeTextArea}
               ></textarea>
+              <div>other options</div>
+              <span className="text-sm" style={styles.addThread}>
+                Add to thread
+              </span>
             </div>
           </main>
           {footer}
