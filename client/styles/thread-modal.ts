@@ -24,6 +24,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   textarea: {
     overflow: "hidden",
+    height: "45px",
     resize: "none",
     outline: "none",
     padding: ".5rem 0",
