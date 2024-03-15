@@ -6,17 +6,13 @@ import AvatarForm from "@/components/home/avatar";
 import { useUserStore } from "@/src/providers/user-store-provider";
 import styles from "../styles/thread-modal";
 import Threadbock from "@/components/home/thread-block";
+import { Cross1Icon, ImageIcon } from "@radix-ui/react-icons";
+import { TbPhoto } from "react-icons/tb";
 interface ThreadformPortal {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
   const { user } = useUserStore((state) => state);
-  const footer = (
-    <div className="flex justify-between items-center">
-      <p className="text-stone-500 text-sm">Anyone can reply</p>
-      <Button className="rounded-3xl">Post</Button>
-    </div>
-  );
   const [threads, setThreads] = useState([{ id: 0, value: "" }]);
   const handleAddInput = () => {
     setThreads((prev) => [...prev, { id: threads.length, value: "" }]);
@@ -37,19 +33,12 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
     event.target.style.height = event.target.scrollHeight + "px";
     handleInputChange(id, event.target.value);
   };
-  // const thredBlock = (
-  //   <>
-  //     <p className="text-sm font-medium">{user?.username || "dib.kb"}</p>
-  //     <textarea
-  //       placeholder="Start a thread..."
-  //       className="text-sm bg-transparent focus:ring-transparent"
-  //       style={styles.textarea}
-  //       onChange={onChangeTextArea}
-  //     ></textarea>
-  //     <div>other options</div>
-  //   </>
-  // );
-
+  const footer = (
+    <div className="flex justify-between items-center">
+      <p className="text-stone-500 text-sm">Anyone can reply</p>
+      <Button className="rounded-3xl">Post</Button>
+    </div>
+  );
   return (
     <Modallayout setOpen={setOpen}>
       <div className="flex flex-col gap-y-6 relative">
@@ -60,48 +49,57 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
               className="flex flex-col items-center"
               style={styles.leftContainer}
             >
-              <AvatarForm />
-              <span className="border" style={styles.vertical} />
+              {threads.map((thread) => (
+                <React.Fragment key={thread.id + thread.value}>
+                  <AvatarForm />
+                  <span className="border" style={styles.vertical} />
+                </React.Fragment>
+              ))}
               <AvatarForm className="inline-block h-6 w-6" />
             </div>
             <div className="flex flex-col" style={styles.rightContainer}>
-              <Threadbock />
-              <span className="text-sm" style={styles.addThread}>
+              {threads.map((thread) => (
+                <div
+                  key={thread.id}
+                  style={{
+                    marginTop: "8px",
+                  }}
+                >
+                  <span className="flex justify-between items-center">
+                    <p className="text-sm font-medium">
+                      {user?.username || "dib.kb"}
+                    </p>
+                    {thread.id !== 0 && (
+                      <Cross1Icon
+                        onClick={() => handleRemoveInput(thread.id)}
+                        className="cursor-pointer"
+                      />
+                    )}
+                  </span>
+                  <textarea
+                    value={thread.value}
+                    placeholder="Start a thread..."
+                    className="text-sm bg-transparent focus:ring-transparent"
+                    style={styles.textarea}
+                    onChange={(e) => onChangeTextArea(e, thread.id)}
+                  ></textarea>
+                  <div>
+                    <TbPhoto
+                      size={18}
+                      className="cursor-pointer text-stone-500"
+                    />
+                  </div>
+                </div>
+              ))}
+              <span
+                className="text-sm"
+                style={styles.addThread}
+                onClick={handleAddInput}
+              >
                 Add to thread
               </span>
             </div>
           </main>
-          {threads.map((thread) => (
-            // <div key={input.id}>
-            //   <input
-            //     type="text"
-            //     value={input.value}
-            //     onChange={(e) => handleInputChange(input.id, e.target.value)}
-            //   />
-            // <button onClick={() => handleRemoveInput(input.id)}>
-            //   Remove
-            // </button>
-            // </div>
-            <div key={thread.id}>
-              <p className="text-sm font-medium">
-                {user?.username || "dib.kb"}
-              </p>
-              <textarea
-                value={thread.value}
-                placeholder="Start a thread..."
-                className="text-sm bg-transparent focus:ring-transparent"
-                style={styles.textarea}
-                onChange={(e) => onChangeTextArea(e, thread.id)}
-              ></textarea>
-              <button onClick={() => handleRemoveInput(thread.id)}>
-                Remove
-              </button>
-              <div>other options</div>
-            </div>
-          ))}
-          <>
-            <button onClick={handleAddInput}>Add Input</button>
-          </>
           {footer}
         </div>
       </div>
