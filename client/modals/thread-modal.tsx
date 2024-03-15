@@ -1,5 +1,10 @@
 "use client";
-import React, { Dispatch, SetStateAction } from "react";
+import React, {
+  ChangeEvent,
+  ChangeEventHandler,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import Modallayout from "./modal-layout";
 import { Button } from "@/components/ui/button";
 import AvatarForm from "@/components/home/avatar";
@@ -16,6 +21,11 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
       <Button className="rounded-3xl">Post</Button>
     </div>
   );
+  const onChangeTextArea = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    console.log(event);
+    event.target.style.height = "auto";
+    event.target.style.height = event.target.scrollHeight + "px";
+  };
   return (
     <Modallayout setOpen={setOpen}>
       <div className="flex flex-col gap-y-6 relative">
@@ -36,6 +46,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
                 placeholder="Start a thread..."
                 className="text-sm bg-transparent focus:ring-transparent"
                 style={styles.textarea}
+                onChange={onChangeTextArea}
               ></textarea>
             </div>
           </main>

@@ -16,6 +16,7 @@ const styles: Record<string, React.CSSProperties> = {
     overflow: "hidden",
     resize: "none",
     outline: "none",
+    padding: ".5rem 0",
   },
 };
 export default styles;
