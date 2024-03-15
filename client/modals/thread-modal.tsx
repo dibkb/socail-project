@@ -4,6 +4,7 @@ import Modallayout from "./modal-layout";
 import { Button } from "@/components/ui/button";
 import AvatarForm from "@/components/home/avatar";
 import { useUserStore } from "@/src/providers/user-store-provider";
+import styles from "../styles/thread-modal";
 interface ThreadformPortal {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
@@ -19,28 +20,12 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
     <Modallayout setOpen={setOpen}>
       <div className="flex flex-col gap-y-6 relative">
         <h3 className="text-center text-sm font-semibold">New Thread</h3>
-        <div
-          className="border bg-stone-800"
-          style={{
-            borderWidth: "1px",
-            minWidth: "600px",
-            padding: "2rem",
-            borderRadius: "1.2rem",
-            borderColor: "#44403c",
-          }}
-        >
-          <main
-            className="flex gap-x-4"
-            style={{
-              marginBottom: "1rem",
-            }}
-          >
+        <div className="border bg-stone-800" style={styles.container}>
+          <main className="flex gap-x-4" style={styles.main}>
             <AvatarForm />
             <div
               className="flex flex-col gap-y-2"
-              style={{
-                flexGrow: 1,
-              }}
+              style={styles.rightContainer}
             >
               <p className="text-sm font-medium">
                 {user?.username || "dib.kb"}
@@ -50,11 +35,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
                 id=""
                 placeholder="Start a thread..."
                 className="text-sm bg-transparent focus:ring-transparent"
-                style={{
-                  overflow: "hidden",
-                  resize: "none",
-                  outline: "none",
-                }}
+                style={styles.textarea}
               ></textarea>
             </div>
           </main>
