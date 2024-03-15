@@ -45,6 +45,17 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
               <p className="text-sm font-medium">
                 {user?.username || "dib.kb"}
               </p>
+              <textarea
+                name=""
+                id=""
+                placeholder="Start a thread..."
+                className="text-sm bg-transparent focus:ring-transparent"
+                style={{
+                  overflow: "hidden",
+                  resize: "none",
+                  outline: "none",
+                }}
+              ></textarea>
             </div>
           </main>
           {footer}
