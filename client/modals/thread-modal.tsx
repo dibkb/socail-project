@@ -22,7 +22,6 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
     </div>
   );
   const onChangeTextArea = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    console.log(event);
     event.target.style.height = "auto";
     event.target.style.height = event.target.scrollHeight + "px";
   };
@@ -32,17 +31,19 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
         <h3 className="text-center text-sm font-semibold">New Thread</h3>
         <div className="border bg-stone-800" style={styles.container}>
           <main className="flex gap-x-4" style={styles.main}>
-            <AvatarForm />
             <div
-              className="flex flex-col gap-y-2"
-              style={styles.rightContainer}
+              className="flex flex-col items-center"
+              style={styles.leftContainer}
             >
+              <AvatarForm />
+              <span className="border" style={styles.vertical} />
+              <AvatarForm className="inline-block h-6 w-6" />
+            </div>
+            <div className="flex flex-col" style={styles.rightContainer}>
               <p className="text-sm font-medium">
                 {user?.username || "dib.kb"}
               </p>
               <textarea
-                name=""
-                id=""
                 placeholder="Start a thread..."
                 className="text-sm bg-transparent focus:ring-transparent"
                 style={styles.textarea}

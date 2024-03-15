@@ -12,6 +12,15 @@ const styles: Record<string, React.CSSProperties> = {
   rightContainer: {
     flexGrow: 1,
   },
+  vertical: {
+    flexGrow: 1,
+    borderWidth: "1px",
+    borderRadius: "full",
+    borderColor: "#57534e",
+  },
+  leftContainer: {
+    rowGap: ".5rem",
+  },
   textarea: {
     overflow: "hidden",
     resize: "none",
