@@ -2,6 +2,7 @@
 import AvatarForm from "@/components/home/avatar";
 import { Button } from "@/components/ui/button";
 import { useUserStore } from "@/src/providers/user-store-provider";
+import Link from "next/link";
 import React from "react";
 interface Profile {
   children: React.ReactNode;
@@ -10,17 +11,17 @@ const tabs = [
   {
     name: "Shreads",
     id: 0,
-    link: "/",
+    link: "/profile",
   },
   {
     name: "Replies",
     id: 1,
-    link: "/replies",
+    link: "/profile/replies",
   },
   {
     name: "Reposts",
     id: 2,
-    link: "/reposts",
+    link: "/profile/reposts",
   },
 ];
 export default function Profile({ children }: Profile) {
@@ -49,13 +50,14 @@ export default function Profile({ children }: Profile) {
         </Button>
       </main>
       <div className="flex justify-between my-6 font-medium text-stone-600">
-        {tabs.map(({ name }) => (
-          <span
+        {tabs.map(({ name, link }) => (
+          <Link
+            href={link}
             key={name}
             className="cursor-pointer border-b-[.5px] border-stone-600 pb-4 grow text-center"
           >
             {name}
-          </span>
+          </Link>
         ))}
       </div>
       {children}

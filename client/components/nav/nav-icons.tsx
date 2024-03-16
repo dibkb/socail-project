@@ -14,7 +14,7 @@ const Navicons = ({ active, inactive, src }: Navicons) => {
       className="h-16 w-20 flex items-center justify-center rounded-lg hover:bg-stone-800 cursor-pointer"
       href={src}
     >
-      {pathname === src ? active : inactive}
+      {pathname.includes(src) ? active : inactive}
     </Link>
   );
 };
