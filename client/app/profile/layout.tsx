@@ -5,11 +5,13 @@ import { useUserStore } from "@/src/providers/user-store-provider";
 import tabs from "../../utils/profile-tabs";
 import Link from "next/link";
 import React from "react";
+import { usePathname } from "next/navigation";
 interface Profile {
   children: React.ReactNode;
 }
 export default function Profile({ children }: Profile) {
   const { user } = useUserStore((state) => state);
+  const pathname = usePathname();
   return (
     <div className="w-full max-w-2xl container">
       <div className="flex items-center justify-between">
@@ -34,15 +36,30 @@ export default function Profile({ children }: Profile) {
         </Button>
       </main>
       <div className="flex justify-between my-6 font-medium text-stone-600">
-        {tabs.map(({ name, link }) => (
-          <Link
-            href={link}
-            key={name}
-            className="cursor-pointer border-b-[.5px] border-stone-600 pb-4 grow text-center"
-          >
-            {name}
-          </Link>
-        ))}
+        {tabs.map(({ name, link }) => {
+          // active
+          if (pathname === link) {
+            return (
+              <Link
+                href={link}
+                key={name}
+                className="cursor-pointer text-stone-100 border-b border-stone-100 pb-4 grow text-center"
+              >
+                {name}
+              </Link>
+            );
+          }
+          // in-active
+          return (
+            <Link
+              href={link}
+              key={name}
+              className="cursor-pointer border-b-[.5px] border-stone-600 pb-4 grow text-center"
+            >
+              {name}
+            </Link>
+          );
+        })}
       </div>
       {children}
     </div>
