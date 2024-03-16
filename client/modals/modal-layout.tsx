@@ -27,7 +27,6 @@ const Modallayout: React.FC<PortalProps> = ({
       const handleClickOutside = (event: MouseEvent) => {
         const targetElement = event.target as HTMLElement;
         if (ref.current && !ref.current?.contains(targetElement)) {
-          // console.log("outside");
           setOpen(false);
         }
       };

@@ -1,16 +1,19 @@
 "use client";
-import React, { ChangeEvent, Dispatch, SetStateAction } from "react";
+import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import Modallayout from "./modal-layout";
 interface Editprofileitems {
   label: string;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  value: string;
 }
 import styles from "@/styles/edit-profile-values";
-const Editprofileitems = ({ setOpen, label }: Editprofileitems) => {
+const Editprofileitems = ({ setOpen, label, value }: Editprofileitems) => {
   const onChangeTextArea = (event: ChangeEvent<HTMLTextAreaElement>) => {
     event.target.style.height = "auto";
     event.target.style.height = event.target.scrollHeight + "px";
+    setEditVal(event.target.value);
   };
+  const [editVal, setEditVal] = useState<string>(value || "");
   return (
     <Modallayout setOpen={setOpen} z={1001} closeOnClick={true}>
       <div className="flex flex-col gap-y-6 relative">
@@ -33,6 +36,7 @@ const Editprofileitems = ({ setOpen, label }: Editprofileitems) => {
         </div>
         <div className="border bg-stone-800" style={styles.container}>
           <textarea
+            value={editVal}
             onChange={onChangeTextArea}
             className="bg-transparent focus:ring-transparent w-full"
             style={styles.textarea}

@@ -40,7 +40,13 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
           Done
         </Button>
       </div>
-      {openEdit && <Editprofileitems setOpen={setEdit} label="Edit bio" />}
+      {openEdit && (
+        <Editprofileitems
+          setOpen={setEdit}
+          label="Edit bio"
+          value={user?.bio || ""}
+        />
+      )}
     </Modallayout>
   );
 };
