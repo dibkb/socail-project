@@ -1,5 +1,6 @@
 // src/stores/counter-store.ts
 import { createStore } from "zustand/vanilla";
+import { persist, createJSONStorage } from "zustand/middleware";
 interface User {
   id: string;
   name: string;
@@ -27,8 +28,16 @@ export const defaultInitState: UserState = {
 };
 
 export const createUserStore = (initState: UserState = defaultInitState) => {
-  return createStore<UserStore>()((set) => ({
-    ...initState,
-    setUser: (user) => set({ user }),
-  }));
+  return createStore<UserStore>()(
+    persist(
+      (set, get) => ({
+        ...initState,
+        setUser: (user) => set({ user }),
+      }),
+      {
+        name: "user-profile",
+        storage: createJSONStorage(() => sessionStorage),
+      }
+    )
+  );
 };

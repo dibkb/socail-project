@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import AvatarForm from "@/components/home/avatar";
 import { useUserStore } from "@/src/providers/user-store-provider";
 import styles from "../styles/thread-modal";
-import Threadbock from "@/components/home/thread-block";
 import { Cross1Icon, ImageIcon } from "@radix-ui/react-icons";
 import { TbPhoto } from "react-icons/tb";
 interface ThreadformPortal {
@@ -78,7 +77,9 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
                   </span>
                   <textarea
                     value={thread.value}
-                    placeholder="Start a thread..."
+                    placeholder={
+                      thread.id == 0 ? "Start a thread..." : "Say more..."
+                    }
                     className="text-sm bg-transparent focus:ring-transparent"
                     style={styles.textarea}
                     onChange={(e) => onChangeTextArea(e, thread.id)}
@@ -86,7 +87,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
                   <div>
                     <TbPhoto
                       size={18}
-                      className="cursor-pointer text-stone-500"
+                      className="cursor-pointer text-stone-500 hover:text-white"
                     />
                   </div>
                 </div>
