@@ -4,6 +4,7 @@ import Modallayout from "./modal-layout";
 import styles from "../styles/edit-profile-modal";
 import { useUserStore } from "@/src/providers/user-store-provider";
 import Editprofileinput from "@/components/profile/edit-profile-input";
+import { Button } from "@/components/ui/button";
 interface EditProfilePortal {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
@@ -27,6 +28,15 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
           value={user?.bio}
           onClick={() => {}}
         />
+        <Button
+          className="rounded-lg"
+          style={{
+            padding: "1.5rem",
+            fontWeight: 500,
+          }}
+        >
+          Done
+        </Button>
       </div>
     </Modallayout>
   );

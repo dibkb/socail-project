@@ -1,5 +1,6 @@
 const styles: Record<string, React.CSSProperties> = {
   container: {
+    backgroundColor: "#0c0a09",
     borderWidth: "1px",
     minWidth: "600px",
     padding: "2rem",
