@@ -2,28 +2,12 @@
 import AvatarForm from "@/components/home/avatar";
 import { Button } from "@/components/ui/button";
 import { useUserStore } from "@/src/providers/user-store-provider";
+import tabs from "../../utils/profile-tabs";
 import Link from "next/link";
 import React from "react";
 interface Profile {
   children: React.ReactNode;
 }
-const tabs = [
-  {
-    name: "Shreads",
-    id: 0,
-    link: "/profile",
-  },
-  {
-    name: "Replies",
-    id: 1,
-    link: "/profile/replies",
-  },
-  {
-    name: "Reposts",
-    id: 2,
-    link: "/profile/reposts",
-  },
-];
 export default function Profile({ children }: Profile) {
   const { user } = useUserStore((state) => state);
   return (
