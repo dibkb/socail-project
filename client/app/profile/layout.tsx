@@ -13,7 +13,7 @@ export default function Profile({ children }: Profile) {
   const { user } = useUserStore((state) => state);
   const pathname = usePathname();
   return (
-    <div className="w-full max-w-2xl container">
+    <div className="w-full max-w-2xl container min-h-[90vh] flex flex-col">
       <div className="flex items-center justify-between">
         <aside>
           <h3 className="text-2xl font-medium">{user?.name}</h3>
