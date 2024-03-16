@@ -30,12 +30,12 @@ export default function Profile({ children }: Profile) {
           <AvatarForm className="w-20 h-20" />
         </aside>
       </div>
-      <main className="mt-9">
+      <main className="mt-4">
         <p className="text-sm text-stone-200">{user?.bio}</p>
         {/* TODO : followers */}
         <Button
           variant="outline"
-          className="w-full rounded-lg"
+          className="w-full rounded-lg mt-9"
           onClick={() => setOpenEditModal(true)}
         >
           Edit Profile

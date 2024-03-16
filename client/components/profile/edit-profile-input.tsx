@@ -1,7 +1,7 @@
 import React from "react";
 interface Editprofileinput {
   placeholder: string;
-  value: string;
+  value?: string;
   onClick: () => void;
 }
 const Editprofileinput = ({
