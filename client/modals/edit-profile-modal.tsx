@@ -1,15 +1,17 @@
 "use client";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import Modallayout from "./modal-layout";
 import styles from "../styles/edit-profile-modal";
 import { useUserStore } from "@/src/providers/user-store-provider";
 import Editprofileinput from "@/components/profile/edit-profile-input";
 import { Button } from "@/components/ui/button";
+import Editprofileitems from "./edit-profile-values";
 interface EditProfilePortal {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
   const { user, setUser } = useUserStore((state) => state);
+  const [openEdit, setEdit] = useState(false);
   return (
     <Modallayout setOpen={setOpen}>
       <div className="border" style={styles.container}>
@@ -38,6 +40,7 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
           Done
         </Button>
       </div>
+      <Editprofileitems setOpen={setEdit} label="Edit bio" />
     </Modallayout>
   );
 };

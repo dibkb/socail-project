@@ -12,8 +12,13 @@ import ReactDOM from "react-dom";
 interface PortalProps {
   children: React.ReactNode;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  z?: number;
 }
-const Modallayout: React.FC<PortalProps> = ({ children, setOpen }) => {
+const Modallayout: React.FC<PortalProps> = ({
+  children,
+  setOpen,
+  z = 1000,
+}) => {
   const ref: RefObject<HTMLDivElement> = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -38,7 +43,7 @@ const Modallayout: React.FC<PortalProps> = ({ children, setOpen }) => {
       className="h-full w-full fixed top-0 left-0 "
       style={{
         backgroundColor: "rgba(0,0,0,0.7)",
-        zIndex: 1000,
+        zIndex: z,
       }}
     >
       <div
