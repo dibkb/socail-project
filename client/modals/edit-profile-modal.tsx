@@ -13,7 +13,7 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
   const { user, setUser } = useUserStore((state) => state);
   const [openEdit, setEdit] = useState(false);
   return (
-    <Modallayout setOpen={setOpen}>
+    <Modallayout setOpen={setOpen} closeOnClick={!openEdit}>
       <div className="border" style={styles.container}>
         <Editprofileinput
           placeholder={"Name"}
@@ -28,7 +28,7 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
         <Editprofileinput
           placeholder={"Bio"}
           value={user?.bio}
-          onClick={() => {}}
+          onClick={() => setEdit(true)}
         />
         <Button
           className="rounded-lg"
@@ -40,7 +40,7 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
           Done
         </Button>
       </div>
-      <Editprofileitems setOpen={setEdit} label="Edit bio" />
+      {openEdit && <Editprofileitems setOpen={setEdit} label="Edit bio" />}
     </Modallayout>
   );
 };

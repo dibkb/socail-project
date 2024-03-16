@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import AvatarForm from "@/components/home/avatar";
 import { useUserStore } from "@/src/providers/user-store-provider";
 import styles from "../styles/thread-modal";
-import { Cross1Icon, ImageIcon } from "@radix-ui/react-icons";
+import { Cross1Icon } from "@radix-ui/react-icons";
 import { TbPhoto } from "react-icons/tb";
 interface ThreadformPortal {
   setOpen: Dispatch<SetStateAction<boolean>>;
@@ -80,7 +80,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
                     placeholder={
                       thread.id == 0 ? "Start a thread..." : "Say more..."
                     }
-                    className="text-sm bg-transparent focus:ring-transparent"
+                    className="text-sm bg-transparent focus:ring-transparent w-full"
                     style={styles.textarea}
                     onChange={(e) => onChangeTextArea(e, thread.id)}
                   ></textarea>

@@ -10,29 +10,34 @@ import React, {
 import ReactDOM from "react-dom";
 
 interface PortalProps {
+  closeOnClick?: boolean;
   children: React.ReactNode;
   setOpen: Dispatch<SetStateAction<boolean>>;
   z?: number;
 }
 const Modallayout: React.FC<PortalProps> = ({
+  closeOnClick = true,
   children,
   setOpen,
   z = 1000,
 }) => {
   const ref: RefObject<HTMLDivElement> = useRef(null);
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const targetElement = event.target as HTMLElement;
-      if (ref.current && !ref.current?.contains(targetElement)) {
-        setOpen(false);
-      }
-    };
+    if (closeOnClick) {
+      const handleClickOutside = (event: MouseEvent) => {
+        const targetElement = event.target as HTMLElement;
+        if (ref.current && !ref.current?.contains(targetElement)) {
+          // console.log("outside");
+          setOpen(false);
+        }
+      };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [ref, setOpen]);
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }
+  }, [ref, setOpen, closeOnClick]);
   const [mounted, setMounted] = React.useState(false);
   useEffect(() => {
     setMounted(true);
