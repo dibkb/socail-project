@@ -4,13 +4,15 @@ import { Button } from "@/components/ui/button";
 import { useUserStore } from "@/src/providers/user-store-provider";
 import tabs from "../../utils/profile-tabs";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { usePathname } from "next/navigation";
+import EditProfilePortal from "@/modals/edit-profile-modal";
 interface Profile {
   children: React.ReactNode;
 }
 export default function Profile({ children }: Profile) {
   const { user } = useUserStore((state) => state);
+  const [openEditModal, setOpenEditModal] = useState(false);
   const pathname = usePathname();
   return (
     <div className="w-full max-w-2xl container min-h-[90vh] flex flex-col">
@@ -31,10 +33,15 @@ export default function Profile({ children }: Profile) {
       <main className="mt-9">
         <p className="text-sm text-stone-200">{user?.bio}</p>
         {/* TODO : followers */}
-        <Button variant="outline" className="w-full rounded-lg ">
+        <Button
+          variant="outline"
+          className="w-full rounded-lg"
+          onClick={() => setOpenEditModal(true)}
+        >
           Edit Profile
         </Button>
       </main>
+      {openEditModal && <EditProfilePortal setOpen={setOpenEditModal} />}
       <div className="flex justify-between my-6 font-medium text-stone-600">
         {tabs.map(({ name, link }) => {
           // active
