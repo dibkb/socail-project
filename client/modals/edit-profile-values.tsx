@@ -15,8 +15,8 @@ interface Editprofileitems {
 import styles from "@/styles/edit-profile-values";
 import { openModal } from "./edit-profile-modal";
 import { Button } from "@/components/ui/button";
-import { z } from "zod";
-import { updateSchema } from "@/schemas";
+import { update, updateval } from "@/actions/update";
+type UserKeys = keyof updateval;
 const Editprofileitems = ({ setOpen, label, value }: Editprofileitems) => {
   const onChangeTextArea = (event: ChangeEvent<HTMLTextAreaElement>) => {
     event.target.style.height = "auto";
@@ -24,8 +24,15 @@ const Editprofileitems = ({ setOpen, label, value }: Editprofileitems) => {
     setEditVal(event.target.value);
   };
   const [editVal, setEditVal] = useState<string>(value || "");
-  const submitFormHandler = (e: FormEvent<HTMLFormElement>) => {
+
+  const submitFormHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const val = label.split(" ")[1].toLowerCase() as keyof updateval;
+    try {
+      const updatedData = await update({
+        [val]: editVal,
+      });
+    } catch (error) {}
   };
   return (
     <Modallayout setOpen={() => setOpen(false)} z={1001} closeOnClick={true}>

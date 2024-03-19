@@ -22,6 +22,7 @@ export async function updateUserFields({
         bio: bio,
       },
     });
+    console.log(updateUser);
     return updateUser;
   } catch (error) {
     console.error("Error updating user", error);
