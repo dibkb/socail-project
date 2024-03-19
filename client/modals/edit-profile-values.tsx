@@ -17,8 +17,10 @@ import styles from "@/styles/edit-profile-values";
 import { openModal } from "./edit-profile-modal";
 import { Button } from "@/components/ui/button";
 import { update, updateval } from "@/actions/update";
+import { useUserStore } from "@/src/providers/user-store-provider";
 type UserKeys = keyof updateval;
 const Editprofileitems = ({ setOpen, label, value }: Editprofileitems) => {
+  const { setUser } = useUserStore((state) => state);
   const onChangeTextArea = (event: ChangeEvent<HTMLTextAreaElement>) => {
     event.target.style.height = "auto";
     event.target.style.height = event.target.scrollHeight + "px";
@@ -35,6 +37,8 @@ const Editprofileitems = ({ setOpen, label, value }: Editprofileitems) => {
       }).then((res) => {
         if (res.data) {
           // DATA
+          setUser(res.data);
+          console.log(res.data);
         }
         if (res.error) {
           // ERROR

@@ -21,6 +21,18 @@ export async function updateUserFields({
         username: username,
         bio: bio,
       },
+      select: {
+        id: true,
+        name: true,
+        username: true,
+        email: true,
+        password: false,
+        profilePic: true,
+        bio: true,
+        isFrozen: true,
+        createdAt: true,
+        updatedAt: true,
+      },
     });
     console.log(updateUser);
     return updateUser;
