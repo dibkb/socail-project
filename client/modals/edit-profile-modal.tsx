@@ -7,6 +7,7 @@ import Editprofileinput from "@/components/profile/edit-profile-input";
 import { Button } from "@/components/ui/button";
 import Editprofileitems from "./edit-profile-values";
 import { User } from "@/src/stores/user-store";
+import AvatarForm from "@/components/home/avatar";
 interface EditProfilePortal {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
@@ -23,11 +24,16 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
   return (
     <Modallayout setOpen={setOpen} closeOnClick={!openEdit}>
       <div className="border" style={styles.container}>
-        <Editprofileinput
-          placeholder={"Name"}
-          value={user?.name}
-          onClick={() => setEdit("name")}
-        />
+        <span className="flex justify-between">
+          <Editprofileinput
+            classname="grow"
+            placeholder={"Name"}
+            value={user?.name}
+            onClick={() => setEdit("name")}
+          />
+          <AvatarForm className="w-20 h-20 cursor-pointer" />
+        </span>
+
         <Editprofileinput
           placeholder={"Username"}
           value={user?.username}
