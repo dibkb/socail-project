@@ -28,5 +28,5 @@ export const updateSchema = z.object({
   username: z.string().min(1, {
     message: "Username is required",
   }),
-  bio: z.string().min(0),
+  bio: z.string(),
 });
