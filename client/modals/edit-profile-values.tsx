@@ -5,6 +5,7 @@ import React, {
   FormEvent,
   SetStateAction,
   useState,
+  useTransition,
 } from "react";
 import Modallayout from "./modal-layout";
 interface Editprofileitems {
@@ -24,15 +25,22 @@ const Editprofileitems = ({ setOpen, label, value }: Editprofileitems) => {
     setEditVal(event.target.value);
   };
   const [editVal, setEditVal] = useState<string>(value || "");
-
-  const submitFormHandler = async (e: FormEvent<HTMLFormElement>) => {
+  const [isPending, startTransition] = useTransition();
+  const submitFormHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const val = label.split(" ")[1].toLowerCase() as keyof updateval;
-    try {
-      const updatedData = await update({
+    startTransition(async () => {
+      update({
         [val]: editVal,
+      }).then((res) => {
+        if (res.data) {
+          // DATA
+        }
+        if (res.error) {
+          // ERROR
+        }
       });
-    } catch (error) {}
+    });
   };
   return (
     <Modallayout setOpen={() => setOpen(false)} z={1001} closeOnClick={true}>
