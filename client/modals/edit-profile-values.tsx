@@ -3,10 +3,11 @@ import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import Modallayout from "./modal-layout";
 interface Editprofileitems {
   label: string;
-  setOpen: Dispatch<SetStateAction<boolean>>;
+  setOpen: Dispatch<SetStateAction<openModal>>;
   value: string;
 }
 import styles from "@/styles/edit-profile-values";
+import { openModal } from "./edit-profile-modal";
 const Editprofileitems = ({ setOpen, label, value }: Editprofileitems) => {
   const onChangeTextArea = (event: ChangeEvent<HTMLTextAreaElement>) => {
     event.target.style.height = "auto";
@@ -15,7 +16,7 @@ const Editprofileitems = ({ setOpen, label, value }: Editprofileitems) => {
   };
   const [editVal, setEditVal] = useState<string>(value || "");
   return (
-    <Modallayout setOpen={setOpen} z={1001} closeOnClick={true}>
+    <Modallayout setOpen={() => setOpen(false)} z={1001} closeOnClick={true}>
       <div className="flex flex-col gap-y-6 relative">
         <div className="flex items-center justify-between px-4">
           <h3

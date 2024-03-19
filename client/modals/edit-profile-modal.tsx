@@ -6,29 +6,37 @@ import { useUserStore } from "@/src/providers/user-store-provider";
 import Editprofileinput from "@/components/profile/edit-profile-input";
 import { Button } from "@/components/ui/button";
 import Editprofileitems from "./edit-profile-values";
+import { User } from "@/src/stores/user-store";
 interface EditProfilePortal {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
+const label = {
+  name: "Edit Name",
+  username: "Edit Username",
+  bio: "Edit Bio",
+};
+type UserKeys = Exclude<keyof User, "id" | "email" | "profilePic">;
+export type openModal = UserKeys | false;
 const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
   const { user, setUser } = useUserStore((state) => state);
-  const [openEdit, setEdit] = useState(false);
+  const [openEdit, setEdit] = useState<openModal>(false);
   return (
     <Modallayout setOpen={setOpen} closeOnClick={!openEdit}>
       <div className="border" style={styles.container}>
         <Editprofileinput
           placeholder={"Name"}
           value={user?.name}
-          onClick={() => {}}
+          onClick={() => setEdit("name")}
         />
         <Editprofileinput
           placeholder={"Username"}
           value={user?.username}
-          onClick={() => {}}
+          onClick={() => setEdit("username")}
         />
         <Editprofileinput
           placeholder={"Bio"}
           value={user?.bio}
-          onClick={() => setEdit(true)}
+          onClick={() => setEdit("bio")}
         />
         <Button
           className="rounded-lg"
@@ -40,11 +48,11 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
           Done
         </Button>
       </div>
-      {openEdit && (
+      {openEdit && user && (
         <Editprofileitems
           setOpen={setEdit}
-          label="Edit bio"
-          value={user?.bio || ""}
+          label={label[openEdit]}
+          value={user[openEdit]}
         />
       )}
     </Modallayout>

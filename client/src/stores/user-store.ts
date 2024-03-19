@@ -1,7 +1,7 @@
 // src/stores/counter-store.ts
 import { createStore } from "zustand/vanilla";
 import { persist, createJSONStorage } from "zustand/middleware";
-interface User {
+export interface User {
   id: string;
   name: string;
   email: string;
