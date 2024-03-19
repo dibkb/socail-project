@@ -8,6 +8,7 @@ interface Editprofileitems {
 }
 import styles from "@/styles/edit-profile-values";
 import { openModal } from "./edit-profile-modal";
+import { Button } from "@/components/ui/button";
 const Editprofileitems = ({ setOpen, label, value }: Editprofileitems) => {
   const onChangeTextArea = (event: ChangeEvent<HTMLTextAreaElement>) => {
     event.target.style.height = "auto";
@@ -15,6 +16,7 @@ const Editprofileitems = ({ setOpen, label, value }: Editprofileitems) => {
     setEditVal(event.target.value);
   };
   const [editVal, setEditVal] = useState<string>(value || "");
+
   return (
     <Modallayout setOpen={() => setOpen(false)} z={1001} closeOnClick={true}>
       <div className="flex flex-col gap-y-6 relative">
@@ -26,14 +28,17 @@ const Editprofileitems = ({ setOpen, label, value }: Editprofileitems) => {
             Cancel
           </h3>
           <h3 className="text-center font-semibold">{label}</h3>
-          <h3
+          <Button
+            variant={"ghost"}
+            disabled={editVal === value}
             className="text-center cursor-pointer"
             style={{
               color: "#0284c7",
+              fontSize: "1rem",
             }}
           >
             Done
-          </h3>
+          </Button>
         </div>
         <div className="border bg-stone-800" style={styles.container}>
           <textarea

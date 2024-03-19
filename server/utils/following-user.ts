@@ -13,7 +13,6 @@ export async function updateUserFollowing({
         id: userId,
       },
     });
-
     if (!user) {
       throw new Error("User not found");
     }
