@@ -7,6 +7,7 @@ import {
   updateUserFollowers,
   updateUserFollowing,
 } from "../utils/following-user";
+import { updateUserFields } from "../utils/update-user";
 export const getuserProfile = async (req: Request, res: Response) => {
   const { userid } = req.params;
   try {
@@ -141,6 +142,21 @@ export const followUser = async (req: Request, res: Response) => {
 };
 export const updateUser = async (req: Request, res: Response) => {
   const { user } = req;
+  if (!user) throw new Error("No user provided");
   const { name, username, bio } = req.body;
-  return res.status(202).json(req.user);
+  console.log(name, username, bio);
+  try {
+    if (!(name || username || bio)) {
+      throw new Error("No fields provided");
+    }
+    const updatedUser = await updateUserFields({
+      id: user.id,
+      name: name || user.name,
+      username: username || user.username,
+      bio: bio || user.bio,
+    });
+    return res.status(202).json(updatedUser);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
 };
