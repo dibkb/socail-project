@@ -139,3 +139,8 @@ export const followUser = async (req: Request, res: Response) => {
     res.status(500).json({ message: error.message });
   }
 };
+export const updateUser = async (req: Request, res: Response) => {
+  const { user } = req;
+  const { name, username, bio } = req.body;
+  return res.status(202).json(req.user);
+};
