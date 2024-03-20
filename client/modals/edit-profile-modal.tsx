@@ -1,5 +1,5 @@
 "use client";
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useRef, useState } from "react";
 import Modallayout from "./modal-layout";
 import styles from "../styles/edit-profile-modal";
 import { useUserStore } from "@/src/providers/user-store-provider";
@@ -21,6 +21,8 @@ export type openModal = UserKeys | false;
 const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
   const { user, setUser } = useUserStore((state) => state);
   const [openEdit, setEdit] = useState<openModal>(false);
+  // const { handleImageChange, imgUrl, setImgUrl } = usePreviewImg();
+  // const imageRef = useRef(null);
   return (
     <Modallayout setOpen={setOpen} closeOnClick={!openEdit}>
       <div className="border" style={styles.container}>
@@ -33,7 +35,6 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
           />
           <AvatarForm className="w-20 h-20 cursor-pointer" />
         </span>
-
         <Editprofileinput
           placeholder={"Username"}
           value={user?.username}
@@ -50,6 +51,7 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
             padding: "1.5rem",
             fontWeight: 500,
           }}
+          onClick={() => setOpen(false)}
         >
           Done
         </Button>

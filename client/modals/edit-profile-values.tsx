@@ -38,10 +38,10 @@ const Editprofileitems = ({ setOpen, label, value }: Editprofileitems) => {
         if (res.data) {
           // DATA
           setUser(res.data);
-          console.log(res.data);
         }
         if (res.error) {
           // ERROR
+          // TODO: set error
         }
       });
     });

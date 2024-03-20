@@ -1,20 +1,34 @@
 "use client";
-import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import React, {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useRef,
+  useState,
+} from "react";
 import Modallayout from "./modal-layout";
+import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import AvatarForm from "@/components/home/avatar";
 import { useUserStore } from "@/src/providers/user-store-provider";
 import styles from "../styles/thread-modal";
 import { Cross1Icon } from "@radix-ui/react-icons";
 import { TbPhoto } from "react-icons/tb";
+import usePreviewImg from "@/hooks/usePreviewImg";
+import { Label } from "@/components/ui/label";
 interface ThreadformPortal {
   setOpen: Dispatch<SetStateAction<boolean>>;
+}
+export interface imgurl {
+  id: number;
+  data: string;
 }
 const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
   const { user } = useUserStore((state) => state);
   const [threads, setThreads] = useState([{ id: 0, value: "" }]);
+  const [imgUrl, setImgUrl] = useState<imgurl[]>([{ id: 0, data: "" }]);
   const handleAddInput = () => {
-    setThreads((prev) => [...prev, { id: threads.length, value: "" }]);
+    setThreads((prev) => [...prev, { id: prev.length, value: "" }]);
   };
   const handleRemoveInput = (id: number) => {
     setThreads((prev) => prev.filter((input) => input.id !== id));
@@ -38,6 +52,31 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
       <Button className="rounded-3xl">Post</Button>
     </div>
   );
+  const imageRef = useRef(null);
+  const handleFileChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    id: number
+  ) => {
+    console.log(id);
+    const files = e.target.files;
+    if (files) {
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64 = reader.result as string;
+        setImgUrl((prev) => [
+          ...prev,
+          {
+            id: threads.length,
+            data: base64,
+          },
+        ]);
+      };
+
+      reader.readAsDataURL(file);
+    }
+  };
+  console.log(imgUrl);
   return (
     <Modallayout setOpen={setOpen}>
       <div className="flex flex-col gap-y-6 relative">
@@ -84,12 +123,19 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
                     style={styles.textarea}
                     onChange={(e) => onChangeTextArea(e, thread.id)}
                   ></textarea>
-                  <div>
+                  <span className="">
+                    <input
+                      type="file"
+                      id="imageinput"
+                      hidden
+                      onChange={(e) => handleFileChange(e, thread.id)}
+                    />
+                    <label htmlFor="imageinput">input</label>
                     <TbPhoto
                       size={18}
                       className="cursor-pointer text-stone-500 hover:text-white"
-                    />
-                  </div>
+                    ></TbPhoto>
+                  </span>
                 </div>
               ))}
               <span
@@ -109,3 +155,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
 };
 
 export default ThreadformPortal;
+interface handleImageChange {
+  id: number;
+  e: React.ChangeEvent<HTMLInputElement>;
+}
