@@ -51,6 +51,7 @@ const ThreadsInput = ({
         };
         reader.readAsDataURL(file);
       } else {
+        //   TODO: Not image file
       }
     }
   };
