@@ -26,7 +26,7 @@ export interface imgurl {
 const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
   const { user } = useUserStore((state) => state);
   const [threads, setThreads] = useState([{ id: 0, value: "" }]);
-  const [imgUrl, setImgUrl] = useState<imgurl[]>([{ id: 0, data: "" }]);
+  const [imgUrl, setImgUrl] = useState<imgurl[]>([]);
   const handleAddInput = () => {
     setThreads((prev) => [...prev, { id: prev.length, value: "" }]);
   };
@@ -52,12 +52,10 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
       <Button className="rounded-3xl">Post</Button>
     </div>
   );
-  const imageRef = useRef(null);
   const handleFileChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     id: number
   ) => {
-    console.log(id);
     const files = e.target.files;
     if (files) {
       const file = files[0];
@@ -67,16 +65,14 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
         setImgUrl((prev) => [
           ...prev,
           {
-            id: threads.length,
+            id: id,
             data: base64,
           },
         ]);
       };
-
       reader.readAsDataURL(file);
     }
   };
-  console.log(imgUrl);
   return (
     <Modallayout setOpen={setOpen}>
       <div className="flex flex-col gap-y-6 relative">
@@ -126,15 +122,16 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
                   <span className="">
                     <input
                       type="file"
-                      id="imageinput"
+                      id={`imageinput-${thread.id}`}
                       hidden
                       onChange={(e) => handleFileChange(e, thread.id)}
                     />
-                    <label htmlFor="imageinput">input</label>
-                    <TbPhoto
-                      size={18}
-                      className="cursor-pointer text-stone-500 hover:text-white"
-                    ></TbPhoto>
+                    <label htmlFor={`imageinput-${thread.id}`}>
+                      <TbPhoto
+                        size={18}
+                        className="cursor-pointer text-stone-500 hover:text-white"
+                      />
+                    </label>
                   </span>
                 </div>
               ))}
