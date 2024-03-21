@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import AvatarForm from "@/components/home/avatar";
 import { useUserStore } from "@/src/providers/user-store-provider";
 import styles from "../styles/thread-modal";
-import usePreviewImg from "@/hooks/usePreviewImg";
 import ThreadsInput from "@/components/threads-modal/threads-input";
 interface ThreadformPortal {
   setOpen: Dispatch<SetStateAction<boolean>>;
@@ -72,6 +71,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
                   onChangeTextArea={onChangeTextArea}
                   username={user?.username}
                   setImgUrl={setImgUrl}
+                  imgUrl={imgUrl}
                 ></ThreadsInput>
               ))}
               <span
@@ -89,9 +89,4 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
     </Modallayout>
   );
 };
-
 export default ThreadformPortal;
-interface handleImageChange {
-  id: number;
-  e: React.ChangeEvent<HTMLInputElement>;
-}

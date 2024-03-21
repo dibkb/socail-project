@@ -4,6 +4,7 @@ import React, { ChangeEvent } from "react";
 import { TbPhoto } from "react-icons/tb";
 import styles from "../../styles/thread-modal";
 import { imgurl } from "@/modals/thread-modal";
+import Image from "next/image";
 interface ThreadsInput {
   id: number;
   value: string;
@@ -13,6 +14,7 @@ interface ThreadsInput {
     id: number
   ) => void;
   username?: string;
+  imgUrl: imgurl[];
   setImgUrl: React.Dispatch<React.SetStateAction<imgurl[]>>;
 }
 const ThreadsInput = ({
@@ -22,6 +24,7 @@ const ThreadsInput = ({
   onChangeTextArea,
   username,
   setImgUrl,
+  imgUrl,
 }: ThreadsInput) => {
   const handleFileChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -82,6 +85,15 @@ const ThreadsInput = ({
             className="cursor-pointer text-stone-500 hover:text-white"
           />
         </label>
+        <div className="border min-h-72 h-auto w-full max-w-96"></div>
+        {imgUrl[id]?.data && (
+          <Image
+            src={imgUrl[id]?.data}
+            alt={"Image assocaited with " + id}
+            width={600}
+            height={900}
+          />
+        )}
       </span>
     </div>
   );

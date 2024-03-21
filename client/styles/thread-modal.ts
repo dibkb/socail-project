@@ -5,6 +5,8 @@ const styles: Record<string, React.CSSProperties> = {
     padding: "2rem",
     borderRadius: "1.2rem",
     borderColor: "#44403c",
+    maxHeight: "600px",
+    overflowY: "scroll",
   },
   main: {
     marginBottom: "1rem",
