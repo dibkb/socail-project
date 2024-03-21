@@ -14,6 +14,7 @@ import AvatarForm from "@/components/home/avatar";
 import { useUserStore } from "@/src/providers/user-store-provider";
 import styles from "../styles/thread-modal";
 import ThreadsInput from "@/components/threads-modal/threads-input";
+import { createPost } from "@/actions/post";
 interface ThreadformPortal {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
@@ -21,9 +22,13 @@ export interface imgurl {
   id: number;
   data: string;
 }
+export interface threads {
+  id: number;
+  value: string;
+}
 const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
   const { user } = useUserStore((state) => state);
-  const [threads, setThreads] = useState([{ id: 0, value: "" }]);
+  const [threads, setThreads] = useState<threads[]>([{ id: 0, value: "" }]);
   const [imgUrl, setImgUrl] = useState<imgurl[]>([]);
   const [isPending, startTransition] = useTransition();
   const handleAddInput = () => {
@@ -51,7 +56,12 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
   };
   const createPostHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    startTransition(async () => {});
+    startTransition(async () => {
+      createPost({
+        threads,
+        imgs: imgUrl,
+      });
+    });
   };
   const footer = (
     <div className="flex justify-between items-center">
