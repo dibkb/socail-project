@@ -24,6 +24,9 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
     setThreads((prev) => prev.filter((input) => input.id !== id));
     setImgUrl((prev) => prev.filter((input) => input.id !== id));
   };
+  const handleRemoveImg = (id: number) => {
+    setImgUrl((prev) => prev.filter((input) => input.id !== id));
+  };
   const handleInputChange = (id: number, value: string) => {
     setThreads((prev) =>
       prev.map((input) => (input.id === id ? { ...input, value } : input))
@@ -68,6 +71,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
                   id={thread.id}
                   value={thread.value}
                   handleRemoveInput={handleRemoveInput}
+                  handleRemoveImg={handleRemoveImg}
                   onChangeTextArea={onChangeTextArea}
                   username={user?.username}
                   setImgUrl={setImgUrl}

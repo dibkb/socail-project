@@ -11,6 +11,7 @@ interface ThreadsInput {
   id: number;
   value: string;
   handleRemoveInput: (id: number) => void;
+  handleRemoveImg: (id: number) => void;
   onChangeTextArea: (
     event: ChangeEvent<HTMLTextAreaElement>,
     id: number
@@ -24,6 +25,7 @@ const ThreadsInput = ({
   value,
   handleRemoveInput,
   onChangeTextArea,
+  handleRemoveImg,
   username,
   setImgUrl,
   imgUrl,
@@ -83,7 +85,10 @@ const ThreadsInput = ({
               width={400}
               height={450}
             ></Image>
-            <RxCross1 className="p-2 rounded-full absolute top-0 right-0 bg-stone-700 w-9 h-9 hover:bg-stone-600 cursor-pointer" />
+            <RxCross1
+              onClick={() => handleRemoveImg(id)}
+              className="p-2 rounded-full absolute top-0 right-0 bg-stone-700 w-9 h-9 hover:bg-stone-600 cursor-pointer"
+            />
           </div>
         ) : (
           <>
