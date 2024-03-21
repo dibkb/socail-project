@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Toaster } from "@/components/ui/toaster";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -28,6 +29,7 @@ export default function RootLayout({
           >
             <Navbar />
             <div className="absolute top-20 w-full z-10">{children}</div>
+            <Toaster />
           </ThemeProvider>
           <div id="portal-root"></div>
         </CounterStoreProvider>

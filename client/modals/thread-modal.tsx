@@ -1,21 +1,12 @@
 "use client";
-import React, {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useRef,
-  useState,
-} from "react";
+import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import Modallayout from "./modal-layout";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import AvatarForm from "@/components/home/avatar";
 import { useUserStore } from "@/src/providers/user-store-provider";
 import styles from "../styles/thread-modal";
-import { Cross1Icon } from "@radix-ui/react-icons";
-import { TbPhoto } from "react-icons/tb";
 import usePreviewImg from "@/hooks/usePreviewImg";
-import { Label } from "@/components/ui/label";
+import ThreadsInput from "@/components/threads-modal/threads-input";
 interface ThreadformPortal {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
@@ -32,6 +23,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
   };
   const handleRemoveInput = (id: number) => {
     setThreads((prev) => prev.filter((input) => input.id !== id));
+    setImgUrl((prev) => prev.filter((input) => input.id !== id));
   };
   const handleInputChange = (id: number, value: string) => {
     setThreads((prev) =>
@@ -52,6 +44,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
       <Button className="rounded-3xl">Post</Button>
     </div>
   );
+  console.log();
   const handleFileChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     id: number
@@ -59,18 +52,21 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
     const files = e.target.files;
     if (files) {
       const file = files[0];
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64 = reader.result as string;
-        setImgUrl((prev) => [
-          ...prev,
-          {
-            id: id,
-            data: base64,
-          },
-        ]);
-      };
-      reader.readAsDataURL(file);
+      if (file && file.type.startsWith("image/")) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const base64 = reader.result as string;
+          setImgUrl((prev) => [
+            ...prev,
+            {
+              id: id,
+              data: base64,
+            },
+          ]);
+        };
+        reader.readAsDataURL(file);
+      } else {
+      }
     }
   };
   return (
@@ -93,47 +89,15 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
             </div>
             <div className="flex flex-col" style={styles.rightContainer}>
               {threads.map((thread) => (
-                <div
+                <ThreadsInput
                   key={thread.id}
-                  style={{
-                    marginTop: "8px",
-                  }}
-                >
-                  <span className="flex justify-between items-center">
-                    <p className="text-sm font-medium">
-                      {user?.username || "dib.kb"}
-                    </p>
-                    {thread.id !== 0 && (
-                      <Cross1Icon
-                        onClick={() => handleRemoveInput(thread.id)}
-                        className="cursor-pointer"
-                      />
-                    )}
-                  </span>
-                  <textarea
-                    value={thread.value}
-                    placeholder={
-                      thread.id == 0 ? "Start a thread..." : "Say more..."
-                    }
-                    className="text-sm bg-transparent focus:ring-transparent w-full"
-                    style={styles.textarea}
-                    onChange={(e) => onChangeTextArea(e, thread.id)}
-                  ></textarea>
-                  <span className="">
-                    <input
-                      type="file"
-                      id={`imageinput-${thread.id}`}
-                      hidden
-                      onChange={(e) => handleFileChange(e, thread.id)}
-                    />
-                    <label htmlFor={`imageinput-${thread.id}`}>
-                      <TbPhoto
-                        size={18}
-                        className="cursor-pointer text-stone-500 hover:text-white"
-                      />
-                    </label>
-                  </span>
-                </div>
+                  id={thread.id}
+                  value={thread.value}
+                  handleRemoveInput={handleRemoveInput}
+                  onChangeTextArea={onChangeTextArea}
+                  username={user?.username}
+                  handleFileChange={handleFileChange}
+                ></ThreadsInput>
               ))}
               <span
                 className="text-sm"
