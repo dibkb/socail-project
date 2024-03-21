@@ -44,31 +44,6 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
       <Button className="rounded-3xl">Post</Button>
     </div>
   );
-  const handleFileChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    id: number
-  ) => {
-    const files = e.target.files;
-    if (files) {
-      const file = files[0];
-      if (file && file.type.startsWith("image/")) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const base64 = reader.result as string;
-          setImgUrl((prev) => [
-            ...prev.filter((input) => input.id !== id),
-            {
-              id: id,
-              data: base64,
-            },
-          ]);
-        };
-        reader.readAsDataURL(file);
-      } else {
-      }
-    }
-  };
-  console.log(imgUrl);
   return (
     <Modallayout setOpen={setOpen}>
       <div className="flex flex-col gap-y-6 relative">
@@ -96,7 +71,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
                   handleRemoveInput={handleRemoveInput}
                   onChangeTextArea={onChangeTextArea}
                   username={user?.username}
-                  handleFileChange={handleFileChange}
+                  setImgUrl={setImgUrl}
                 ></ThreadsInput>
               ))}
               <span
