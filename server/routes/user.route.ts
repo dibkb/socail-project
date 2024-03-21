@@ -18,4 +18,5 @@ router.post(`/follow/:userid`, verifyRoute, followUser);
 router.put(`/update`, verifyRoute, updateUser);
 // router.post(`/unfollow/:userid`, verifyRoute, unfollowUser);
 router.post(`/logout`, verifyRoute, logoutUser);
+
 export default router;

@@ -144,7 +144,6 @@ export const updateUser = async (req: Request, res: Response) => {
   const { user } = req;
   if (!user) throw new Error("No user provided");
   const { name, username, bio } = req.body;
-  console.log(name, username, bio);
   try {
     if (!(name || username || bio)) {
       throw new Error("No fields provided");
