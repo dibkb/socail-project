@@ -1,5 +1,13 @@
 "use client";
-import React, { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import React, {
+  ChangeEvent,
+  Dispatch,
+  FormEvent,
+  MouseEventHandler,
+  SetStateAction,
+  useState,
+  useTransition,
+} from "react";
 import Modallayout from "./modal-layout";
 import { Button } from "@/components/ui/button";
 import AvatarForm from "@/components/home/avatar";
@@ -17,6 +25,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
   const { user } = useUserStore((state) => state);
   const [threads, setThreads] = useState([{ id: 0, value: "" }]);
   const [imgUrl, setImgUrl] = useState<imgurl[]>([]);
+  const [isPending, startTransition] = useTransition();
   const handleAddInput = () => {
     setThreads((prev) => [...prev, { id: prev.length, value: "" }]);
   };
@@ -40,17 +49,27 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
     event.target.style.height = event.target.scrollHeight + "px";
     handleInputChange(id, event.target.value);
   };
+  const createPostHandler = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    startTransition(async () => {});
+  };
   const footer = (
     <div className="flex justify-between items-center">
       <p className="text-stone-500 text-sm">Anyone can reply</p>
-      <Button className="rounded-3xl">Post</Button>
+      <Button className="rounded-3xl" type="submit">
+        Post
+      </Button>
     </div>
   );
   return (
     <Modallayout setOpen={setOpen}>
       <div className="flex flex-col gap-y-6 relative">
         <h3 className="text-center text-sm font-semibold">New Thread</h3>
-        <div className="border bg-stone-800" style={styles.container}>
+        <form
+          className="border bg-stone-800"
+          style={styles.container}
+          onSubmit={createPostHandler}
+        >
           <main className="flex gap-x-4" style={styles.main}>
             <div
               className="flex flex-col items-center"
@@ -88,7 +107,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
             </div>
           </main>
           {footer}
-        </div>
+        </form>
       </div>
     </Modallayout>
   );

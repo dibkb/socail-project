@@ -19,4 +19,4 @@ const AvatarForm = ({ className, children }: AvatarForm) => {
   );
 };
 
-export default AvatarForm;
+export default React.memo(AvatarForm);
