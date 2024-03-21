@@ -5,6 +5,8 @@ import { TbPhoto } from "react-icons/tb";
 import styles from "../../styles/thread-modal";
 import { imgurl } from "@/modals/thread-modal";
 import Image from "next/image";
+import { RxCross1 } from "react-icons/rx";
+
 interface ThreadsInput {
   id: number;
   value: string;
@@ -73,26 +75,31 @@ const ThreadsInput = ({
         onChange={(e) => onChangeTextArea(e, id)}
       />
       <span className="">
-        <input
-          type="file"
-          id={`imageinput-${id}`}
-          hidden
-          onChange={(e) => handleFileChange(e, id)}
-        />
-        <label htmlFor={`imageinput-${id}`}>
-          <TbPhoto
-            size={18}
-            className="cursor-pointer text-stone-500 hover:text-white"
-          />
-        </label>
-        <div className="border min-h-72 h-auto w-full max-w-96"></div>
-        {imgUrl[id]?.data && (
-          <Image
-            src={imgUrl[id]?.data}
-            alt={"Image assocaited with " + id}
-            width={600}
-            height={900}
-          />
+        {imgUrl[id]?.data ? (
+          <div className="relative mb-2">
+            <Image
+              src={imgUrl[id]?.data}
+              alt={"Image assocaited with " + id}
+              width={400}
+              height={450}
+            ></Image>
+            <RxCross1 className="p-2 rounded-full absolute top-0 right-0 bg-stone-700 w-9 h-9 hover:bg-stone-600 cursor-pointer" />
+          </div>
+        ) : (
+          <>
+            <input
+              type="file"
+              id={`imageinput-${id}`}
+              hidden
+              onChange={(e) => handleFileChange(e, id)}
+            />
+            <label htmlFor={`imageinput-${id}`}>
+              <TbPhoto
+                size={18}
+                className="cursor-pointer text-stone-500 hover:text-white"
+              />
+            </label>
+          </>
         )}
       </span>
     </div>
