@@ -33,8 +33,8 @@ const styles: Record<string, React.CSSProperties> = {
   },
   addThread: {
     color: "#57534e",
-    cursor: "pointer",
     marginTop: ".5rem",
+    textAlign: "left",
   },
 };
 export default styles;

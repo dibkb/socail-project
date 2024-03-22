@@ -3,7 +3,6 @@ import React, {
   ChangeEvent,
   Dispatch,
   FormEvent,
-  MouseEventHandler,
   SetStateAction,
   useState,
   useTransition,
@@ -15,6 +14,7 @@ import { useUserStore } from "@/src/providers/user-store-provider";
 import styles from "../styles/thread-modal";
 import ThreadsInput from "@/components/threads-modal/threads-input";
 import { createPost } from "@/actions/post";
+import { cn } from "@/lib/utils";
 interface ThreadformPortal {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
@@ -107,13 +107,30 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
                   imgUrl={imgUrl}
                 ></ThreadsInput>
               ))}
-              <span
-                className="text-sm"
-                style={styles.addThread}
-                onClick={handleAddInput}
-              >
-                Add to thread
-              </span>
+              {threads[threads.length - 1].value.length === 0 ? (
+                <button
+                  className={cn("text-sm")}
+                  disabled={true}
+                  style={{
+                    ...styles.addThread,
+                    cursor: "not-allowed",
+                  }}
+                  onClick={handleAddInput}
+                >
+                  Add to thread
+                </button>
+              ) : (
+                <button
+                  className={cn("text-sm")}
+                  style={{
+                    ...styles.addThread,
+                    cursor: "pointer",
+                  }}
+                  onClick={handleAddInput}
+                >
+                  Add to thread
+                </button>
+              )}
             </div>
           </main>
           {footer}

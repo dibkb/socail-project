@@ -22,7 +22,7 @@ export const createPost = async (req: Request, res: Response) => {
         image: imgurl,
       },
     });
-    return res.status(200).json(post);
+    return res.status(201).json(post);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
