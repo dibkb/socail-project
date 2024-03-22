@@ -1,8 +1,9 @@
 import { imgurl, threads } from "@/modals/thread-modal";
+import makeThreadsBody from "@/utils/make-threads-body";
 import axios from "axios";
 const SERVER = process.env.NEXT_PUBLIC_SERVER_URL;
 
-interface post {
+export interface post {
   threads: threads[];
   imgs: imgurl[];
 }
@@ -27,6 +28,17 @@ export const createPost = async (data: post) => {
       };
     } else {
       //   THREADS POST
+      const body = makeThreadsBody({ threads, imgs });
+      const serverResponse = await axios.post(
+        `${SERVER}/api/v1/posts/threads/create`,
+        body,
+        {
+          withCredentials: true,
+        }
+      );
+      return {
+        data: serverResponse.data,
+      };
     }
   } catch (error: any) {
     return {
