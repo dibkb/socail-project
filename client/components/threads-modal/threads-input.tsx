@@ -78,10 +78,10 @@ const ThreadsInput = ({
         onChange={(e) => onChangeTextArea(e, id)}
       />
       <span className="">
-        {imgUrl[id]?.data ? (
+        {imgUrl.filter((img) => img.id === id)[0]?.data ? (
           <div className="relative mb-2">
             <Image
-              src={imgUrl[id]?.data}
+              src={imgUrl.filter((img) => img.id === id)[0]?.data}
               alt={"Image assocaited with " + id}
               width={400}
               height={450}
