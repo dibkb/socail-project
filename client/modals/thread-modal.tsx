@@ -29,7 +29,7 @@ export interface threads {
 const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
   const { user } = useUserStore((state) => state);
   const [threads, setThreads] = useState<threads[]>([{ id: 0, value: "" }]);
-  const [imgUrl, setImgUrl] = useState<imgurl[]>([]);
+  const [imgUrl, setImgUrl] = useState<imgurl[]>([{ id: 0, data: "" }]);
   const [isPending, startTransition] = useTransition();
   const handleAddInput = () => {
     setThreads((prev) => [...prev, { id: prev.length, value: "" }]);
