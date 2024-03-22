@@ -31,7 +31,31 @@ export const createThreads = async (req: Request, res: Response) => {
   const { user } = req;
   if (!user) throw new Error("No user provided");
   try {
-    return res.status(201).json(req.body);
+    const { title, image, posts } = req.body;
+    console.log(req.body);
+    let imgurl = "";
+    // if (image) {
+    //   const uploadedResponse = await cloudinary.uploader.upload(image);
+    //   imgurl = uploadedResponse.secure_url;
+    // }
+    const createdThread = await prisma.thread.create({
+      data: {
+        title: title,
+        image: imgurl,
+        posts: {
+          createMany: {
+            data: [
+              { body: "Bob", image: "bob@prisma.io" },
+              { body: "Bobo", image: "bob@prisma.io" },
+            ],
+          },
+        },
+      },
+      include: {
+        posts: true,
+      },
+    });
+    return res.status(201).json(createdThread);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }

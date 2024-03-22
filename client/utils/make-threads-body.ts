@@ -1,19 +1,32 @@
 import { post } from "@/actions/post";
+import { threads } from "@/modals/thread-modal";
+const findIndexById = (arr: threads[], id: number): number => {
+  return arr.findIndex((item) => item.id === id);
+};
 const processPosts = ({ threads, imgs }: post): threadposts => {
-  const posts: { body?: string; image?: string }[] = [];
-  threads.forEach((thread) => {
-    posts[thread.id] = { body: thread.value };
-  });
-
-  imgs.forEach((img) => {
-    posts[img.id] = { ...posts[img.id], image: img.data };
-  });
-
-  return {
-    title: threads[0].value ?? "",
-    image: imgs[0].data ?? "",
+  const posts: { body?: string; image?: string; id: number }[] = [];
+  threads
+    ?.filter((thread) => thread.id !== 0)
+    .forEach((t) => {
+      posts.push({
+        id: t.id,
+        body: t.value,
+      });
+    });
+  imgs
+    ?.filter((img) => img.id !== 0)
+    .forEach((img) => {
+      const match = findIndexById(threads, img.id);
+      posts[match] = { ...posts[match], image: img.data };
+    });
+  const titleImg = imgs?.filter((i) => i.id === 0)[0];
+  const body = {
+    title: threads?.filter((thread) => thread.id === 0)[0].value ?? "",
+    ...(titleImg !== undefined && { image: titleImg.data }),
     posts: posts,
   };
+  console.log(posts);
+  return body;
 };
 interface postBody {
   body?: string;

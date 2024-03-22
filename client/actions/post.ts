@@ -17,7 +17,7 @@ export const createPost = async (data: post) => {
         `${SERVER}/api/v1/posts/create`,
         {
           body: threads[0].value,
-          image: imgs[0].data,
+          ...(imgs[0] !== undefined && { image: imgs[0].data }),
         },
         {
           withCredentials: true,
