@@ -1,9 +1,14 @@
 import { post } from "@/actions/post";
 import { threads } from "@/modals/thread-modal";
-const findIndexById = (arr: threads[], id: number): number => {
+const findIndexById = (
+  arr: { body?: string; image?: string; id: number }[],
+  id: number
+): number => {
   return arr.findIndex((item) => item.id === id);
 };
 const processPosts = ({ threads, imgs }: post): threadposts => {
+  console.log(threads);
+  console.log(imgs);
   const posts: { body?: string; image?: string; id: number }[] = [];
   threads
     ?.filter((thread) => thread.id !== 0)
@@ -16,7 +21,7 @@ const processPosts = ({ threads, imgs }: post): threadposts => {
   imgs
     ?.filter((img) => img.id !== 0)
     .forEach((img) => {
-      const match = findIndexById(threads, img.id);
+      const match = findIndexById(posts, img.id);
       posts[match] = { ...posts[match], image: img.data };
     });
   const titleImg = imgs?.filter((i) => i.id === 0)[0];
@@ -25,7 +30,6 @@ const processPosts = ({ threads, imgs }: post): threadposts => {
     ...(titleImg !== undefined && { image: titleImg.data }),
     posts: posts,
   };
-  console.log(posts);
   return body;
 };
 interface postBody {
