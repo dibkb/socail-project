@@ -27,3 +27,12 @@ export const createPost = async (req: Request, res: Response) => {
     res.status(500).json({ message: error.message });
   }
 };
+export const createThreads = async (req: Request, res: Response) => {
+  const { user } = req;
+  if (!user) throw new Error("No user provided");
+  try {
+    return res.status(201).json(req.body);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
