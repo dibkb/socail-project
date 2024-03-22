@@ -115,7 +115,6 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
                     ...styles.addThread,
                     cursor: "not-allowed",
                   }}
-                  onClick={handleAddInput}
                 >
                   Add to thread
                 </button>
