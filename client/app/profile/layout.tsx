@@ -7,7 +7,10 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import EditProfilePortal from "@/modals/edit-profile-modal";
-import NameUsername from "@/components/profile/profile-page/name-username";
+import NameUsername, {
+  Bio,
+} from "@/components/profile/profile-page/name-username";
+import { Profilelayout } from "@/components/layouts/main";
 interface Profile {
   children: React.ReactNode;
 }
@@ -17,7 +20,7 @@ export default function Profile({ children }: Profile) {
   const pathname = usePathname();
   if (!user) return null;
   return (
-    <div className="w-full max-w-2xl container min-h-[90vh] flex flex-col">
+    <Profilelayout>
       <div className="flex items-center justify-between">
         <NameUsername name={user?.name} username={user?.username} />
         <aside>
@@ -25,7 +28,7 @@ export default function Profile({ children }: Profile) {
         </aside>
       </div>
       <main className="mt-4">
-        <p className="text-sm text-stone-200">{user?.bio}</p>
+        <Bio bio={user.bio} />
         {/* TODO : followers */}
         <Button
           variant="outline"
@@ -63,6 +66,6 @@ export default function Profile({ children }: Profile) {
         })}
       </div>
       {children}
-    </div>
+    </Profilelayout>
   );
 }

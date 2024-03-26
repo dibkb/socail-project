@@ -1,8 +1,12 @@
-import Globallayout from "@/components/layouts/global-layout";
+import { Globallayout, Profilelayout } from "@/components/layouts/main";
 import React from "react";
 
 const Username = () => {
-  return <Globallayout>fdsf</Globallayout>;
+  return (
+    <Globallayout>
+      <Profilelayout>fsdf</Profilelayout>
+    </Globallayout>
+  );
 };
 
 export default Username;
