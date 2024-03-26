@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { v2 as cloudinary } from "cloudinary";
 import { prisma } from "../index";
-import { Prisma } from "@prisma/client";
 
 export const createPost = async (req: Request, res: Response) => {
   const { user } = req;
@@ -40,16 +39,17 @@ export const createThreads = async (req: Request, res: Response) => {
       const uploadedResponse = await cloudinary.uploader.upload(image);
       imgurl = uploadedResponse.secure_url;
     }
-    const updatedPosts = await convertImagesToCloudinary(posts);
+    const updatedPosts = await convertImagesToCloudinary(posts, user.id);
     console.log("updated_posts", updatedPosts);
     const createdThread = await prisma.thread.create({
       data: {
         title: title,
         image: imgurl,
         posts: {
-          createMany: {
-            data: updatedPosts,
-          },
+          // createMany: {
+          //   data: updatedPosts,
+          // },
+          connect: updatedPosts.map((post: any) => ({ id: post.id })),
         },
       },
       include: {
@@ -61,20 +61,27 @@ export const createThreads = async (req: Request, res: Response) => {
     res.status(500).json({ message: error.message });
   }
 };
-const convertImagesToCloudinary = async (posts: any[]): Promise<any> => {
-  const updatedPosts = [];
+const convertImagesToCloudinary = async (
+  posts: any[],
+  userid: string
+): Promise<any> => {
+  const createdPosts = [];
   for (const post of posts) {
     let imgurl = "";
     if (post?.image) {
       const uploadedResponse = await cloudinary.uploader.upload(post.image);
       imgurl = uploadedResponse.secure_url;
     }
-    updatedPosts.push({
-      body: post.body,
-      image: imgurl,
+    const createdPost = await prisma.post.create({
+      data: {
+        body: post.body,
+        userId: userid,
+        image: imgurl,
+      },
     });
+    createdPosts.push(createdPost);
   }
-  return updatedPosts;
+  return createdPosts;
   // posts.map(async (post) => {
   //   let imgurl = "";
   //   if (post?.image) {
