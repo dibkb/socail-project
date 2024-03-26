@@ -31,7 +31,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
   const { user } = useUserStore((state) => state);
   const [threads, setThreads] = useState<threads[]>([{ id: 0, value: "" }]);
   const [imgUrl, setImgUrl] = useState<imgurl[]>([{ id: 0, data: "" }]);
-  const [loading, setLoading] = useState({ state: true, error: "" });
+  const [loading, setLoading] = useState({ state: false, error: "" });
   const [isPending, startTransition] = useTransition();
   const handleAddInput = () => {
     setThreads((prev) => [...prev, { id: prev.length, value: "" }]);
@@ -75,6 +75,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
                 state: false,
                 error: "",
               });
+              setOpen(false);
             }
           }
         })

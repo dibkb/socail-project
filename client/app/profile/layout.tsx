@@ -7,6 +7,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import EditProfilePortal from "@/modals/edit-profile-modal";
+import NameUsername from "@/components/profile/profile-page/name-username";
 interface Profile {
   children: React.ReactNode;
 }
@@ -14,18 +15,11 @@ export default function Profile({ children }: Profile) {
   const { user } = useUserStore((state) => state);
   const [openEditModal, setOpenEditModal] = useState(false);
   const pathname = usePathname();
+  if (!user) return null;
   return (
     <div className="w-full max-w-2xl container min-h-[90vh] flex flex-col">
       <div className="flex items-center justify-between">
-        <aside>
-          <h3 className="text-2xl font-medium">{user?.name}</h3>
-          <span className="flex items-center gap-x-2">
-            <p className="text-sm text-stone-200">{user?.username}</p>
-            <p className="bg-stone-800 text-xs px-2 py-1 rounded-xl text-stone-500">
-              shreds.net
-            </p>
-          </span>
-        </aside>
+        <NameUsername name={user?.name} username={user?.username} />
         <aside>
           <AvatarForm className="w-20 h-20" />
         </aside>

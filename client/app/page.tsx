@@ -1,9 +1,10 @@
 "use client";
 import Threadform from "@/components/home/thread-form";
+import Globallayout from "@/components/layouts/global-layout";
 export default function Home() {
   return (
-    <div className="w-full max-w-2xl container">
+    <Globallayout>
       <Threadform />
-    </div>
+    </Globallayout>
   );
 }
