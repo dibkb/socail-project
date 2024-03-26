@@ -15,6 +15,7 @@ import styles from "../styles/thread-modal";
 import ThreadsInput from "@/components/threads-modal/threads-input";
 import { createPost } from "@/actions/post";
 import { cn } from "@/lib/utils";
+import Spinner from "@/components/svg/spinner";
 interface ThreadformPortal {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
@@ -30,7 +31,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
   const { user } = useUserStore((state) => state);
   const [threads, setThreads] = useState<threads[]>([{ id: 0, value: "" }]);
   const [imgUrl, setImgUrl] = useState<imgurl[]>([{ id: 0, data: "" }]);
-  const [loading, setLoading] = useState({ state: false, error: "" });
+  const [loading, setLoading] = useState({ state: true, error: "" });
   const [isPending, startTransition] = useTransition();
   const handleAddInput = () => {
     setThreads((prev) => [...prev, { id: prev.length, value: "" }]);
@@ -70,12 +71,16 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
           if (res.data) {
             const { id } = res.data;
             if (id) {
+              setLoading({
+                state: false,
+                error: "",
+              });
             }
           }
         })
         .catch((err) => {
           setLoading({
-            state: true,
+            state: false,
             error: err.message,
           });
         })
@@ -90,7 +95,6 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
       </Button>
     </div>
   );
-  console.log(isPending);
   const body = (
     <div className="flex flex-col gap-y-6 relative">
       <h3 className="text-center text-sm font-semibold">New Thread</h3>
@@ -155,8 +159,16 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
       </form>
     </div>
   );
+  const loadingFrame = (
+    <div className="flex items-center">
+      <Spinner maxHeight={"40px"} maxWidth={"40px"} />
+      <h3>Posting...</h3>
+    </div>
+  );
   return (
-    <Modallayout setOpen={setOpen}>{isPending ? "Pending" : body}</Modallayout>
+    <Modallayout setOpen={setOpen}>
+      {loading.state ? loadingFrame : body}
+    </Modallayout>
   );
 };
 export default ThreadformPortal;
