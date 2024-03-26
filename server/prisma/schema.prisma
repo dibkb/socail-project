@@ -11,6 +11,7 @@ generator client {
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model User {
@@ -40,8 +41,8 @@ model Post {
   likedIds  String[] @db.ObjectId
   image     String?
 
-  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  threads Thread @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  threads Thread? @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   comments Comment[]
 }

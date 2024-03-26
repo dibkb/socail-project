@@ -40,15 +40,11 @@ export const createThreads = async (req: Request, res: Response) => {
       imgurl = uploadedResponse.secure_url;
     }
     const updatedPosts = await convertImagesToCloudinary(posts, user.id);
-    console.log("updated_posts", updatedPosts);
     const createdThread = await prisma.thread.create({
       data: {
         title: title,
         image: imgurl,
         posts: {
-          // createMany: {
-          //   data: updatedPosts,
-          // },
           connect: updatedPosts.map((post: any) => ({ id: post.id })),
         },
       },
@@ -57,6 +53,19 @@ export const createThreads = async (req: Request, res: Response) => {
       },
     });
     return res.status(201).json(createdThread);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
+export const getPost = async (req: Request, res: Response) => {
+  const { user } = req;
+  const { postid } = req.params;
+  if (!user) throw new Error("No user provided");
+  try {
+    const post = await prisma.post.findUnique({
+      where: { id: postid },
+    });
+    return res.status(201).json(post);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
