@@ -7,8 +7,6 @@ const findIndexById = (
   return arr.findIndex((item) => item.id === id);
 };
 const processPosts = ({ threads, imgs }: post): threadposts => {
-  console.log(threads);
-  console.log(imgs);
   const posts: { body?: string; image?: string; id: number }[] = [];
   threads
     ?.filter((thread) => thread.id !== 0)

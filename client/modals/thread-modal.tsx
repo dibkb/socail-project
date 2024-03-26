@@ -30,6 +30,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
   const { user } = useUserStore((state) => state);
   const [threads, setThreads] = useState<threads[]>([{ id: 0, value: "" }]);
   const [imgUrl, setImgUrl] = useState<imgurl[]>([{ id: 0, data: "" }]);
+  const [loading, setLoading] = useState({ state: false, error: "" });
   const [isPending, startTransition] = useTransition();
   const handleAddInput = () => {
     setThreads((prev) => [...prev, { id: prev.length, value: "" }]);
@@ -57,85 +58,105 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
   const createPostHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     startTransition(async () => {
+      setLoading({
+        state: true,
+        error: "",
+      });
       createPost({
         threads,
         imgs: imgUrl,
-      });
+      })
+        .then((res) => {
+          if (res.data) {
+            const { id } = res.data;
+            if (id) {
+            }
+          }
+        })
+        .catch((err) => {
+          setLoading({
+            state: true,
+            error: err.message,
+          });
+        })
+        .finally(() => setLoading((prev) => ({ ...prev, state: false })));
     });
   };
   const footer = (
     <div className="flex justify-between items-center">
       <p className="text-stone-500 text-sm">Anyone can reply</p>
-      <Button className="rounded-3xl" type="submit">
+      <Button className="rounded-3xl" type="submit" disabled={isPending}>
         Post
       </Button>
     </div>
   );
+  console.log(isPending);
+  const body = (
+    <div className="flex flex-col gap-y-6 relative">
+      <h3 className="text-center text-sm font-semibold">New Thread</h3>
+      <form
+        className="border bg-stone-800"
+        style={styles.container}
+        onSubmit={createPostHandler}
+      >
+        <main className="flex gap-x-4" style={styles.main}>
+          <div
+            className="flex flex-col items-center"
+            style={styles.leftContainer}
+          >
+            {threads.map((thread) => (
+              <React.Fragment key={thread.id + thread.value}>
+                <AvatarForm />
+                <span className="border" style={styles.vertical} />
+              </React.Fragment>
+            ))}
+            <AvatarForm className="inline-block h-6 w-6" />
+          </div>
+          <div className="flex flex-col" style={styles.rightContainer}>
+            {threads.map((thread) => (
+              <ThreadsInput
+                key={thread.id}
+                id={thread.id}
+                value={thread.value}
+                handleRemoveInput={handleRemoveInput}
+                handleRemoveImg={handleRemoveImg}
+                onChangeTextArea={onChangeTextArea}
+                username={user?.username}
+                setImgUrl={setImgUrl}
+                imgUrl={imgUrl}
+              ></ThreadsInput>
+            ))}
+            {threads[threads.length - 1].value.length === 0 ? (
+              <button
+                className={cn("text-sm")}
+                disabled={true}
+                style={{
+                  ...styles.addThread,
+                  cursor: "not-allowed",
+                }}
+              >
+                Add to thread
+              </button>
+            ) : (
+              <button
+                className={cn("text-sm")}
+                style={{
+                  ...styles.addThread,
+                  cursor: "pointer",
+                }}
+                onClick={handleAddInput}
+              >
+                Add to thread
+              </button>
+            )}
+          </div>
+        </main>
+        {footer}
+      </form>
+    </div>
+  );
   return (
-    <Modallayout setOpen={setOpen}>
-      <div className="flex flex-col gap-y-6 relative">
-        <h3 className="text-center text-sm font-semibold">New Thread</h3>
-        <form
-          className="border bg-stone-800"
-          style={styles.container}
-          onSubmit={createPostHandler}
-        >
-          <main className="flex gap-x-4" style={styles.main}>
-            <div
-              className="flex flex-col items-center"
-              style={styles.leftContainer}
-            >
-              {threads.map((thread) => (
-                <React.Fragment key={thread.id + thread.value}>
-                  <AvatarForm />
-                  <span className="border" style={styles.vertical} />
-                </React.Fragment>
-              ))}
-              <AvatarForm className="inline-block h-6 w-6" />
-            </div>
-            <div className="flex flex-col" style={styles.rightContainer}>
-              {threads.map((thread) => (
-                <ThreadsInput
-                  key={thread.id}
-                  id={thread.id}
-                  value={thread.value}
-                  handleRemoveInput={handleRemoveInput}
-                  handleRemoveImg={handleRemoveImg}
-                  onChangeTextArea={onChangeTextArea}
-                  username={user?.username}
-                  setImgUrl={setImgUrl}
-                  imgUrl={imgUrl}
-                ></ThreadsInput>
-              ))}
-              {threads[threads.length - 1].value.length === 0 ? (
-                <button
-                  className={cn("text-sm")}
-                  disabled={true}
-                  style={{
-                    ...styles.addThread,
-                    cursor: "not-allowed",
-                  }}
-                >
-                  Add to thread
-                </button>
-              ) : (
-                <button
-                  className={cn("text-sm")}
-                  style={{
-                    ...styles.addThread,
-                    cursor: "pointer",
-                  }}
-                  onClick={handleAddInput}
-                >
-                  Add to thread
-                </button>
-              )}
-            </div>
-          </main>
-          {footer}
-        </form>
-      </div>
-    </Modallayout>
+    <Modallayout setOpen={setOpen}>{isPending ? "Pending" : body}</Modallayout>
   );
 };
 export default ThreadformPortal;
