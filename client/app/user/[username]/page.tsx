@@ -3,7 +3,7 @@ import { Globallayout, Profilelayout } from "@/components/layouts/main";
 import NameUsername, {
   Bio,
 } from "@/components/profile/profile-page/name-username";
-import React from "react";
+import React, { useEffect } from "react";
 import AvatarForm from "@/components/home/avatar";
 import { getUserInfo } from "@/actions/getuser";
 import { usePathname } from "next/navigation";
@@ -12,6 +12,12 @@ export default function Username() {
   const pathname = usePathname();
   const username = pathname.split("/").pop()?.split("@")[1];
   console.log(username);
+  useEffect(() => {
+    if (username)
+      getUserInfo(username)
+        .then((res) => res.data)
+        .then((data) => console.log(data));
+  }, [username]);
   return (
     <Globallayout>
       <Profilelayout>

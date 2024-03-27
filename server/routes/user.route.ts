@@ -9,7 +9,7 @@ import {
 } from "../controllers/user.controller";
 import { verifyRoute } from "../middlewares/verify-route";
 const router = express.Router();
-router.get(`/:userid`, getuserProfile);
+router.get(`/:username`, getuserProfile);
 router.post(`/signup`, signupUser);
 router.post(`/login`, loginUser);
 // protected route
