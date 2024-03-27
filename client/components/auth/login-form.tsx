@@ -21,7 +21,7 @@ import { login } from "@/actions/login";
 import { useUserStore } from "../../src/providers/user-store-provider";
 const LoginForm = () => {
   const router = useRouter();
-  const { user, setUser } = useUserStore((state) => state);
+  const { setUser } = useUserStore((state) => state);
   const [error, setError] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof loginSchema>>({

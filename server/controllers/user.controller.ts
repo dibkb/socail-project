@@ -99,6 +99,8 @@ export const loginUser = async (req: Request, res: Response) => {
       username: user.username,
       bio: user.bio,
       profilePic: user.profilePic,
+      followingIds: user.followingIds,
+      followerIds: user.followerIds,
     });
   } catch (error: any) {
     res.status(500).json({ error: error?.message });

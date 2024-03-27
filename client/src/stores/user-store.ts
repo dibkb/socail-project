@@ -8,6 +8,8 @@ export interface User {
   username: string;
   bio: string;
   profilePic: string;
+  followingIds: string[];
+  followerIds: string[];
 }
 export type UserState = {
   user: User | null;

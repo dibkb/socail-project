@@ -45,6 +45,7 @@ export default function Username(pathname: any) {
       if (res?.data?.id) followuser(res?.data?.id);
     });
   };
+  console.log(user);
   //
   if (res) {
     if (res.data) {

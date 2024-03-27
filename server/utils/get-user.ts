@@ -40,8 +40,8 @@ export async function findUserByUsername(username: string) {
         profilePic: true,
         bio: true,
         isFrozen: true,
-        createdAt: true,
-        updatedAt: true,
+        followingIds: true,
+        followerIds: true,
       },
     });
 
