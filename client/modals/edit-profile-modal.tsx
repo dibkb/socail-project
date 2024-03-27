@@ -16,10 +16,13 @@ const label = {
   username: "Edit Username",
   bio: "Edit Bio",
 };
-type UserKeys = Exclude<keyof User, "id" | "email" | "profilePic">;
+type UserKeys = Exclude<
+  keyof User,
+  "id" | "email" | "profilePic" | "followingIds" | "followerIds"
+>;
 export type openModal = UserKeys | false;
 const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
-  const { user, setUser } = useUserStore((state) => state);
+  const { user } = useUserStore((state) => state);
   const [openEdit, setEdit] = useState<openModal>(false);
   // const { handleImageChange, imgUrl, setImgUrl } = usePreviewImg();
   // const imageRef = useRef(null);
@@ -33,7 +36,7 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
             value={user?.name}
             onClick={() => setEdit("name")}
           />
-          <AvatarForm className="w-20 h-20 cursor-pointer" />
+          <AvatarForm className="w-20 h-20 cursor-pointer" variant="self" />
         </span>
         <Editprofileinput
           placeholder={"Username"}

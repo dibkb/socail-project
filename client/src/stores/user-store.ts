@@ -11,12 +11,23 @@ export interface User {
   followingIds: string[];
   followerIds: string[];
 }
+const skeletonUser: User = {
+  id: "",
+  name: "",
+  email: "",
+  username: "",
+  bio: "",
+  profilePic: "",
+  followingIds: [],
+  followerIds: [],
+};
 export type UserState = {
   user: User | null;
 };
 
 export type UserActions = {
   setUser: (user: User) => void;
+  updateFollowing: (userid: string) => void;
 };
 
 export type UserStore = UserState & UserActions;
@@ -35,6 +46,31 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
       (set, get) => ({
         ...initState,
         setUser: (user) => set({ user }),
+        updateFollowing: (userid: string) =>
+          set((state) => {
+            if (
+              state.user &&
+              state.user.followingIds &&
+              state.user.followingIds.length > 0
+            ) {
+              return {
+                ...state,
+                user: {
+                  ...skeletonUser,
+                  ...state.user,
+                  followingIds: [...state.user.followingIds, userid],
+                },
+              };
+            }
+            return {
+              ...state,
+              user: {
+                ...skeletonUser,
+                ...state.user,
+                followingIds: [userid],
+              },
+            };
+          }),
       }),
       {
         name: "user-profile",

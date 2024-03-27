@@ -12,12 +12,17 @@ import { Button } from "@/components/ui/button";
 import { useUserStore } from "@/src/providers/user-store-provider";
 import { followuser } from "@/actions/followuser";
 import { update } from "@/actions/update";
+import { redirect } from "next/navigation";
 // server actions
 export default function Username(pathname: any) {
+  const { user, updateFollowing } = useUserStore((state) => state);
   const cleanedUsername = pathname.params.username
     .split("/")
     .pop()
     ?.split("%40")[1];
+  if (cleanedUsername === user?.username) {
+    redirect("/profile");
+  }
   const [res, setRes] = useState<
     | {
         data: User;
@@ -28,9 +33,7 @@ export default function Username(pathname: any) {
         data?: undefined;
       }
   >();
-  const { user } = useUserStore((state) => state);
   const [isPending, startTransition] = useTransition();
-
   useEffect(() => {
     async function getuser() {
       const res = await getUserInfo(cleanedUsername);
@@ -42,10 +45,14 @@ export default function Username(pathname: any) {
   const handleFollowUser = (e: any) => {
     e.preventDefault();
     startTransition(async () => {
-      if (res?.data?.id) followuser(res?.data?.id);
+      if (res?.data?.id && user) {
+        updateFollowing(res?.data?.id);
+        // followuser(res?.data?.id);
+      }
     });
   };
   console.log(user);
+  console.log("userid", res?.data?.id);
   //
   if (res) {
     if (res.data) {
@@ -70,13 +77,23 @@ export default function Username(pathname: any) {
             </div>
             <main className="mt-4">
               <Bio bio={data.bio} />
-              <Button
-                variant="default"
-                className="w-full rounded-lg mt-9"
-                onClick={handleFollowUser}
-              >
-                Follow
-              </Button>
+              {user?.followingIds.includes(res?.data?.id) ? (
+                <Button
+                  variant="outline"
+                  className="w-full rounded-lg mt-9"
+                  onClick={handleFollowUser}
+                >
+                  Unfollow
+                </Button>
+              ) : (
+                <Button
+                  variant="default"
+                  className="w-full rounded-lg mt-9"
+                  onClick={handleFollowUser}
+                >
+                  Follow
+                </Button>
+              )}
             </main>
           </Profilelayout>
         </Globallayout>
