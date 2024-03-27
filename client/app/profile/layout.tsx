@@ -28,7 +28,7 @@ export default function Profile({ children }: Profile) {
           variant="self"
         />
         <aside>
-          <AvatarForm className="w-20 h-20" />
+          <AvatarForm className="w-20 h-20" variant="self" />
         </aside>
       </div>
       <main className="mt-4">

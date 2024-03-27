@@ -117,6 +117,7 @@ export const logoutUser = (req: Request, res: Response) => {
 // follow user
 export const followUser = async (req: Request, res: Response) => {
   const { userid } = req.params;
+  console.log("userid", userid);
   try {
     const currUserId = req?.user?.id;
     const userToModify = await findUserById(userid);
