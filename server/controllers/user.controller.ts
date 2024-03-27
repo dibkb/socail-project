@@ -2,16 +2,16 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import { prisma } from "../index";
 import { generateAndSetCookie } from "../utils/helpers";
-import { findUserById } from "../utils/get-user";
+import { findUserById, findUserByUsername } from "../utils/get-user";
 import {
   updateUserFollowers,
   updateUserFollowing,
 } from "../utils/following-user";
 import { updateUserFields } from "../utils/update-user";
 export const getuserProfile = async (req: Request, res: Response) => {
-  const { userid } = req.params;
+  const { username } = req.params;
   try {
-    const user = await findUserById(userid);
+    const user = await findUserByUsername(username);
     return res.status(200).json(user);
   } catch (error: any) {
     return res.status(500).json({
