@@ -1,4 +1,3 @@
-"use client";
 import { Globallayout, Profilelayout } from "@/components/layouts/main";
 import NameUsername, {
   Bio,
@@ -8,16 +7,12 @@ import AvatarForm from "@/components/home/avatar";
 import { getUserInfo } from "@/actions/getuser";
 import { usePathname } from "next/navigation";
 // server actions
-export default function Username() {
-  const pathname = usePathname();
-  const username = pathname.split("/").pop()?.split("@")[1];
-  console.log(username);
-  useEffect(() => {
-    if (username)
-      getUserInfo(username)
-        .then((res) => res.data)
-        .then((data) => console.log(data));
-  }, [username]);
+export default async function Username(pathname: any) {
+  const cleanedUsername = pathname.params.username
+    .split("/")
+    .pop()
+    ?.split("%40")[1];
+  const res = await getUserInfo(cleanedUsername);
   return (
     <Globallayout>
       <Profilelayout>

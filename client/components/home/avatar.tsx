@@ -1,3 +1,4 @@
+"use client";
 import React, { ReactNode } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUserStore } from "@/src/providers/user-store-provider";
