@@ -5,15 +5,22 @@ import NameUsername, {
 } from "@/components/profile/profile-page/name-username";
 import React from "react";
 import AvatarForm from "@/components/home/avatar";
-import { useUserStore } from "@/src/providers/user-store-provider";
+import { getUserInfo } from "@/actions/getuser";
+import { usePathname } from "next/navigation";
+// server actions
 export default function Username() {
-  const { user } = useUserStore((state) => state);
+  const pathname = usePathname();
+  const username = pathname.split("/").pop()?.split("@")[1];
+  console.log(username);
   return (
     <Globallayout>
       <Profilelayout>
-        {" "}
         <div className="flex items-center justify-between">
-          <NameUsername name={"The Stiletto Stoner"} username={"imshotta"} />
+          <NameUsername
+            name={"The Stiletto Stoner"}
+            username={"imshotta"}
+            variant="others"
+          />
           <aside>
             <AvatarForm className="w-20 h-20" />
           </aside>

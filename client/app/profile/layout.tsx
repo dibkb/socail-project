@@ -22,7 +22,11 @@ export default function Profile({ children }: Profile) {
   return (
     <Profilelayout>
       <div className="flex items-center justify-between">
-        <NameUsername name={user?.name} username={user?.username} />
+        <NameUsername
+          name={user?.name}
+          username={user?.username}
+          variant="self"
+        />
         <aside>
           <AvatarForm className="w-20 h-20" />
         </aside>
