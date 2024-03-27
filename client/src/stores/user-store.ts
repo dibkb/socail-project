@@ -27,7 +27,8 @@ export type UserState = {
 
 export type UserActions = {
   setUser: (user: User) => void;
-  updateFollowing: (userid: string) => void;
+  addFollowing: (userid: string) => void;
+  removeFollowing: (userid: string) => void;
 };
 
 export type UserStore = UserState & UserActions;
@@ -46,7 +47,7 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
       (set, get) => ({
         ...initState,
         setUser: (user) => set({ user }),
-        updateFollowing: (userid: string) =>
+        addFollowing: (userid: string) =>
           set((state) => {
             if (
               state.user &&
@@ -71,6 +72,29 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
               },
             };
           }),
+        removeFollowing: (userid: string) => {
+          set((state) => {
+            if (
+              state.user &&
+              state.user.followingIds &&
+              state.user.followingIds.length > 0
+            ) {
+              return {
+                ...state,
+                user: {
+                  ...skeletonUser,
+                  ...state.user,
+                  followingIds: [
+                    ...state.user.followerIds.filter((id) => id !== userid),
+                  ],
+                },
+              };
+            }
+            return {
+              ...state,
+            };
+          });
+        },
       }),
       {
         name: "user-profile",

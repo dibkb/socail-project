@@ -15,7 +15,9 @@ import { update } from "@/actions/update";
 import { redirect } from "next/navigation";
 // server actions
 export default function Username(pathname: any) {
-  const { user, updateFollowing } = useUserStore((state) => state);
+  const { user, addFollowing, removeFollowing } = useUserStore(
+    (state) => state
+  );
   const cleanedUsername = pathname.params.username
     .split("/")
     .pop()
@@ -46,13 +48,20 @@ export default function Username(pathname: any) {
     e.preventDefault();
     startTransition(async () => {
       if (res?.data?.id && user) {
-        updateFollowing(res?.data?.id);
+        addFollowing(res?.data?.id);
         // followuser(res?.data?.id);
       }
     });
   };
-  console.log(user);
-  console.log("userid", res?.data?.id);
+  const handleUnfollowUser = (e: any) => {
+    e.preventDefault();
+    startTransition(async () => {
+      if (res?.data?.id && user) {
+        removeFollowing(res?.data?.id);
+        // followuser(res?.data?.id);
+      }
+    });
+  };
   //
   if (res) {
     if (res.data) {
@@ -81,7 +90,7 @@ export default function Username(pathname: any) {
                 <Button
                   variant="outline"
                   className="w-full rounded-lg mt-9"
-                  onClick={handleFollowUser}
+                  onClick={handleUnfollowUser}
                 >
                   Unfollow
                 </Button>
