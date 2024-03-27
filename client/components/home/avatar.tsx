@@ -6,28 +6,30 @@ interface AvatarForm {
   className?: HTMLElement["className"];
   children?: ReactNode;
   imgurl?: string;
+  name?: string;
+  variant: "self" | "others";
 }
-const AvatarForm = ({ className, children, imgurl }: AvatarForm) => {
+const AvatarForm = ({
+  className,
+  children,
+  imgurl,
+  name,
+  variant,
+}: AvatarForm) => {
   const { user } = useUserStore((state) => state);
-  if (imgurl) {
+  if (variant === "others") {
     return (
       <Avatar className={className}>
-        <AvatarImage
-          src={imgurl || "https://github.com/shadcn.png"}
-          alt={imgurl}
-        />
-        <AvatarFallback>CN</AvatarFallback>
+        <AvatarImage src={imgurl} alt={name} />
+        <AvatarFallback>{name?.charAt(0)}</AvatarFallback>
         {children}
       </Avatar>
     );
   } else {
     return (
       <Avatar className={className}>
-        <AvatarImage
-          src={user?.profilePic || "https://github.com/shadcn.png"}
-          alt={user?.name}
-        />
-        <AvatarFallback>CN</AvatarFallback>
+        <AvatarImage src={user?.profilePic} alt={user?.name} />
+        <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
         {children}
       </Avatar>
     );

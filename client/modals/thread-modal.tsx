@@ -111,11 +111,11 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
           >
             {threads.map((thread) => (
               <React.Fragment key={thread.id + thread.value}>
-                <AvatarForm />
+                <AvatarForm variant="self" />
                 <span className="border" style={styles.vertical} />
               </React.Fragment>
             ))}
-            <AvatarForm className="inline-block h-6 w-6" />
+            <AvatarForm className="inline-block h-6 w-6" variant="self" />
           </div>
           <div className="flex flex-col" style={styles.rightContainer}>
             {threads.map((thread) => (
