@@ -6,6 +6,8 @@ import { getUserPosts } from "@/actions/getUserPosts";
 import { useUserStore } from "@/src/providers/user-store-provider";
 import Spinner from "@/components/svg/spinner";
 import { Post, Threads } from "@/types";
+import Posts from "@/components/posts/post";
+import { threadId } from "worker_threads";
 const Profilepage = () => {
   const { user } = useUserStore((state) => state);
   const [openThreadModal, setOpenThreadModal] = useState(false);
@@ -21,20 +23,22 @@ const Profilepage = () => {
   }, [user]);
   const BODY =
     posts === "loading" ? (
-      <div className="flex items-center">
+      <div className="flex items-center justify-center">
         <Spinner />
         <p>Loading</p>
       </div>
     ) : posts.posts.length === 0 ? (
-      <Button onClick={() => setOpenThreadModal(true)} variant={"outline"}>
-        Start your first thread
-      </Button>
+      <div className="flex items-center justify-center">
+        <Button onClick={() => setOpenThreadModal(true)} variant={"outline"}>
+          Start your first thread
+        </Button>
+      </div>
     ) : (
-      "Posts"
+      user && <Posts threads={posts.threads} posts={posts.posts} user={user} />
     );
 
   return (
-    <div className="grow flex items-center justify-center">
+    <div className="grow">
       {!openThreadModal && BODY}
       {openThreadModal && <ThreadformPortal setOpen={setOpenThreadModal} />}
     </div>
