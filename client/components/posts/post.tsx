@@ -13,27 +13,31 @@ const Posts = ({ posts, threads, user }: Posts) => {
   if (!user) return;
   return (
     <div>
-      {threads.map((th) => (
-        <main
-          key={th.id}
-          className="flex flex-col gap-3 border-b border-stone-800 pb-6"
-        >
-          {/* Thread body */}
-          <Singlepost post={th} username={user?.username} />
-          {posts
-            .filter((post) => post.threadId === th.id)
-            .map((post, id) => (
-              <Singlepost
-                key={post.id}
-                post={post}
-                username={user?.username}
-                trail={
-                  id === posts.filter((post) => post.threadId === th.id).length
-                }
-              />
-            ))}
-        </main>
-      ))}
+      {[...threads, ...posts.filter((post) => post.threadId === null)].map(
+        (th: Post | (Threads & { threadId?: never })) => (
+          <main
+            key={th.id}
+            className="flex flex-col gap-3 border-b border-stone-800 py-6"
+          >
+            {/* Thread body */}
+            <Singlepost
+              post={th}
+              username={user?.username}
+              trail={th.threadId !== null}
+            />
+            {posts
+              .filter((post) => post.threadId === th.id)
+              .map((post, id) => (
+                <Singlepost
+                  key={post.id}
+                  post={post}
+                  username={user?.username}
+                  //   trail={}
+                />
+              ))}
+          </main>
+        )
+      )}
     </div>
   );
 };

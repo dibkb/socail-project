@@ -10,7 +10,7 @@ interface Singlepost {
   username: string;
   trail?: boolean;
 }
-export const Singlepost = ({ post, username, trail = true }: Singlepost) => {
+export const Singlepost = ({ post, username, trail = false }: Singlepost) => {
   return (
     <div className="flex gap-2">
       <div className="flex flex-col items-center gap-1">
