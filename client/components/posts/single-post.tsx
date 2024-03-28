@@ -5,7 +5,7 @@ import Avatar from "../home/avatar";
 import { Post, Threads } from "@/types";
 import { IoMdHeartEmpty } from "react-icons/io";
 interface Singlepost {
-  post: (Post & { title?: never }) | (Threads & { body?: never });
+  post: Post;
   username: string;
   trail?: boolean;
   children: React.ReactNode;
@@ -32,7 +32,7 @@ export const Singlepost = ({
             <p>{calulateTime(post.createdAt).unit}</p>
           </span>
         </span>
-        <p className="text-base">{post.title || post.body}</p>
+        <p className="text-base">{post.body}</p>
         <span className="mt-3 flex gap-3 items-center">{children}</span>
       </div>
     </div>

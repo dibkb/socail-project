@@ -50,8 +50,6 @@ model Post {
 
 model Thread {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  title     String
-  image     String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

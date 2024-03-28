@@ -11,8 +11,6 @@ export interface Post {
 }
 export interface Threads {
   id: string;
-  title: string;
   createdAt: string;
   updatedAt: string;
-  image?: string;
 }

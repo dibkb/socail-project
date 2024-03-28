@@ -38,13 +38,20 @@ export const createThreads = async (req: Request, res: Response) => {
       const uploadedResponse = await cloudinary.uploader.upload(image);
       imgurl = uploadedResponse.secure_url;
     }
+    const createFirstPost = await prisma.post.create({
+      data: {
+        body: title,
+        userId: user.id,
+        image: imgurl,
+      },
+    });
     const updatedPosts = await createPosts(posts, user.id);
     const createdThread = await prisma.thread.create({
       data: {
-        title: title,
-        image: imgurl,
         posts: {
-          connect: updatedPosts.map((post: any) => ({ id: post.id })),
+          connect: [createFirstPost, ...updatedPosts].map((post: any) => ({
+            id: post.id,
+          })),
         },
       },
       include: {
