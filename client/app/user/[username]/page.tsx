@@ -10,7 +10,7 @@ import Spinner from "@/components/svg/spinner";
 import { User } from "@/src/stores/user-store";
 import { Button } from "@/components/ui/button";
 import { useUserStore } from "@/src/providers/user-store-provider";
-import { followuser } from "@/actions/followuser";
+import { followuser, unFollowUser } from "@/actions/followuser";
 import { update } from "@/actions/update";
 import { redirect } from "next/navigation";
 // server actions
@@ -62,7 +62,11 @@ export default function Username(pathname: any) {
     startTransition(async () => {
       if (res?.data?.id && user) {
         removeFollowing(res?.data?.id);
-        // unfollow(res?.data?.id);
+        unFollowUser(res?.data?.id).then((res) => {
+          if (res.error) {
+            addFollowing(res?.data?.id);
+          }
+        });
       }
     });
   };
