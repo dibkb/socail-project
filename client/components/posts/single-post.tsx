@@ -4,13 +4,18 @@ import React from "react";
 import Avatar from "../home/avatar";
 import { Post, Threads } from "@/types";
 import { IoMdHeartEmpty } from "react-icons/io";
-import { FaRegComment } from "react-icons/fa6";
 interface Singlepost {
   post: (Post & { title?: never }) | (Threads & { body?: never });
   username: string;
   trail?: boolean;
+  children: React.ReactNode;
 }
-export const Singlepost = ({ post, username, trail = false }: Singlepost) => {
+export const Singlepost = ({
+  post,
+  username,
+  trail = false,
+  children,
+}: Singlepost) => {
   return (
     <div className="flex gap-2">
       <div className="flex flex-col items-center gap-1">
@@ -27,11 +32,8 @@ export const Singlepost = ({ post, username, trail = false }: Singlepost) => {
             <p>{calulateTime(post.createdAt).unit}</p>
           </span>
         </span>
-        <p>{post.title || post.body}</p>
-        <span className="mt-3 flex gap-3 items-center">
-          <IoMdHeartEmpty className="h-5 w-5 cursor-pointer" />
-          <FaRegComment className="h-4 w-4 cursor-pointer" />
-        </span>
+        <p className="text-base">{post.title || post.body}</p>
+        <span className="mt-3 flex gap-3 items-center">{children}</span>
       </div>
     </div>
   );
