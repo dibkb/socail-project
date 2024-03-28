@@ -11,7 +11,7 @@ interface Singlepost {
 }
 export const Singlethread = ({ post, username }: Singlepost) => {
   return (
-    <>
+    <div className="flex gap-2">
       <div className="flex flex-col items-center gap-1">
         <Avatar variant="self" />
         <span className="grow border border-stone-800 bg-stone-800"></span>
@@ -30,6 +30,6 @@ export const Singlethread = ({ post, username }: Singlepost) => {
           <FaRegComment className="h-4 w-4 cursor-pointer" />
         </span>
       </div>
-    </>
+    </div>
   );
 };

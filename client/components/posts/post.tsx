@@ -14,9 +14,21 @@ const Posts = ({ posts, threads, user }: Posts) => {
   return (
     <div>
       {threads.map((th) => (
-        <main key={th.id} className="flex gap-2 border-b border-stone-800 pb-3">
+        <main
+          key={th.id}
+          className="flex flex-col gap-3 border-b border-stone-800 pb-3"
+        >
           {/* Thread body */}
           <Singlethread post={th} username={user?.username} />
+          {posts
+            .filter((post) => post.threadId === th.id)
+            .map((post) => (
+              <Singlethread
+                key={post.id}
+                post={post}
+                username={user?.username}
+              />
+            ))}
         </main>
       ))}
     </div>
