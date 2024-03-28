@@ -49,7 +49,11 @@ export default function Username(pathname: any) {
     startTransition(async () => {
       if (res?.data?.id && user) {
         addFollowing(res?.data?.id);
-        // followuser(res?.data?.id);
+        followuser(res?.data?.id).then((res) => {
+          if (res.error) {
+            removeFollowing(res?.data?.id);
+          }
+        });
       }
     });
   };
@@ -58,7 +62,7 @@ export default function Username(pathname: any) {
     startTransition(async () => {
       if (res?.data?.id && user) {
         removeFollowing(res?.data?.id);
-        // followuser(res?.data?.id);
+        // unfollow(res?.data?.id);
       }
     });
   };

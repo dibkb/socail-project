@@ -8,6 +8,10 @@ import {
   updateUserFollowing,
 } from "../utils/following-user";
 import { updateUserFields } from "../utils/update-user";
+import {
+  removeUserFollowers,
+  removeUserFollowing,
+} from "../utils/unfollowing-user";
 export const getuserProfile = async (req: Request, res: Response) => {
   const { username } = req.params;
   try {
@@ -119,7 +123,6 @@ export const logoutUser = (req: Request, res: Response) => {
 // follow user
 export const followUser = async (req: Request, res: Response) => {
   const { userid } = req.params;
-  console.log("userid", userid);
   try {
     const currUserId = req?.user?.id;
     const userToModify = await findUserById(userid);
@@ -135,6 +138,32 @@ export const followUser = async (req: Request, res: Response) => {
     await updateUserFollowers({
       userId: userToModify?.id,
       followerToAdd: currUserId,
+    });
+    return res.status(200).json({
+      message: `Following updated for ${currUserId}`,
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
+// un-follow user
+export const unFollowUser = async (req: Request, res: Response) => {
+  const { userid } = req.params;
+  try {
+    const currUserId = req?.user?.id;
+    const userToModify = await findUserById(userid);
+    //   throw errors
+    if (currUserId === userToModify?.id) {
+      throw new Error("Cannot un-follow self");
+    }
+    if (!userToModify || !currUserId) throw new Error("No userid provided");
+    await removeUserFollowing({
+      userId: currUserId,
+      followingIdToRemove: userToModify?.id,
+    });
+    await removeUserFollowers({
+      userId: userToModify?.id,
+      followerToRemove: currUserId,
     });
     return res.status(200).json({
       message: `Following updated for ${currUserId}`,
