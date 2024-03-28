@@ -8,13 +8,16 @@ import { FaRegComment } from "react-icons/fa6";
 interface Singlepost {
   post: (Post & { title?: never }) | (Threads & { body?: never });
   username: string;
+  trail?: boolean;
 }
-export const Singlethread = ({ post, username }: Singlepost) => {
+export const Singlepost = ({ post, username, trail = true }: Singlepost) => {
   return (
     <div className="flex gap-2">
       <div className="flex flex-col items-center gap-1">
         <Avatar variant="self" />
-        <span className="grow border border-stone-800 bg-stone-800"></span>
+        {trail && (
+          <span className="grow border border-stone-800 bg-stone-800"></span>
+        )}
       </div>
       <div className="flex flex-col grow">
         <span className="flex items-center justify-between w-full">

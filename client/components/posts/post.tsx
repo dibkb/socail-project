@@ -1,7 +1,7 @@
 import { Post, Threads } from "@/types";
 import React from "react";
 import { User } from "@/src/stores/user-store";
-import { Singlethread } from "./single-post";
+import { Singlepost } from "./single-post";
 interface Posts {
   posts: Post[];
   threads: Threads[];
@@ -16,17 +16,20 @@ const Posts = ({ posts, threads, user }: Posts) => {
       {threads.map((th) => (
         <main
           key={th.id}
-          className="flex flex-col gap-3 border-b border-stone-800 pb-3"
+          className="flex flex-col gap-3 border-b border-stone-800 pb-6"
         >
           {/* Thread body */}
-          <Singlethread post={th} username={user?.username} />
+          <Singlepost post={th} username={user?.username} />
           {posts
             .filter((post) => post.threadId === th.id)
-            .map((post) => (
-              <Singlethread
+            .map((post, id) => (
+              <Singlepost
                 key={post.id}
                 post={post}
                 username={user?.username}
+                trail={
+                  id === posts.filter((post) => post.threadId === th.id).length
+                }
               />
             ))}
         </main>
