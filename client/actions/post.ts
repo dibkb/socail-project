@@ -11,22 +11,7 @@ export const createPost = async (data: post) => {
   const { threads, imgs } = data;
   try {
     if (!(threads || imgs)) throw new Error("No empty fields");
-    //   SINGLE POST
-    if (threads.length === 1 || imgs.length === 1) {
-      const serverResponse = await axios.post(
-        `${SERVER}/api/v1/posts/create`,
-        {
-          body: threads[0].value,
-          ...(imgs[0] !== undefined && { image: imgs[0].data }),
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      return {
-        data: serverResponse.data,
-      };
-    } else {
+    if (threads.length > 1 || imgs.length > 1) {
       //   THREADS POST
       const body = makeThreadsBody({ threads, imgs });
       const serverResponse = await axios.post(
@@ -39,6 +24,23 @@ export const createPost = async (data: post) => {
       return {
         data: serverResponse.data,
       };
+    } else {
+      //   SINGLE POST
+      {
+        const serverResponse = await axios.post(
+          `${SERVER}/api/v1/posts/create`,
+          {
+            body: threads[0].value,
+            ...(imgs[0] !== undefined && { image: imgs[0].data }),
+          },
+          {
+            withCredentials: true,
+          }
+        );
+        return {
+          data: serverResponse.data,
+        };
+      }
     }
   } catch (error: any) {
     return {

@@ -39,6 +39,7 @@ export const createThreads = async (req: Request, res: Response) => {
       imgurl = uploadedResponse.secure_url;
     }
     const updatedPosts = await createPosts(posts, user.id);
+    console.log("updatedPosts", { updatedPosts });
     const createdThread = await prisma.thread.create({
       data: {
         title: title,
@@ -97,6 +98,7 @@ export const getAllPosts = async (req: Request, res: Response) => {
   }
 };
 const createPosts = async (posts: any[], userid: string): Promise<any> => {
+  console.log("userid", userid);
   const createdPosts = [];
   for (const post of posts) {
     let imgurl = "";
