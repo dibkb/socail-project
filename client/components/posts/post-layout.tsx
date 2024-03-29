@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Singlepost } from "./single-post";
 import { IoMdHeartEmpty } from "react-icons/io";
 import Avatar from "../home/avatar";
@@ -8,8 +8,8 @@ import { Post, Comment } from "@/types";
 import useSWR, { SWRResponse } from "swr";
 import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
 import { commentFetcher } from "@/actions/getComment";
-import { calulateTime } from "@/utils/calulate-time-passed";
 import Postcomment from "./post-comment";
+import { addComment } from "@/actions/addComment";
 interface PostLayout {
   post: Post;
   username: string;
@@ -20,7 +20,24 @@ interface ErrorData {
 const PostLayout = ({ post, username }: PostLayout) => {
   const { data, error, isLoading }: SWRResponse<Comment[], ErrorData, boolean> =
     useSWR(post?.id, commentFetcher);
+  const [body, setBody] = useState<string>("");
+  const [comment, setComment] = useState<Comment[]>([]);
   const [openComments, setOpenComments] = useState<boolean>(false);
+  const handleSubmitComment = (e: React.FormEvent) => {
+    e.preventDefault();
+    setBody("");
+    addComment(post.id, body)
+      .then((res) => {
+        setComment((prev) => [...prev, res.data]);
+      })
+      .catch(() => {})
+      .finally(() => {});
+  };
+  useEffect(() => {
+    if (data) {
+      setComment(data);
+    }
+  }, [data]);
   return (
     <main className="flex flex-col gap-3 py-3 select-none">
       <Singlepost post={post} username={username} trail={true}>
@@ -33,10 +50,10 @@ const PostLayout = ({ post, username }: PostLayout) => {
                 className="hover:underline"
                 onClick={() => setOpenComments(true)}
               >
-                {data?.length} comments
+                {comment?.length} comments
               </p>
             </span>
-            {data?.length ? (
+            {comment?.length ? (
               <span onClick={() => setOpenComments((prev) => !prev)}>
                 {openComments ? (
                   <RiArrowDropUpLine className="rounded-full hover:bg-stone-800 h-5 w-5 text-stone-500 cursor-pointer" />
@@ -51,7 +68,7 @@ const PostLayout = ({ post, username }: PostLayout) => {
           {/* comments */}
           <div className="mt-2">
             {openComments &&
-              data?.map((com) => <Postcomment key={com.id} com={com} />)}
+              comment?.map((com) => <Postcomment key={com.id} com={com} />)}
           </div>
         </div>
       </Singlepost>
@@ -62,8 +79,11 @@ const PostLayout = ({ post, username }: PostLayout) => {
           <form
             action=""
             className="rounded-md border-none grow flex items-center pr-3"
+            onSubmit={handleSubmitComment}
           >
             <Input
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
               type="text"
               placeholder="Add a comment"
               className="border-transparent text-xs group focus-visible:border-stone-500 focus-visible:ring-0 grow"

@@ -15,6 +15,12 @@ export const createComment = async (req: Request, res: Response) => {
         userId: user.id,
         postId: postid,
       },
+      select: {
+        id: true,
+        body: true,
+        userId: true,
+        createdAt: true,
+      },
     });
     return res.status(201).json(createdComment);
   } catch (error: any) {
