@@ -34,6 +34,7 @@ export const getComments = async (req: Request, res: Response) => {
         id: true,
         body: true,
         userId: true,
+        createdAt: true,
       },
     });
     return res.status(200).json(allComments);

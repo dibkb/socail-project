@@ -8,6 +8,7 @@ import { Post, Comment } from "@/types";
 import useSWR, { SWRResponse } from "swr";
 import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
 import { commentFetcher } from "@/actions/getComment";
+import { calulateTime } from "@/utils/calulate-time-passed";
 interface PostLayout {
   post: Post;
   username: string;
@@ -46,10 +47,17 @@ const PostLayout = ({ post, username }: PostLayout) => {
           <div className="mt-2">
             {openComments &&
               data?.map((com) => (
-                <span key={com.id} className="rounded-full flex">
+                <span
+                  key={com.id}
+                  className="rounded-full flex justify-between"
+                >
                   <p className="text-sm font-medium text-stone-400">
                     {com.body}
                   </p>
+                  <span className="flex items-center gap-1 text-stone-600 text-xs font-medium">
+                    <p>{calulateTime(com.createdAt).quantity}</p>
+                    <p>{calulateTime(com.createdAt).unit}</p>
+                  </span>
                 </span>
               ))}
           </div>
