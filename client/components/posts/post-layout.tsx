@@ -10,6 +10,7 @@ import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
 import { commentFetcher } from "@/actions/getComment";
 import Postcomment from "./post-comment";
 import { addComment } from "@/actions/addComment";
+import { sortbyTimeAscending } from "@/utils/sort-by-time";
 interface PostLayout {
   post: Post;
   username: string;
@@ -68,7 +69,9 @@ const PostLayout = ({ post, username }: PostLayout) => {
           {/* comments */}
           <div className="mt-2">
             {openComments &&
-              comment?.map((com) => <Postcomment key={com.id} com={com} />)}
+              comment
+                .sort(sortbyTimeAscending)
+                ?.map((com) => <Postcomment key={com.id} com={com} />)}
           </div>
         </div>
       </Singlepost>
