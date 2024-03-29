@@ -39,6 +39,7 @@ const PostLayout = ({ post, username }: PostLayout) => {
       setComment(data);
     }
   }, [data]);
+  console.log(post);
   return (
     <main className="flex flex-col gap-3 py-3 select-none">
       <Singlepost post={post} username={username} trail={true}>

@@ -16,7 +16,6 @@ export async function updateUserFollowing({
     if (!user) {
       throw new Error("User not found");
     }
-
     if (user.followingIds.includes(followingIdToAdd)) {
       throw new Error("FollowingId already exists");
     }

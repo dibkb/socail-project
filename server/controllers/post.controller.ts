@@ -63,6 +63,7 @@ export const createThreads = async (req: Request, res: Response) => {
     res.status(500).json({ message: error.message });
   }
 };
+
 export const getPost = async (req: Request, res: Response) => {
   const { user } = req;
   const { postid } = req.params;
@@ -72,6 +73,33 @@ export const getPost = async (req: Request, res: Response) => {
       where: { id: postid },
     });
     return res.status(201).json(post);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
+export const likePost = async (req: Request, res: Response) => {
+  const { user } = req;
+  const { postid } = req.params;
+  if (!user) throw new Error("No user provided");
+  try {
+    const post = await prisma.post.findUnique({
+      where: { id: postid },
+    });
+    if (!post) throw new Error("Post id not valid");
+    if (post?.likedIds.includes(user.id)) {
+      throw new Error("User already liked the post");
+    }
+    const updatedUser = await prisma.post.update({
+      where: {
+        id: postid,
+      },
+      data: {
+        likedIds: {
+          push: user.id,
+        },
+      },
+    });
+    return res.status(201).json(updatedUser);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
@@ -104,7 +132,6 @@ export const getAllPosts = async (req: Request, res: Response) => {
   }
 };
 const createPosts = async (posts: any[], userid: string): Promise<any> => {
-  console.log("userid", userid);
   const createdPosts = [];
   for (const post of posts) {
     let imgurl = "";
