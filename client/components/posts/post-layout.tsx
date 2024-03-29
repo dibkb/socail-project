@@ -1,12 +1,12 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Singlepost } from "./single-post";
 import { IoMdHeartEmpty } from "react-icons/io";
 import Avatar from "../home/avatar";
 import { Input } from "../ui/input";
-import { Post } from "@/types";
+import { Post, Comment } from "@/types";
 import useSWR, { SWRResponse } from "swr";
-import { RiArrowDropDownLine } from "react-icons/ri";
+import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
 import { commentFetcher } from "@/actions/getComment";
 interface PostLayout {
   post: Post;
@@ -18,8 +18,10 @@ interface ErrorData {
 const PostLayout = ({ post, username }: PostLayout) => {
   const { data, error, isLoading }: SWRResponse<Comment[], ErrorData, boolean> =
     useSWR(post?.id, commentFetcher);
+  const [openComments, setOpenComments] = useState<boolean>(false);
+  console.log(data);
   return (
-    <main className="flex flex-col gap-3 py-3">
+    <main className="flex flex-col gap-3 py-3 select-none">
       <Singlepost post={post} username={username} trail={true}>
         <div className="w-full">
           <IoMdHeartEmpty className="h-5 w-5 cursor-pointer" />
@@ -28,7 +30,28 @@ const PostLayout = ({ post, username }: PostLayout) => {
               <p>1 like</p>
               <p className="hover:underline">{data?.length} comments</p>
             </span>
-            <RiArrowDropDownLine className="rounded-full hover:bg-stone-800 h-5 w-5 text-stone-500 cursor-pointer " />
+            {data?.length ? (
+              <span onClick={() => setOpenComments((prev) => !prev)}>
+                {openComments ? (
+                  <RiArrowDropUpLine className="rounded-full hover:bg-stone-800 h-5 w-5 text-stone-500 cursor-pointer" />
+                ) : (
+                  <RiArrowDropDownLine className="rounded-full hover:bg-stone-800 h-5 w-5 text-stone-500 cursor-pointer" />
+                )}
+              </span>
+            ) : (
+              ""
+            )}
+          </div>
+          {/* comments */}
+          <div className="mt-2">
+            {openComments &&
+              data?.map((com) => (
+                <span key={com.id} className="rounded-full flex">
+                  <p className="text-sm font-medium text-stone-400">
+                    {com.body}
+                  </p>
+                </span>
+              ))}
           </div>
         </div>
       </Singlepost>
