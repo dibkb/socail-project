@@ -21,8 +21,7 @@ const Profilepage = () => {
     }
     user?.id && getuser(user.id).then((result) => setPosts(result.data));
   }, [user]);
-  console.log("user", user);
-  if (!user?.id) redirect("/auth/login");
+  if (!user) return <Spinner />;
   const BODY =
     posts === "loading" ? (
       <div className="flex items-center justify-center">

@@ -11,16 +11,13 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import Avatar from "../home/avatar";
 import { Input } from "../ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import { FaRegComment } from "react-icons/fa6";
-import { redirect } from "next/navigation";
 interface Posts {
   posts: Post[];
   threads: Threads[];
   user?: User;
 }
 const Posts = ({ posts, threads, user }: Posts) => {
-  if (!user) return redirect("/auth/login");
-
+  if (!user?.id) return;
   const filterByThreadid = (id: string) => {
     return posts.filter((p) => p.threadId === id);
   };
@@ -53,14 +50,13 @@ const Posts = ({ posts, threads, user }: Posts) => {
                       <Avatar variant={"self"} />
                       <form
                         action=""
-                        className="hover:border hover:border-stone-500 rounded-md border border-transparent grow flex items-center pr-3"
+                        className="rounded-md border-none grow flex items-center pr-3"
                       >
                         <Input
                           type="text"
                           placeholder="Add a comment"
-                          className="border-none text-xs focus-visible:ring-0 grow"
+                          className="border-transparent text-xs group focus-visible:border-stone-500 focus-visible:ring-0 grow"
                         />
-                        <FaRegComment className="h-4 w-4 cursor-pointer" />
                       </form>
                     </span>
                   </span>
@@ -89,12 +85,12 @@ const Posts = ({ posts, threads, user }: Posts) => {
                         <Avatar variant={"self"} />
                         <form
                           action=""
-                          className="hover:border hover:border-stone-500 rounded-md border border-transparent grow flex items-center pr-3"
+                          className="rounded-md border-none grow flex items-center pr-3"
                         >
                           <Input
                             type="text"
                             placeholder="Add a comment"
-                            className="border-none text-xs focus-visible:ring-0 grow"
+                            className="border-transparent text-xs group focus-visible:border-stone-500 focus-visible:ring-0 grow"
                           />
                         </form>
                       </span>

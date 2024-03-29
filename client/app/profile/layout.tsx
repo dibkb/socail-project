@@ -11,6 +11,7 @@ import NameUsername, {
   Bio,
 } from "@/components/profile/profile-page/name-username";
 import { Profilelayout } from "@/components/layouts/main";
+import Spinner from "@/components/svg/spinner";
 interface Profile {
   children: React.ReactNode;
 }
@@ -18,7 +19,7 @@ export default function Profile({ children }: Profile) {
   const { user } = useUserStore((state) => state);
   const [openEditModal, setOpenEditModal] = useState(false);
   const pathname = usePathname();
-  if (!user) return redirect("/auth/login");
+  if (!user) return <Spinner />;
   return (
     <Profilelayout>
       <div className="flex items-center justify-between">
