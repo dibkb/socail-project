@@ -42,11 +42,7 @@ const Posts = ({ posts, threads, user }: Posts) => {
             return (
               <main key={th.id} className="py-4 border-b border-stone-700">
                 <main key={th.id} className="flex flex-col gap-3 py-3">
-                  <Singlepost
-                    post={th}
-                    username={user?.username}
-                    trail={th.threadId !== null}
-                  >
+                  <Singlepost post={th} username={user?.username} trail={true}>
                     <IoMdHeartEmpty className="h-5 w-5 cursor-pointer" />
                   </Singlepost>
                   <span className="flex items-center justify-between text-xs cursor-pointer text-stone-600 font-medium">
@@ -79,10 +75,9 @@ const Posts = ({ posts, threads, user }: Posts) => {
                     <Singlepost
                       post={th}
                       username={user?.username}
-                      trail={th.threadId !== null}
+                      trail={true}
                     >
                       <IoMdHeartEmpty className="h-5 w-5 cursor-pointer" />
-                      {/* <FaRegComment className="h-4 w-4 cursor-pointer" /> */}
                     </Singlepost>
                     <span className="flex items-center justify-between text-xs cursor-pointer text-stone-600 font-medium">
                       <span className="flex gap-2  text-stone-200 w-full">
