@@ -9,6 +9,7 @@ import useSWR, { SWRResponse } from "swr";
 import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
 import { commentFetcher } from "@/actions/getComment";
 import { calulateTime } from "@/utils/calulate-time-passed";
+import Postcomment from "./post-comment";
 interface PostLayout {
   post: Post;
   username: string;
@@ -20,7 +21,6 @@ const PostLayout = ({ post, username }: PostLayout) => {
   const { data, error, isLoading }: SWRResponse<Comment[], ErrorData, boolean> =
     useSWR(post?.id, commentFetcher);
   const [openComments, setOpenComments] = useState<boolean>(false);
-  console.log(data);
   return (
     <main className="flex flex-col gap-3 py-3 select-none">
       <Singlepost post={post} username={username} trail={true}>
@@ -51,31 +51,7 @@ const PostLayout = ({ post, username }: PostLayout) => {
           {/* comments */}
           <div className="mt-2">
             {openComments &&
-              data?.map((com) => (
-                <main
-                  key={com.id}
-                  className="rounded-full flex justify-between"
-                >
-                  <div className="flex items-center grow gap-2">
-                    <span className="flex items-center gap-2">
-                      <Avatar
-                        variant={"others"}
-                        imgurl={""}
-                        name="N"
-                        className="h-8 w-8"
-                      />
-                      <p className="text-sm">dib.kb</p>
-                    </span>
-                    <p className="text-sm font-medium text-stone-400 grow">
-                      {com.body}
-                    </p>
-                    <span className="flex items-center gap-1 text-stone-600 text-xs font-medium">
-                      <p>{calulateTime(com.createdAt).quantity}</p>
-                      <p>{calulateTime(com.createdAt).unit}</p>
-                    </span>
-                  </div>
-                </main>
-              ))}
+              data?.map((com) => <Postcomment key={com.id} com={com} />)}
           </div>
         </div>
       </Singlepost>
