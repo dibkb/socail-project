@@ -1,9 +1,9 @@
+"use client";
 import { calulateTime } from "@/utils/calulate-time-passed";
-
 import React from "react";
 import Avatar from "../home/avatar";
-import { Post, Threads } from "@/types";
-import { IoMdHeartEmpty } from "react-icons/io";
+import { Post } from "@/types";
+import Image from "next/image";
 interface Singlepost {
   post: Post;
   username: string;
@@ -33,6 +33,9 @@ export const Singlepost = ({
           </span>
         </span>
         <p className="text-base">{post.body}</p>
+        {post.image && (
+          <Image src={post.image} alt={post.body} width={400} height={450} />
+        )}
         <span className="mt-3 flex gap-3 items-center">{children}</span>
       </div>
     </div>

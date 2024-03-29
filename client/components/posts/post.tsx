@@ -34,7 +34,11 @@ const Posts = ({ posts, threads, user }: Posts) => {
           <TabsTrigger value="shread">Shread posts</TabsTrigger>
         </TabsList>
         <TabsContent value="single">
-          {[...posts.filter((post) => post.threadId === null)].map((th) => {
+          {[
+            ...posts
+              .sort(sortbyTimeAscending)
+              .filter((post) => post.threadId === null),
+          ].map((th) => {
             return (
               <main key={th.id} className="py-4 border-b border-stone-700">
                 <main key={th.id} className="flex flex-col gap-3 py-3">
