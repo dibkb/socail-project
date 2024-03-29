@@ -13,6 +13,7 @@ import { useUserStore } from "@/src/providers/user-store-provider";
 import { followuser, unFollowUser } from "@/actions/followuser";
 import { update } from "@/actions/update";
 import { redirect } from "next/navigation";
+import Loading from "@/components/guides/loading";
 // server actions
 export default function Username(pathname: any) {
   const { user, addFollowing, removeFollowing } = useUserStore(
@@ -120,11 +121,6 @@ export default function Username(pathname: any) {
       return "Some error occured";
     }
   } else {
-    return (
-      <div className="flex items-center justify-center">
-        <Spinner />
-        <p>Loading</p>
-      </div>
-    );
+    return <Loading />;
   }
 }

@@ -8,6 +8,7 @@ import Spinner from "@/components/svg/spinner";
 import { Post, Threads } from "@/types";
 import Posts from "@/components/posts/post";
 import { redirect } from "next/navigation";
+import Loading from "@/components/guides/loading";
 const Profilepage = () => {
   const { user } = useUserStore((state) => state);
   const [openThreadModal, setOpenThreadModal] = useState(false);
@@ -21,7 +22,7 @@ const Profilepage = () => {
     }
     user?.id && getuser(user.id).then((result) => setPosts(result.data));
   }, [user]);
-  if (!user) return <Spinner />;
+  if (!user) return <Loading />;
   const BODY =
     posts === "loading" ? (
       <div className="flex items-center justify-center">
