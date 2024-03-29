@@ -23,6 +23,26 @@ export const getuserProfile = async (req: Request, res: Response) => {
     });
   }
 };
+export const getSmallUser = async (req: Request, res: Response) => {
+  const { userid } = req.params;
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userid,
+      },
+      select: {
+        id: true,
+        username: true,
+        profilePic: true,
+      },
+    });
+    return res.status(200).json(user);
+  } catch (error: any) {
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 // signup user
 export const signupUser = async (req: Request, res: Response) => {
   try {
@@ -50,7 +70,7 @@ export const signupUser = async (req: Request, res: Response) => {
     });
     if (newUser) {
       // lgoin user
-      const cookie = generateAndSetCookie({
+      generateAndSetCookie({
         userid: newUser.id,
         res,
       });

@@ -29,7 +29,12 @@ const PostLayout = ({ post, username }: PostLayout) => {
           <div className="flex justify-between items-center mt-4">
             <span className="flex items-center text-xs gap-3 text-stone-500 font-medium cursor-pointer">
               <p>1 like</p>
-              <p className="hover:underline">{data?.length} comments</p>
+              <p
+                className="hover:underline"
+                onClick={() => setOpenComments(true)}
+              >
+                {data?.length} comments
+              </p>
             </span>
             {data?.length ? (
               <span onClick={() => setOpenComments((prev) => !prev)}>
@@ -47,18 +52,29 @@ const PostLayout = ({ post, username }: PostLayout) => {
           <div className="mt-2">
             {openComments &&
               data?.map((com) => (
-                <span
+                <main
                   key={com.id}
                   className="rounded-full flex justify-between"
                 >
-                  <p className="text-sm font-medium text-stone-400">
-                    {com.body}
-                  </p>
-                  <span className="flex items-center gap-1 text-stone-600 text-xs font-medium">
-                    <p>{calulateTime(com.createdAt).quantity}</p>
-                    <p>{calulateTime(com.createdAt).unit}</p>
-                  </span>
-                </span>
+                  <div className="flex items-center grow gap-2">
+                    <span className="flex items-center gap-2">
+                      <Avatar
+                        variant={"others"}
+                        imgurl={""}
+                        name="N"
+                        className="h-8 w-8"
+                      />
+                      <p className="text-sm">dib.kb</p>
+                    </span>
+                    <p className="text-sm font-medium text-stone-400 grow">
+                      {com.body}
+                    </p>
+                    <span className="flex items-center gap-1 text-stone-600 text-xs font-medium">
+                      <p>{calulateTime(com.createdAt).quantity}</p>
+                      <p>{calulateTime(com.createdAt).unit}</p>
+                    </span>
+                  </div>
+                </main>
               ))}
           </div>
         </div>
