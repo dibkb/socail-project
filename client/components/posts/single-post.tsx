@@ -34,7 +34,15 @@ export const Singlepost = ({
         </span>
         <p className="text-base">{post.body}</p>
         {post.image && (
-          <Image src={post.image} alt={post.body} width={400} height={450} />
+          <div className="flex items-center justify-between mt-3">
+            <Image
+              src={post.image}
+              alt={post.body}
+              width={500}
+              height={500}
+              className="rounded-lg"
+            />
+          </div>
         )}
         <span className="mt-3 flex gap-3 items-center">{children}</span>
       </div>
