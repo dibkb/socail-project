@@ -38,7 +38,11 @@ const Posts = ({ posts, threads, user }: Posts) => {
             .map((th) => {
               return (
                 <main key={th.id} className="py-4 border-b border-stone-700">
-                  <PostLayout post={th} username={user?.username} />
+                  <PostLayout
+                    post={th}
+                    username={user?.username}
+                    userid={user.id}
+                  />
                 </main>
               );
             })}
@@ -49,7 +53,12 @@ const Posts = ({ posts, threads, user }: Posts) => {
             <main key={id} className="py-4 border-b border-stone-700">
               {i.posts.sort(sortbyTimeDescending).map((th: Post) => {
                 return (
-                  <PostLayout key={th.id} post={th} username={user?.username} />
+                  <PostLayout
+                    key={th.id}
+                    post={th}
+                    username={user?.username}
+                    userid={user.id}
+                  />
                 );
               })}
             </main>

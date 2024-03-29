@@ -11,10 +11,12 @@ import {
 import { getThread } from "../controllers/thread.controller";
 
 const router = express.Router();
-router.post("/create", verifyRoute, createPost);
-router.post("/threads/create", verifyRoute, createThreads);
+// ------------GET--------------
 router.get("/threads/:threadId", verifyRoute, getThread);
 router.get("/:postid", verifyRoute, getPost);
-router.get("/like/:postid", verifyRoute, likePost);
 router.get("/all/:userid", verifyRoute, getAllPosts);
+// ------------POST--------------
+router.post("/like/:postid", verifyRoute, likePost);
+router.post("/create", verifyRoute, createPost);
+router.post("/threads/create", verifyRoute, createThreads);
 export default router;

@@ -1,7 +1,7 @@
 "use client";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Singlepost } from "./single-post";
-import { IoMdHeartEmpty } from "react-icons/io";
+import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
 import Avatar from "../home/avatar";
 import { Input } from "../ui/input";
 import { Post, Comment } from "@/types";
@@ -11,18 +11,28 @@ import { commentFetcher } from "@/actions/getComment";
 import Postcomment from "./post-comment";
 import { addComment } from "@/actions/addComment";
 import { sortbyTimeAscending } from "@/utils/sort-by-time";
+import { likePost } from "@/actions/likePost";
+import { number } from "zod";
 interface PostLayout {
   post: Post;
   username: string;
+  userid: string;
 }
 interface ErrorData {
   message: string;
 }
-const PostLayout = ({ post, username }: PostLayout) => {
+const PostLayout = ({ post, username, userid }: PostLayout) => {
   const { data, error, isLoading }: SWRResponse<Comment[], ErrorData, boolean> =
     useSWR(post?.id, commentFetcher);
   const [body, setBody] = useState<string>("");
   const [comment, setComment] = useState<Comment[]>([]);
+  const [likes, setLikes] = useState<{
+    number: number;
+    liked: boolean;
+  }>({
+    number: post.likedIds.length,
+    liked: post.likedIds.includes(userid),
+  });
   const [openComments, setOpenComments] = useState<boolean>(false);
   const handleSubmitComment = (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,20 +44,39 @@ const PostLayout = ({ post, username }: PostLayout) => {
       .catch(() => {})
       .finally(() => {});
   };
+  const postLikeHandler = () => {
+    likePost(post.id)
+      .then((res) => {
+        if (res.data) {
+          setLikes((prev) => ({
+            number: prev.number + 1,
+            liked: true,
+          }));
+        }
+      })
+      .catch(() => {})
+      .finally(() => {});
+  };
   useEffect(() => {
     if (data) {
       setComment(data);
     }
   }, [data]);
-  console.log(post);
   return (
     <main className="flex flex-col gap-3 py-3 select-none">
       <Singlepost post={post} username={username} trail={true}>
         <div className="w-full">
-          <IoMdHeartEmpty className="h-5 w-5 cursor-pointer" />
+          {likes.liked ? (
+            <IoMdHeart className="h-5 w-5 cursor-pointer text-red-600" />
+          ) : (
+            <IoMdHeartEmpty
+              className="h-5 w-5 cursor-pointer"
+              onClick={postLikeHandler}
+            />
+          )}
           <div className="flex justify-between items-center mt-4">
             <span className="flex items-center text-xs gap-3 text-stone-500 font-medium cursor-pointer">
-              <p>1 like</p>
+              <p>{likes.number} like</p>
               <p
                 className="hover:underline"
                 onClick={() => setOpenComments(true)}
@@ -68,7 +97,7 @@ const PostLayout = ({ post, username }: PostLayout) => {
             )}
           </div>
           {/* comments */}
-          <div className="mt-2">
+          <div className="mt-2 flex flex-col gap-1">
             {openComments &&
               comment
                 .sort(sortbyTimeAscending)
