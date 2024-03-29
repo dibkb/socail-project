@@ -30,6 +30,11 @@ export const getComments = async (req: Request, res: Response) => {
       where: {
         postId: postid,
       },
+      select: {
+        id: true,
+        body: true,
+        userId: true,
+      },
     });
     return res.status(200).json(allComments);
   } catch (error: any) {

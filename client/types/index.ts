@@ -14,3 +14,8 @@ export interface Threads {
   createdAt: string;
   updatedAt: string;
 }
+export interface Comment {
+  id: string;
+  body: string;
+  userId: string;
+}

@@ -1,14 +1,20 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import { Singlepost } from "./single-post";
 import { IoMdHeartEmpty } from "react-icons/io";
 import Avatar from "../home/avatar";
 import { Input } from "../ui/input";
 import { Post } from "@/types";
+import useSWR from "swr";
+import axios from "axios";
+import { commentFetcher } from "@/actions/getComment";
 interface PostLayout {
   post: Post;
   username: string;
 }
 const PostLayout = ({ post, username }: PostLayout) => {
+  const [comments, setComments] = useState<Comment[]>([]);
+  const { data, error, isLoading } = useSWR(post?.id, commentFetcher);
   return (
     <main className="flex flex-col gap-3 py-3">
       <Singlepost post={post} username={username} trail={true}>

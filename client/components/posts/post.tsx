@@ -2,14 +2,10 @@
 import { Post, Threads } from "@/types";
 import React from "react";
 import { User } from "@/src/stores/user-store";
-import { Singlepost } from "./single-post";
 import {
   sortbyTimeAscending,
   sortbyTimeDescending,
 } from "@/utils/sort-by-time";
-import { IoMdHeartEmpty } from "react-icons/io";
-import Avatar from "../home/avatar";
-import { Input } from "../ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import PostLayout from "./post-layout";
 interface Posts {
@@ -35,22 +31,22 @@ const Posts = ({ posts, threads, user }: Posts) => {
           <TabsTrigger value="shread">Shread posts</TabsTrigger>
         </TabsList>
         <TabsContent value="single">
-          {[
-            ...posts
-              .sort(sortbyTimeAscending)
-              .filter((post) => post.threadId === null),
-          ].map((th) => {
-            return (
-              <main key={th.id} className="py-4 border-b border-stone-700">
-                <PostLayout post={th} username={user?.username} />
-              </main>
-            );
-          })}
+          {/* Single-posts */}
+          {posts
+            .sort(sortbyTimeAscending)
+            .filter((post) => post.threadId === null)
+            .map((th) => {
+              return (
+                <main key={th.id} className="py-4 border-b border-stone-700">
+                  <PostLayout post={th} username={user?.username} />
+                </main>
+              );
+            })}
         </TabsContent>
         <TabsContent value="shread">
+          {/* Thread-posts */}
           {threadsWithPosts.map((i, id) => (
             <main key={id} className="py-4 border-b border-stone-700">
-              {/* Thread body */}
               {i.posts.sort(sortbyTimeDescending).map((th: Post) => {
                 return (
                   <PostLayout key={th.id} post={th} username={user?.username} />
