@@ -11,7 +11,7 @@ import { commentFetcher } from "@/actions/getComment";
 import Postcomment from "./post-comment";
 import { addComment } from "@/actions/addComment";
 import { sortbyTimeAscending } from "@/utils/sort-by-time";
-import { likePost } from "@/actions/likePost";
+import { likePost, unlikePost } from "@/actions/likePost";
 import { number } from "zod";
 interface PostLayout {
   post: Post;
@@ -57,6 +57,19 @@ const PostLayout = ({ post, username, userid }: PostLayout) => {
       .catch(() => {})
       .finally(() => {});
   };
+  const postUnlikeHandler = () => {
+    unlikePost(post.id)
+      .then((res) => {
+        if (res.data) {
+          setLikes((prev) => ({
+            number: prev.number - 1,
+            liked: false,
+          }));
+        }
+      })
+      .catch(() => {})
+      .finally(() => {});
+  };
   useEffect(() => {
     if (data) {
       setComment(data);
@@ -67,7 +80,10 @@ const PostLayout = ({ post, username, userid }: PostLayout) => {
       <Singlepost post={post} username={username} trail={true}>
         <div className="w-full">
           {likes.liked ? (
-            <IoMdHeart className="h-5 w-5 cursor-pointer text-red-600" />
+            <IoMdHeart
+              className="h-5 w-5 cursor-pointer text-red-600"
+              onClick={postUnlikeHandler}
+            />
           ) : (
             <IoMdHeartEmpty
               className="h-5 w-5 cursor-pointer"

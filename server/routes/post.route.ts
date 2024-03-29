@@ -7,6 +7,7 @@ import {
   getAllPosts,
   getPost,
   likePost,
+  unlikePost,
 } from "../controllers/post.controller";
 import { getThread } from "../controllers/thread.controller";
 
@@ -17,6 +18,7 @@ router.get("/:postid", verifyRoute, getPost);
 router.get("/all/:userid", verifyRoute, getAllPosts);
 // ------------POST--------------
 router.post("/like/:postid", verifyRoute, likePost);
+router.post("/unlike/:postid", verifyRoute, unlikePost);
 router.post("/create", verifyRoute, createPost);
 router.post("/threads/create", verifyRoute, createThreads);
 export default router;

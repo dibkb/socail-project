@@ -104,6 +104,33 @@ export const likePost = async (req: Request, res: Response) => {
     res.status(500).json({ message: error.message });
   }
 };
+export const unlikePost = async (req: Request, res: Response) => {
+  const { user } = req;
+  const { postid } = req.params;
+  if (!user) throw new Error("No user provided");
+  try {
+    const post = await prisma.post.findUnique({
+      where: { id: postid },
+    });
+    if (!post) throw new Error("Post id not valid");
+    if (!post?.likedIds.includes(user.id)) {
+      throw new Error("User not liked the post");
+    }
+    const updatedPost = await prisma.post.update({
+      where: {
+        id: postid,
+      },
+      data: {
+        likedIds: {
+          set: post.likedIds.filter((id) => id !== user.id),
+        },
+      },
+    });
+    return res.status(201).json(updatedPost);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
 export const getAllPosts = async (req: Request, res: Response) => {
   const { user } = req;
   const { userid } = req.params;

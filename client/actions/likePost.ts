@@ -18,3 +18,21 @@ export const likePost = async (postid: string) => {
     };
   }
 };
+export const unlikePost = async (postid: string) => {
+  try {
+    const serverResponse = await axios.post(
+      `${SERVER}/api/v1/posts/unlike/${postid}`,
+      {},
+      {
+        withCredentials: true,
+      }
+    );
+    return {
+      data: serverResponse.data,
+    };
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
+};
