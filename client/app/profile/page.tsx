@@ -7,7 +7,7 @@ import { useUserStore } from "@/src/providers/user-store-provider";
 import Spinner from "@/components/svg/spinner";
 import { Post, Threads } from "@/types";
 import Posts from "@/components/posts/post";
-import { threadId } from "worker_threads";
+import { redirect } from "next/navigation";
 const Profilepage = () => {
   const { user } = useUserStore((state) => state);
   const [openThreadModal, setOpenThreadModal] = useState(false);
@@ -21,6 +21,8 @@ const Profilepage = () => {
     }
     user?.id && getuser(user.id).then((result) => setPosts(result.data));
   }, [user]);
+  console.log("user", user);
+  if (!user?.id) redirect("/auth/login");
   const BODY =
     posts === "loading" ? (
       <div className="flex items-center justify-center">

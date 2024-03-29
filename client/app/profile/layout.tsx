@@ -5,7 +5,7 @@ import { useUserStore } from "@/src/providers/user-store-provider";
 import tabs from "../../utils/profile-tabs";
 import Link from "next/link";
 import React, { useState } from "react";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import EditProfilePortal from "@/modals/edit-profile-modal";
 import NameUsername, {
   Bio,
@@ -18,7 +18,7 @@ export default function Profile({ children }: Profile) {
   const { user } = useUserStore((state) => state);
   const [openEditModal, setOpenEditModal] = useState(false);
   const pathname = usePathname();
-  if (!user) return null;
+  if (!user) return redirect("/auth/login");
   return (
     <Profilelayout>
       <div className="flex items-center justify-between">

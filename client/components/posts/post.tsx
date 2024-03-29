@@ -12,13 +12,14 @@ import Avatar from "../home/avatar";
 import { Input } from "../ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { FaRegComment } from "react-icons/fa6";
+import { redirect } from "next/navigation";
 interface Posts {
   posts: Post[];
   threads: Threads[];
   user?: User;
 }
 const Posts = ({ posts, threads, user }: Posts) => {
-  if (!user) return;
+  if (!user) return redirect("/auth/login");
 
   const filterByThreadid = (id: string) => {
     return posts.filter((p) => p.threadId === id);
