@@ -4,13 +4,14 @@ import { Button } from "@/components/ui/button";
 import { useUserStore } from "@/src/providers/user-store-provider";
 import tabs from "../../utils/profile-tabs";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { redirect, usePathname } from "next/navigation";
 import EditProfilePortal from "@/modals/edit-profile-modal";
 import NameUsername, {
   Bio,
 } from "@/components/profile/profile-page/name-username";
 import { Profilelayout } from "@/components/layouts/main";
+import Loading from "@/components/guides/loading";
 interface Profile {
   children: React.ReactNode;
 }
@@ -18,7 +19,23 @@ export default function Profile({ children }: Profile) {
   const { user } = useUserStore((state) => state);
   const [openEditModal, setOpenEditModal] = useState(false);
   const pathname = usePathname();
-  if (!user) return redirect("/auth/login");
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    // Component is mounted
+    setIsMounted(true);
+    // Cleanup function to handle component unmounting
+    return () => {
+      // Component is unmounted
+      setIsMounted(false);
+    };
+  }, []);
+  if (!user) {
+    if (isMounted) {
+      return redirect("auth/login");
+    } else {
+      return <Loading />;
+    }
+  }
   return (
     <Profilelayout>
       <div className="flex items-center justify-between">
