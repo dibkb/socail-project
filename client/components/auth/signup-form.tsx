@@ -18,10 +18,11 @@ import CardContainer from "./card-container";
 import { register } from "@/actions/signup";
 import { AlertDestructive } from "../errors/error-message";
 import { useRouter } from "next/navigation";
+import { Successmessage } from "../succes/success-message";
 
 const SignupForm = () => {
   const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<boolean>(true);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const form = useForm<z.infer<typeof signinSchema>>({
@@ -35,11 +36,11 @@ const SignupForm = () => {
   });
   const onSubmit = (values: z.infer<typeof signinSchema>) => {
     setError("");
-    setSuccess("");
+    setSuccess(false);
     startTransition(() => {
       register(values).then((res) => {
         if (res.data) {
-          router.push("/auth/login");
+          setSuccess(true);
         }
         if (res.error) {
           setError(res.error);
@@ -145,6 +146,13 @@ const SignupForm = () => {
                     message={error}
                     onCloseHandler={() => setError(undefined)}
                   />
+                ) : (
+                  ""
+                )}
+                {success ? (
+                  <Successmessage onCloseHandler={() => setSuccess(false)}>
+                    You can now login
+                  </Successmessage>
                 ) : (
                   ""
                 )}

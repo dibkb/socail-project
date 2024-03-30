@@ -49,12 +49,12 @@ export const signupUser = async (req: Request, res: Response) => {
     const { name, email, username, password } = req.body;
     const user = await prisma.user.findUnique({
       where: {
-        email,
+        username,
       },
     });
     if (user) {
       return res.status(400).json({
-        error: "Email already in use ",
+        error: "Username already in use ",
       });
     }
     const salt = await bcrypt.genSalt(10);
