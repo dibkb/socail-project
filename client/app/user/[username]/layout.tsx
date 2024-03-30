@@ -3,7 +3,7 @@ import { Globallayout, Profilelayout } from "@/components/layouts/main";
 import NameUsername, {
   Bio,
 } from "@/components/profile/profile-page/name-username";
-import tabs from "../../../utils/profile-tabs";
+import { userProfileTabs as tabs } from "../../../utils/profile-tabs";
 import Link from "next/link";
 import React, { useEffect, useState, useTransition } from "react";
 import AvatarForm from "@/components/home/avatar";
@@ -24,7 +24,6 @@ export default function Username({ children }: Username) {
     (state) => state
   );
   const cleanedUsername = getCleanedusername(pathname);
-  console.log(cleanedUsername);
   if (cleanedUsername === user?.username) {
     redirect("/profile");
   }
@@ -119,10 +118,10 @@ export default function Username({ children }: Username) {
             <div className="flex justify-between my-6 font-medium text-stone-600">
               {tabs.map(({ name, link }) => {
                 // active
-                if (pathname === link) {
+                if (pathname.split("/").pop() === name.toLowerCase()) {
                   return (
                     <Link
-                      href={link}
+                      href={`/user/@${cleanedUsername}/${link}`}
                       key={name}
                       className="cursor-pointer text-stone-100 border-b border-stone-100 pb-4 grow text-center"
                     >
@@ -133,7 +132,7 @@ export default function Username({ children }: Username) {
                 // in-active
                 return (
                   <Link
-                    href={link}
+                    href={`/user/@${cleanedUsername}/${link}`}
                     key={name}
                     className="cursor-pointer border-b-[.5px] border-stone-600 pb-4 grow text-center"
                   >

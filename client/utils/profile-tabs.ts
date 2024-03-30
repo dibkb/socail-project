@@ -16,3 +16,21 @@ const __ = [
   },
 ];
 export default __;
+
+export const userProfileTabs = [
+  {
+    name: "Shreads",
+    id: 0,
+    link: "",
+  },
+  {
+    name: "Replies",
+    id: 1,
+    link: "replies",
+  },
+  {
+    name: "Reposts",
+    id: 2,
+    link: "reposts",
+  },
+];
