@@ -79,80 +79,82 @@ const PostLayout = React.memo(({ post, username, userid }: PostLayout) => {
       setComment(data);
     }
   }, [data]);
-  return (
-    <main className="flex flex-col gap-3 py-3 select-none">
-      <Singlepost post={post} username={username} trail={true}>
-        <div className="w-full">
-          {likes.liked ? (
-            <IoMdHeart
-              className="h-5 w-5 cursor-pointer text-red-600"
-              onClick={postUnlikeHandler}
-            />
-          ) : (
-            <IoMdHeartEmpty
-              className="h-5 w-5 cursor-pointer"
-              onClick={postLikeHandler}
-            />
-          )}
-          <div className="flex justify-between items-center mt-4">
-            <span className="flex items-center text-xs gap-3 text-stone-500 font-medium cursor-pointer">
-              <p>{likes.number} like</p>
-              <p
-                className="hover:underline"
-                onClick={() => setOpenComments(true)}
-              >
-                {comment?.length} comments
-              </p>
-            </span>
-            {comment?.length ? (
-              <span onClick={() => setOpenComments((prev) => !prev)}>
-                {openComments ? (
-                  <RiArrowDropUpLine className="rounded-full hover:bg-stone-800 h-5 w-5 text-stone-500 cursor-pointer" />
-                ) : (
-                  <RiArrowDropDownLine className="rounded-full hover:bg-stone-800 h-5 w-5 text-stone-500 cursor-pointer" />
-                )}
-              </span>
+  if (!userLoading && userProfile)
+    return (
+      <main className="flex flex-col gap-3 py-3 select-none">
+        <Singlepost post={post} user={userProfile} trail={true}>
+          <div className="w-full">
+            {likes.liked ? (
+              <IoMdHeart
+                className="h-5 w-5 cursor-pointer text-red-600"
+                onClick={postUnlikeHandler}
+              />
             ) : (
-              ""
+              <IoMdHeartEmpty
+                className="h-5 w-5 cursor-pointer"
+                onClick={postLikeHandler}
+              />
             )}
+            <div className="flex justify-between items-center mt-4">
+              <span className="flex items-center text-xs gap-3 text-stone-500 font-medium cursor-pointer">
+                <p>{likes.number} like</p>
+                <p
+                  className="hover:underline"
+                  onClick={() => setOpenComments(true)}
+                >
+                  {comment?.length} comments
+                </p>
+              </span>
+              {comment?.length ? (
+                <span onClick={() => setOpenComments((prev) => !prev)}>
+                  {openComments ? (
+                    <RiArrowDropUpLine className="rounded-full hover:bg-stone-800 h-5 w-5 text-stone-500 cursor-pointer" />
+                  ) : (
+                    <RiArrowDropDownLine className="rounded-full hover:bg-stone-800 h-5 w-5 text-stone-500 cursor-pointer" />
+                  )}
+                </span>
+              ) : (
+                ""
+              )}
+            </div>
+            {/* comments */}
+            <div className="mt-2 flex flex-col gap-1">
+              {openComments &&
+                userProfile &&
+                comment
+                  .sort(sortbyTimeAscending)
+                  ?.map((com) => (
+                    <Postcomment key={com.id} com={com} user={userProfile} />
+                  ))}
+            </div>
           </div>
-          {/* comments */}
-          <div className="mt-2 flex flex-col gap-1">
-            {openComments &&
-              userProfile &&
-              comment
-                .sort(sortbyTimeAscending)
-                ?.map((com) => (
-                  <Postcomment key={com.id} com={com} user={userProfile} />
-                ))}
-          </div>
-        </div>
-      </Singlepost>
-      <span className="flex items-center justify-between text-xs cursor-pointer text-stone-600 font-medium">
-        {/* type-comment */}
-        <span className="flex gap-2  text-stone-200 w-full">
-          <Avatar
-            variant={"others"}
-            imgurl={userProfile?.profilePic}
-            name={userProfile?.username}
-          />
-          <form
-            action=""
-            className="rounded-md border-none grow flex items-center pr-3"
-            onSubmit={handleSubmitComment}
-          >
-            <Input
-              value={body}
-              onChange={(e) => setBody(e.target.value)}
-              type="text"
-              placeholder="Add a comment"
-              className="border-transparent text-xs group focus-visible:border-stone-500 focus-visible:ring-0 grow"
+        </Singlepost>
+        <span className="flex items-center justify-between text-xs cursor-pointer text-stone-600 font-medium">
+          {/* type-comment */}
+          <span className="flex gap-2  text-stone-200 w-full">
+            <Avatar
+              variant={"others"}
+              imgurl={userProfile?.profilePic}
+              name={userProfile?.username}
             />
-          </form>
+            <form
+              action=""
+              className="rounded-md border-none grow flex items-center pr-3"
+              onSubmit={handleSubmitComment}
+            >
+              <Input
+                value={body}
+                onChange={(e) => setBody(e.target.value)}
+                type="text"
+                placeholder="Add a comment"
+                className="border-transparent text-xs group focus-visible:border-stone-500 focus-visible:ring-0 grow"
+              />
+            </form>
+          </span>
         </span>
-      </span>
-    </main>
-  );
+      </main>
+    );
+  else "Loading";
 });
 
 export default PostLayout;

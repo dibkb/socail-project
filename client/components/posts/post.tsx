@@ -13,7 +13,7 @@ interface Posts {
   threads: Threads[];
   user?: User | { id: string; username: string };
 }
-const Posts = ({ posts, threads, user }: Posts) => {
+const Posts = React.memo(({ posts, threads, user }: Posts) => {
   if (!user?.id) return;
   const filterByThreadid = (id: string) => {
     return posts.filter((p) => p.threadId === id);
@@ -37,20 +37,20 @@ const Posts = ({ posts, threads, user }: Posts) => {
             .filter((post) => post.threadId === null)
             .map((th) => {
               return (
-                <main key={th.id} className="py-4 border-b border-stone-700">
+                <div key={th.id} className="py-4 border-b border-stone-700">
                   <PostLayout
                     post={th}
                     username={user?.username}
                     userid={user?.id}
                   />
-                </main>
+                </div>
               );
             })}
         </TabsContent>
         <TabsContent value="shread">
           {/* Thread-posts */}
           {threadsWithPosts.map((i, id) => (
-            <main key={id} className="py-4 border-b border-stone-700">
+            <div key={id} className="py-4 border-b border-stone-700">
               {i.posts.sort(sortbyTimeDescending).map((th: Post) => {
                 return (
                   <PostLayout
@@ -61,12 +61,12 @@ const Posts = ({ posts, threads, user }: Posts) => {
                   />
                 );
               })}
-            </main>
+            </div>
           ))}
         </TabsContent>
       </Tabs>
     </div>
   );
-};
+});
 
 export default Posts;
