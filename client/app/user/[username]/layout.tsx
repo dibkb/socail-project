@@ -12,17 +12,19 @@ import { User } from "@/src/stores/user-store";
 import { Button } from "@/components/ui/button";
 import { useUserStore } from "@/src/providers/user-store-provider";
 import { followuser, unFollowUser } from "@/actions/followuser";
-import { update } from "@/actions/update";
 import { redirect, usePathname } from "next/navigation";
 import Loading from "@/components/guides/loading";
-
 // server actions
-export default function Username() {
+interface Username {
+  children: React.ReactNode;
+}
+export default function Username({ children }: Username) {
   const pathname = usePathname();
   const { user, addFollowing, removeFollowing } = useUserStore(
     (state) => state
   );
-  const cleanedUsername = pathname.split("/@").pop();
+  const cleanedUsername = getCleanedusername(pathname);
+  console.log(cleanedUsername);
   if (cleanedUsername === user?.username) {
     redirect("/profile");
   }
@@ -72,7 +74,7 @@ export default function Username() {
       }
     });
   };
-  //
+  //  //
   if (res) {
     if (res.data) {
       const data = res.data;
@@ -81,21 +83,21 @@ export default function Username() {
           <Profilelayout>
             <div className="flex items-center justify-between">
               <NameUsername
-                name={data.name}
-                username={data.username}
+                name={data?.name}
+                username={data?.username}
                 variant="others"
               />
               <aside>
                 <AvatarForm
                   className="w-20 h-20"
-                  imgurl={data.profilePic}
-                  name={data.name}
+                  imgurl={data?.profilePic}
+                  name={data?.name}
                   variant="others"
                 />
               </aside>
             </div>
             <main className="mt-4">
-              <Bio bio={data.bio} />
+              <Bio bio={data?.bio} />
               {user?.followingIds.includes(res?.data?.id) ? (
                 <Button
                   variant="outline"
@@ -140,7 +142,7 @@ export default function Username() {
                 );
               })}
             </div>
-            {/* {children} */}
+            {children}
           </Profilelayout>
         </Globallayout>
       );
@@ -150,5 +152,14 @@ export default function Username() {
     }
   } else {
     return <Loading />;
+  }
+}
+
+function getCleanedusername(name: string) {
+  const res = name.split("/@").pop();
+  if (res?.split("/").length) {
+    return res?.split("/")[0];
+  } else {
+    return res;
   }
 }
