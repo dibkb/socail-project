@@ -55,6 +55,7 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
     }).then((res) => {
       if (res.data) {
         // DATA
+        console.log(res.data);
         setUser(res.data);
       }
       if (res.error) {

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import { prisma } from "../index";
+import { v2 as cloudinary } from "cloudinary";
 import { generateAndSetCookie } from "../utils/helpers";
 import { findUserById, findUserByUsername } from "../utils/get-user";
 import {
@@ -200,12 +201,21 @@ export const updateUser = async (req: Request, res: Response) => {
     if (!(name || username || bio || profilePic)) {
       throw new Error("No fields provided");
     }
+    let newprofileUrl = "";
+    if (profilePic) {
+      if (user.profilePic) {
+        await cloudinary.uploader.destroy(user.profilePic);
+      }
+      const newprofile = await cloudinary.uploader.upload(profilePic);
+      newprofileUrl = newprofile.secure_url;
+      console.log(newprofileUrl);
+    }
     const updatedUser = await updateUserFields({
       id: user.id,
       name: name || user.name,
       username: username || user.username,
       bio: bio || user.bio,
-      profilePic: profilePic || user.profilePic,
+      profilePic: newprofileUrl || user.profilePic,
     });
     return res.status(202).json(updatedUser);
   } catch (error: any) {
