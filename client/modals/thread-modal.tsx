@@ -16,6 +16,7 @@ import ThreadsInput from "@/components/threads-modal/threads-input";
 import { createPost } from "@/actions/post";
 import { cn } from "@/lib/utils";
 import Spinner from "@/components/svg/spinner";
+import { AlertDestructive } from "@/components/errors/error-message";
 interface ThreadformPortal {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
@@ -33,6 +34,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
   const [imgUrl, setImgUrl] = useState<imgurl[]>([{ id: 0, data: "" }]);
   const [loading, setLoading] = useState({ state: false, error: "" });
   const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<boolean>(false);
   const handleAddInput = () => {
     setThreads((prev) => [...prev, { id: prev.length, value: "" }]);
   };
@@ -98,7 +100,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
   );
   const body = (
     <div className="flex flex-col gap-y-6 relative">
-      <h3 className="text-center text-sm font-semibold">New Thread</h3>
+      <h3 className="text-center text-sm font-semibold">New Shread</h3>
       <form
         className="border bg-stone-800"
         style={styles.container}
@@ -129,6 +131,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
                 username={user?.username}
                 setImgUrl={setImgUrl}
                 imgUrl={imgUrl}
+                setErrorHandler={() => setError(true)}
               ></ThreadsInput>
             ))}
             {threads[threads.length - 1].value.length === 0 ? (
@@ -158,6 +161,14 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
         </main>
         {footer}
       </form>
+      {error ? (
+        <AlertDestructive
+          message="Only images are allowed"
+          onCloseHandler={() => setError(false)}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
   const loadingFrame = (
