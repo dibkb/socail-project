@@ -7,7 +7,6 @@ import { useUserStore } from "@/src/providers/user-store-provider";
 import Spinner from "@/components/svg/spinner";
 import { Post, Threads } from "@/types";
 import Posts from "@/components/posts/post";
-import { redirect } from "next/navigation";
 import Loading from "@/components/guides/loading";
 const Profilepage = () => {
   const { user } = useUserStore((state) => state);

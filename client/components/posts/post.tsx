@@ -11,7 +11,7 @@ import PostLayout from "./post-layout";
 interface Posts {
   posts: Post[];
   threads: Threads[];
-  user?: User;
+  user?: User | { id: string; username: string };
 }
 const Posts = ({ posts, threads, user }: Posts) => {
   if (!user?.id) return;
@@ -41,7 +41,7 @@ const Posts = ({ posts, threads, user }: Posts) => {
                   <PostLayout
                     post={th}
                     username={user?.username}
-                    userid={user.id}
+                    userid={user?.id}
                   />
                 </main>
               );
@@ -57,7 +57,7 @@ const Posts = ({ posts, threads, user }: Posts) => {
                     key={th.id}
                     post={th}
                     username={user?.username}
-                    userid={user.id}
+                    userid={user?.id}
                   />
                 );
               })}

@@ -5,6 +5,7 @@ import {
   createPost,
   createThreads,
   getAllPosts,
+  getAllPostsByUsername,
   getPost,
   likePost,
   unlikePost,
@@ -16,6 +17,7 @@ const router = express.Router();
 router.get("/threads/:threadId", verifyRoute, getThread);
 router.get("/:postid", verifyRoute, getPost);
 router.get("/all/:userid", verifyRoute, getAllPosts);
+router.get("/all/username/:username", verifyRoute, getAllPostsByUsername);
 // ------------POST--------------
 router.post("/like/:postid", verifyRoute, likePost);
 router.post("/unlike/:postid", verifyRoute, unlikePost);

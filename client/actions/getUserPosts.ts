@@ -17,3 +17,20 @@ export async function getUserPosts(userid: string) {
     };
   }
 }
+export async function getUserPostsByUsername(username: string) {
+  try {
+    const serverResponse = await axios.get(
+      `${SERVER}/api/v1/posts/all/username/${username}`,
+      {
+        withCredentials: true,
+      }
+    );
+    return {
+      data: serverResponse.data,
+    };
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
+}

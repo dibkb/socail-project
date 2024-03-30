@@ -5,7 +5,7 @@ import NameUsername, {
 } from "@/components/profile/profile-page/name-username";
 import { userProfileTabs as tabs } from "../../../utils/profile-tabs";
 import Link from "next/link";
-import React, { useEffect, useState, useTransition } from "react";
+import React, { cloneElement, useEffect, useState, useTransition } from "react";
 import AvatarForm from "@/components/home/avatar";
 import { getUserInfo } from "@/actions/getuser";
 import { User } from "@/src/stores/user-store";
@@ -19,10 +19,10 @@ interface Username {
   children: React.ReactNode;
 }
 export default function Username({ children }: Username) {
-  const pathname = usePathname();
   const { user, addFollowing, removeFollowing } = useUserStore(
     (state) => state
   );
+  const pathname = usePathname();
   const cleanedUsername = getCleanedusername(pathname);
   if (cleanedUsername === user?.username) {
     redirect("/profile");
@@ -46,34 +46,30 @@ export default function Username({ children }: Username) {
     cleanedUsername?.length &&
       getuser(cleanedUsername).then((result) => setRes(result));
   }, [cleanedUsername]);
-  // TODO : follow user and following
-  const handleFollowUser = (e: any) => {
-    e.preventDefault();
+  const handleFollowUser = () => {
     startTransition(async () => {
       if (res?.data?.id && user) {
         addFollowing(res?.data?.id);
-        followuser(res?.data?.id).then((res) => {
+        followuser(res?.data?.id).then((result) => {
           if (res.error) {
-            removeFollowing(res?.data?.id);
+            removeFollowing(result?.data?.id);
           }
         });
       }
     });
   };
-  const handleUnfollowUser = (e: any) => {
-    e.preventDefault();
+  const handleUnfollowUser = () => {
     startTransition(async () => {
       if (res?.data?.id && user) {
         removeFollowing(res?.data?.id);
-        unFollowUser(res?.data?.id).then((res) => {
-          if (res.error) {
-            addFollowing(res?.data?.id);
+        unFollowUser(res?.data?.id).then((result) => {
+          if (result.error) {
+            addFollowing(result?.data?.id);
           }
         });
       }
     });
   };
-  //  //
   if (res) {
     if (res.data) {
       const data = res.data;
@@ -118,7 +114,12 @@ export default function Username({ children }: Username) {
             <div className="flex justify-between my-6 font-medium text-stone-600">
               {tabs.map(({ name, link }) => {
                 // active
-                if (pathname.split("/").pop() === name.toLowerCase()) {
+                if (
+                  pathname.split("/").pop() === name.toLowerCase() ||
+                  (pathname.split("/").pop()?.substring(1) ===
+                    cleanedUsername &&
+                    link === "")
+                ) {
                   return (
                     <Link
                       href={`/user/@${cleanedUsername}/${link}`}
@@ -154,7 +155,7 @@ export default function Username({ children }: Username) {
   }
 }
 
-function getCleanedusername(name: string) {
+export function getCleanedusername(name: string) {
   const res = name.split("/@").pop();
   if (res?.split("/").length) {
     return res?.split("/")[0];

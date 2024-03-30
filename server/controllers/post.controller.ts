@@ -158,6 +158,44 @@ export const getAllPosts = async (req: Request, res: Response) => {
     res.status(500).json({ message: error.message });
   }
 };
+export const getAllPostsByUsername = async (req: Request, res: Response) => {
+  const { user } = req;
+  const { username } = req.params;
+  if (!user) throw new Error("No user provided");
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        username: username,
+      },
+      select: {
+        id: true,
+      },
+    });
+    if (!user) {
+      throw new Error("User not found");
+    }
+    const posts = await prisma.post.findMany({
+      where: {
+        userId: user.id,
+      },
+    });
+    const threads = await prisma.thread.findMany({
+      where: {
+        posts: {
+          some: {
+            userId: user.id,
+          },
+        },
+      },
+    });
+    return res.status(200).json({
+      posts: posts,
+      threads: threads,
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
 const createPosts = async (posts: any[], userid: string): Promise<any> => {
   const createdPosts = [];
   for (const post of posts) {
