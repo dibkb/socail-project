@@ -35,8 +35,14 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
     if (files) {
       const file = files[0];
       if (file && file.type.startsWith("image/")) {
-        const image = (await resizeFile(file, 180)) as string;
-        setImageUrl(image);
+        // const image = (await resizeFile(file, 180)) as string;
+
+        // setImageUrl(image);
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          if (typeof reader.result === "string") setImageUrl(reader.result);
+        };
+        reader.readAsDataURL(file);
         setCropImage(true);
       } else {
         // TODO : error state
@@ -58,11 +64,9 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
       }
     });
   };
-  console.log(imageUrl);
-  console.log(cropImage);
   return (
     <Modallayout setOpen={setOpen} closeOnClick={!(openEdit || cropImage)}>
-      <div className="border" style={styles.container}>
+      <div style={styles.container}>
         <span className="flex justify-between">
           <Editprofileinput
             classname="grow"
@@ -116,7 +120,9 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
           value={user[openEdit]}
         />
       )}
-      {cropImage && imageUrl && <Cropimagelayout setOpen={setCropImage} />}
+      {cropImage && imageUrl && (
+        <Cropimagelayout setOpen={setCropImage} imageUrl={imageUrl} />
+      )}
     </Modallayout>
   );
 };

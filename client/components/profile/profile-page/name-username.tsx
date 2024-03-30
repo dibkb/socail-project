@@ -23,10 +23,10 @@ const NameUsername = ({ name, username, variant }: NameUsername) => {
 export default NameUsername;
 export const Bio = ({ bio }: { bio: string }) => {
   return (
-    <p className="text-sm text-stone-200">
+    <main className="text-sm text-stone-200">
       {bio.split("\n").map((line) => (
         <p key={line}>{line}</p>
       ))}
-    </p>
+    </main>
   );
 };
