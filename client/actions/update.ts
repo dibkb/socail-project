@@ -4,9 +4,10 @@ export interface updateval {
   bio?: string;
   username?: string;
   name?: string;
+  profilePic?: string;
 }
 export const update = async (data: updateval) => {
-  const { bio, username, name } = data;
+  const { bio, username, name, profilePic } = data;
   try {
     const serverResponse = await axios.put(
       `${SERVER}/api/v1/users/update`,
@@ -14,6 +15,7 @@ export const update = async (data: updateval) => {
         name,
         username,
         bio,
+        profilePic,
       },
       {
         withCredentials: true,

@@ -1,5 +1,5 @@
 "use client";
-import { Dispatch, SetStateAction, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import Modallayout from "./modal-layout";
 import styles from "../styles/edit-profile-modal";
 import { useUserStore } from "@/src/providers/user-store-provider";
@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import Editprofileitems from "./edit-profile-values";
 import { User } from "@/src/stores/user-store";
 import AvatarForm from "@/components/home/avatar";
+import { resizeFile } from "@/utils/compress-image";
+import { update } from "@/actions/update";
 interface EditProfilePortal {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
@@ -22,10 +24,37 @@ type UserKeys = Exclude<
 >;
 export type openModal = UserKeys | false;
 const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
+  const { setUser } = useUserStore((state) => state);
   const { user } = useUserStore((state) => state);
+  const [imageUrl, setImageUrl] = useState<string>();
   const [openEdit, setEdit] = useState<openModal>(false);
-  // const { handleImageChange, imgUrl, setImgUrl } = usePreviewImg();
-  // const imageRef = useRef(null);
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files) {
+      const file = files[0];
+      if (file && file.type.startsWith("image/")) {
+        const image = (await resizeFile(file, 180)) as string;
+        setImageUrl(image);
+      } else {
+        // TODO : error state
+      }
+    }
+  };
+  const handleProfileSubmit = () => {
+    setOpen(false);
+    update({
+      profilePic: imageUrl,
+    }).then((res) => {
+      if (res.data) {
+        // DATA
+        setUser(res.data);
+      }
+      if (res.error) {
+        // ERROR
+        // TODO: set error
+      }
+    });
+  };
   return (
     <Modallayout setOpen={setOpen} closeOnClick={!openEdit}>
       <div className="border" style={styles.container}>
@@ -36,7 +65,23 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
             value={user?.name}
             onClick={() => setEdit("name")}
           />
-          <AvatarForm className="w-20 h-20 cursor-pointer" variant="self" />
+          <input
+            type="file"
+            id={`user-image`}
+            hidden
+            onChange={(e) => handleFileChange(e)}
+          />
+          <label htmlFor={`user-image`}>
+            {imageUrl ? (
+              <AvatarForm
+                className="w-20 h-20 cursor-pointer"
+                variant="others"
+                imgurl={imageUrl}
+              />
+            ) : (
+              <AvatarForm className="w-20 h-20 cursor-pointer" variant="self" />
+            )}
+          </label>
         </span>
         <Editprofileinput
           placeholder={"Username"}
@@ -54,7 +99,7 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
             padding: "1.5rem",
             fontWeight: 500,
           }}
-          onClick={() => setOpen(false)}
+          onClick={handleProfileSubmit}
         >
           Done
         </Button>
@@ -69,4 +114,5 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
     </Modallayout>
   );
 };
+
 export default EditProfilePortal;

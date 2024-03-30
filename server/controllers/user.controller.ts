@@ -195,9 +195,9 @@ export const unFollowUser = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response) => {
   const { user } = req;
   if (!user) throw new Error("No user provided");
-  const { name, username, bio } = req.body;
+  const { name, username, bio, profilePic } = req.body;
   try {
-    if (!(name || username || bio)) {
+    if (!(name || username || bio || profilePic)) {
       throw new Error("No fields provided");
     }
     const updatedUser = await updateUserFields({
@@ -205,6 +205,7 @@ export const updateUser = async (req: Request, res: Response) => {
       name: name || user.name,
       username: username || user.username,
       bio: bio || user.bio,
+      profilePic: profilePic || user.profilePic,
     });
     return res.status(202).json(updatedUser);
   } catch (error: any) {

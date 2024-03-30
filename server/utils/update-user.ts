@@ -2,7 +2,7 @@ import { prisma } from "../index";
 import { User } from "../middlewares/verify-route";
 export type updateUserInterface = Pick<
   User,
-  "name" | "username" | "bio" | "id"
+  "name" | "username" | "bio" | "id" | "profilePic"
 >;
 
 export async function updateUserFields({
@@ -10,6 +10,7 @@ export async function updateUserFields({
   username,
   bio,
   id,
+  profilePic,
 }: updateUserInterface) {
   try {
     const updateUser = await prisma.user.update({
@@ -20,6 +21,7 @@ export async function updateUserFields({
         name: name,
         username: username,
         bio: bio,
+        profilePic: profilePic,
       },
       select: {
         id: true,
@@ -34,7 +36,6 @@ export async function updateUserFields({
         updatedAt: true,
       },
     });
-    console.log(updateUser);
     return updateUser;
   } catch (error) {
     console.error("Error updating user", error);
