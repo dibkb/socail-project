@@ -16,11 +16,14 @@ import { signinSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CardContainer from "./card-container";
 import { register } from "@/actions/signup";
+import { AlertDestructive } from "../errors/error-message";
+import { useRouter } from "next/navigation";
 
 const SignupForm = () => {
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
   const form = useForm<z.infer<typeof signinSchema>>({
     resolver: zodResolver(signinSchema),
     defaultValues: {
@@ -34,7 +37,14 @@ const SignupForm = () => {
     setError("");
     setSuccess("");
     startTransition(() => {
-      register(values);
+      register(values).then((res) => {
+        if (res.data) {
+          router.push("/auth/login");
+        }
+        if (res.error) {
+          setError(res.error);
+        }
+      });
     });
   };
 
@@ -130,6 +140,14 @@ const SignupForm = () => {
                     </FormItem>
                   )}
                 />
+                {error?.length ? (
+                  <AlertDestructive
+                    message={error}
+                    onCloseHandler={() => setError(undefined)}
+                  />
+                ) : (
+                  ""
+                )}
                 <Button type="submit" className="w-full py-8">
                   Register
                 </Button>

@@ -41,7 +41,6 @@ const LoginForm = () => {
           router.push("/");
         }
         if (res.error) {
-          console.log(res);
           setError(res.error);
         }
       });

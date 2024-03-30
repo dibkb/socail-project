@@ -12,7 +12,6 @@ import Postcomment from "./post-comment";
 import { addComment } from "@/actions/addComment";
 import { sortbyTimeAscending } from "@/utils/sort-by-time";
 import { likePost, unlikePost } from "@/actions/likePost";
-import { number } from "zod";
 interface PostLayout {
   post: Post;
   username: string;
