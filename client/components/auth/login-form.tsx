@@ -33,9 +33,6 @@ const LoginForm = () => {
     },
   });
   const onSubmit = (values: z.infer<typeof loginSchema>) => {
-    // TODO:
-    // 1 pending state
-    // 2 error message
     setError("");
     startTransition(async () => {
       login(values).then((res) => {
