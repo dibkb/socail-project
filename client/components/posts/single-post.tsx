@@ -43,8 +43,8 @@ export const Singlepost = React.memo(
               <Image
                 src={post.image}
                 alt={post.body}
-                width={500}
-                height={500}
+                width={269}
+                height={269}
                 className="rounded-lg"
               />
             </div>

@@ -6,7 +6,8 @@ import styles from "../../styles/thread-modal";
 import { imgurl } from "@/modals/thread-modal";
 import Image from "next/image";
 import { RxCross1 } from "react-icons/rx";
-
+import Resizer from "react-image-file-resizer";
+import { resizeFile } from "@/utils/compress-image";
 interface ThreadsInput {
   id: number;
   value: string;
@@ -30,7 +31,7 @@ const ThreadsInput = ({
   setImgUrl,
   imgUrl,
 }: ThreadsInput) => {
-  const handleFileChange = (
+  const handleFileChange = async (
     e: React.ChangeEvent<HTMLInputElement>,
     id: number
   ) => {
@@ -38,18 +39,26 @@ const ThreadsInput = ({
     if (files) {
       const file = files[0];
       if (file && file.type.startsWith("image/")) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const base64 = reader.result as string;
-          setImgUrl((prev) => [
-            ...prev.filter((input) => input.id !== id),
-            {
-              id: id,
-              data: base64,
-            },
-          ]);
-        };
-        reader.readAsDataURL(file);
+        // const reader = new FileReader();
+        // reader.onload = () => {
+        //   const base64 = reader.result as string;
+        //   setImgUrl((prev) => [
+        //     ...prev.filter((input) => input.id !== id),
+        //     {
+        //       id: id,
+        //       data: base64,
+        //     },
+        //   ]);
+        // };
+        // reader.readAsDataURL(file);
+        const image = (await resizeFile(file)) as string;
+        setImgUrl((prev) => [
+          ...prev.filter((input) => input.id !== id),
+          {
+            id: id,
+            data: image,
+          },
+        ]);
       } else {
         //   TODO: Not image file
       }
@@ -83,7 +92,7 @@ const ThreadsInput = ({
             <Image
               src={imgUrl.filter((img) => img.id === id)[0]?.data}
               alt={"Image assocaited with " + id}
-              width={400}
+              width={450}
               height={450}
             ></Image>
             <RxCross1
