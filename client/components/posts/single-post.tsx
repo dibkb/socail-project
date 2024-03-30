@@ -35,7 +35,7 @@ export const Singlepost = React.memo(
           </span>
           <p className="text-base">
             {post.body.split("\n").map((line) => (
-              <p>{line}</p>
+              <p key={line}>{line}</p>
             ))}
           </p>
           {post.image && (

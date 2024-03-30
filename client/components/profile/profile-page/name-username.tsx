@@ -25,7 +25,7 @@ export const Bio = ({ bio }: { bio: string }) => {
   return (
     <p className="text-sm text-stone-200">
       {bio.split("\n").map((line) => (
-        <p>{line}</p>
+        <p key={line}>{line}</p>
       ))}
     </p>
   );

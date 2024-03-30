@@ -10,6 +10,7 @@ import { User } from "@/src/stores/user-store";
 import AvatarForm from "@/components/home/avatar";
 import { resizeFile } from "@/utils/compress-image";
 import { update } from "@/actions/update";
+import Cropimagelayout from "./crop-image";
 interface EditProfilePortal {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
@@ -28,6 +29,7 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
   const { user } = useUserStore((state) => state);
   const [imageUrl, setImageUrl] = useState<string>();
   const [openEdit, setEdit] = useState<openModal>(false);
+  const [cropImage, setCropImage] = useState<boolean>(false);
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
@@ -35,6 +37,7 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
       if (file && file.type.startsWith("image/")) {
         const image = (await resizeFile(file, 180)) as string;
         setImageUrl(image);
+        setCropImage(true);
       } else {
         // TODO : error state
       }
@@ -55,8 +58,10 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
       }
     });
   };
+  console.log(imageUrl);
+  console.log(cropImage);
   return (
-    <Modallayout setOpen={setOpen} closeOnClick={!openEdit}>
+    <Modallayout setOpen={setOpen} closeOnClick={!(openEdit || cropImage)}>
       <div className="border" style={styles.container}>
         <span className="flex justify-between">
           <Editprofileinput
@@ -111,6 +116,7 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
           value={user[openEdit]}
         />
       )}
+      {cropImage && imageUrl && <Cropimagelayout setOpen={setCropImage} />}
     </Modallayout>
   );
 };
