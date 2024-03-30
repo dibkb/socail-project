@@ -20,7 +20,7 @@ interface PostLayout {
 interface ErrorData {
   message: string;
 }
-const PostLayout = ({ post, username, userid }: PostLayout) => {
+const PostLayout = React.memo(({ post, username, userid }: PostLayout) => {
   const { data, error, isLoading }: SWRResponse<Comment[], ErrorData, boolean> =
     useSWR(post?.id, commentFetcher);
   const {
@@ -153,6 +153,6 @@ const PostLayout = ({ post, username, userid }: PostLayout) => {
       </span>
     </main>
   );
-};
+});
 
 export default PostLayout;

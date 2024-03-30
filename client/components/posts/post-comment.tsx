@@ -14,7 +14,7 @@ export type smallProfile = Omit<
   User,
   "name" | "email" | "bio" | "followingIds" | "followerIds"
 >;
-const Postcomment = ({ com, user }: Postcomment) => {
+const Postcomment = React.memo(({ com, user }: Postcomment) => {
   return (
     <main className="rounded-full flex justify-between">
       <div className="flex items-center grow gap-2">
@@ -35,6 +35,6 @@ const Postcomment = ({ com, user }: Postcomment) => {
       </div>
     </main>
   );
-};
+});
 
 export default Postcomment;
