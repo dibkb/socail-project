@@ -24,7 +24,7 @@ export const login = async (values: z.infer<typeof loginSchema>) => {
     };
   } catch (error: any) {
     return {
-      error: error.message,
+      error: error?.response?.data?.error,
     };
   }
 };

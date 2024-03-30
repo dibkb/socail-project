@@ -19,6 +19,7 @@ import Link from "next/link";
 import { Input } from "../ui/input";
 import { login } from "@/actions/login";
 import { useUserStore } from "../../src/providers/user-store-provider";
+import { AlertDestructive } from "../errors/error-message";
 const LoginForm = () => {
   const router = useRouter();
   const { setUser } = useUserStore((state) => state);
@@ -43,12 +44,12 @@ const LoginForm = () => {
           router.push("/");
         }
         if (res.error) {
+          console.log(res);
           setError(res.error);
         }
       });
     });
   };
-
   return (
     <div className="w-full">
       <CardContainer
@@ -101,7 +102,19 @@ const LoginForm = () => {
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full py-8">
+                {error?.length ? (
+                  <AlertDestructive
+                    message={error}
+                    onCloseHandler={() => setError(undefined)}
+                  />
+                ) : (
+                  ""
+                )}
+                <Button
+                  type="submit"
+                  className="w-full py-8"
+                  disabled={isPending}
+                >
                   Login
                 </Button>
               </form>
