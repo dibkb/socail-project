@@ -9,31 +9,27 @@ interface AvatarForm {
   name?: string;
   variant: "self" | "others";
 }
-const AvatarForm = ({
-  className,
-  children,
-  imgurl,
-  name,
-  variant,
-}: AvatarForm) => {
-  const { user } = useUserStore((state) => state);
-  if (variant === "others") {
-    return (
-      <Avatar className={className}>
-        <AvatarImage src={imgurl} alt={name} />
-        <AvatarFallback>{name?.charAt(0)}</AvatarFallback>
-        {children}
-      </Avatar>
-    );
-  } else {
-    return (
-      <Avatar className={className}>
-        <AvatarImage src={user?.profilePic} alt={user?.name} />
-        <AvatarFallback>{user?.name?.charAt(0)}</AvatarFallback>
-        {children}
-      </Avatar>
-    );
+const AvatarForm = React.memo(
+  ({ className, children, imgurl, name, variant }: AvatarForm) => {
+    const { user } = useUserStore((state) => state);
+    if (variant === "others") {
+      return (
+        <Avatar className={className}>
+          <AvatarImage src={imgurl} alt={name} />
+          <AvatarFallback>{name?.charAt(0).toUpperCase()}</AvatarFallback>
+          {children}
+        </Avatar>
+      );
+    } else {
+      return (
+        <Avatar className={className}>
+          <AvatarImage src={user?.profilePic} alt={user?.name} />
+          <AvatarFallback>{user?.name?.charAt(0).toUpperCase()}</AvatarFallback>
+          {children}
+        </Avatar>
+      );
+    }
   }
-};
+);
 
 export default React.memo(AvatarForm);

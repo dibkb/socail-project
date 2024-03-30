@@ -123,20 +123,14 @@ const PostLayout = React.memo(({ post, username, userid }: PostLayout) => {
                 userProfile &&
                 comment
                   .sort(sortbyTimeAscending)
-                  ?.map((com) => (
-                    <Postcomment key={com.id} com={com} user={userProfile} />
-                  ))}
+                  ?.map((com) => <Postcomment key={com.id} com={com} />)}
             </div>
           </div>
         </Singlepost>
         <span className="flex items-center justify-between text-xs cursor-pointer text-stone-600 font-medium">
           {/* type-comment */}
           <span className="flex gap-2  text-stone-200 w-full">
-            <Avatar
-              variant={"others"}
-              imgurl={userProfile?.profilePic}
-              name={userProfile?.username}
-            />
+            <Avatar variant={"self"} />
             <form
               action=""
               className="rounded-md border-none grow flex items-center pr-3"

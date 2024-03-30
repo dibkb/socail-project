@@ -33,7 +33,11 @@ export const Singlepost = React.memo(
               <p>{calulateTime(post.createdAt).unit}</p>
             </span>
           </span>
-          <p className="text-base">{post.body}</p>
+          <p className="text-base">
+            {post.body.split("\n").map((line) => (
+              <p>{line}</p>
+            ))}
+          </p>
           {post.image && (
             <div className="flex items-center justify-between mt-3">
               <Image
