@@ -8,27 +8,24 @@ import { smallProfileFetcher } from "@/actions/getComment";
 import { User } from "@/src/stores/user-store";
 interface Postcomment {
   com: Comment;
+  user: smallProfile;
 }
-type data = Omit<
+export type smallProfile = Omit<
   User,
   "name" | "email" | "bio" | "followingIds" | "followerIds"
 >;
-const Postcomment = ({ com }: Postcomment) => {
-  const { data, error, isLoading }: SWRResponse<data> = useSWR(
-    com?.userId,
-    smallProfileFetcher
-  );
+const Postcomment = ({ com, user }: Postcomment) => {
   return (
     <main className="rounded-full flex justify-between">
       <div className="flex items-center grow gap-2">
         <span className="flex items-center gap-2">
           <Avatar
             variant={"others"}
-            imgurl={data?.profilePic}
-            name={data?.username}
+            imgurl={user?.profilePic}
+            name={user?.username}
             className="h-8 w-8"
           />
-          <p className="text-sm">{data?.username}</p>
+          <p className="text-sm">{user?.username}</p>
         </span>
         <p className="text-sm font-medium text-stone-400 grow">{com.body}</p>
         <span className="flex items-center gap-1 text-stone-600 text-xs font-medium">

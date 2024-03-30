@@ -7,8 +7,8 @@ import { Input } from "../ui/input";
 import { Post, Comment } from "@/types";
 import useSWR, { SWRResponse } from "swr";
 import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
-import { commentFetcher } from "@/actions/getComment";
-import Postcomment from "./post-comment";
+import { commentFetcher, smallProfileFetcher } from "@/actions/getComment";
+import Postcomment, { smallProfile } from "./post-comment";
 import { addComment } from "@/actions/addComment";
 import { sortbyTimeAscending } from "@/utils/sort-by-time";
 import { likePost, unlikePost } from "@/actions/likePost";
@@ -23,6 +23,11 @@ interface ErrorData {
 const PostLayout = ({ post, username, userid }: PostLayout) => {
   const { data, error, isLoading }: SWRResponse<Comment[], ErrorData, boolean> =
     useSWR(post?.id, commentFetcher);
+  const {
+    data: userProfile,
+    error: userError,
+    isLoading: userLoading,
+  }: SWRResponse<smallProfile> = useSWR(userid, smallProfileFetcher);
   const [body, setBody] = useState<string>("");
   const [comment, setComment] = useState<Comment[]>([]);
   const [likes, setLikes] = useState<{
@@ -114,16 +119,23 @@ const PostLayout = ({ post, username, userid }: PostLayout) => {
           {/* comments */}
           <div className="mt-2 flex flex-col gap-1">
             {openComments &&
+              userProfile &&
               comment
                 .sort(sortbyTimeAscending)
-                ?.map((com) => <Postcomment key={com.id} com={com} />)}
+                ?.map((com) => (
+                  <Postcomment key={com.id} com={com} user={userProfile} />
+                ))}
           </div>
         </div>
       </Singlepost>
       <span className="flex items-center justify-between text-xs cursor-pointer text-stone-600 font-medium">
         {/* type-comment */}
         <span className="flex gap-2  text-stone-200 w-full">
-          <Avatar variant={"self"} />
+          <Avatar
+            variant={"others"}
+            imgurl={userProfile?.profilePic}
+            name={userProfile?.username}
+          />
           <form
             action=""
             className="rounded-md border-none grow flex items-center pr-3"

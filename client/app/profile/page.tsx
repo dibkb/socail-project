@@ -29,7 +29,7 @@ const Profilepage = () => {
         <p>Loading</p>
       </div>
     ) : posts.posts.length === 0 ? (
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center min-h-[400px]">
         <Button onClick={() => setOpenThreadModal(true)} variant={"outline"}>
           Start your first thread
         </Button>
