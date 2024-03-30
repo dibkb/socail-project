@@ -36,8 +36,6 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
     if (files) {
       const file = files[0];
       if (file && file.type.startsWith("image/")) {
-        // const image = (await resizeFile(file, 180)) as string;
-        // setImageUrl(image);
         const reader = new FileReader();
         reader.onloadend = () => {
           if (typeof reader.result === "string") setImageUrl(reader.result);
@@ -49,10 +47,11 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
       }
     }
   };
-  const handleProfileSubmit = () => {
+  const handleProfileSubmit = async () => {
     setOpen(false);
+    // const image = (await resizeFile(imageCropUrl, 180)) as string;
     update({
-      profilePic: imageUrl,
+      profilePic: imageCropUrl,
     }).then((res) => {
       if (res.data) {
         // DATA
@@ -64,7 +63,6 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
       }
     });
   };
-  console.log(imageCropUrl);
   return (
     <Modallayout setOpen={setOpen} closeOnClick={!(openEdit || cropImage)}>
       <div style={styles.container}>
@@ -82,11 +80,13 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
             onChange={(e) => handleFileChange(e)}
           />
           <label htmlFor={`user-image`}>
-            {imageUrl ? (
+            {imageCropUrl || imageUrl ? (
               <AvatarForm
                 className="w-20 h-20 cursor-pointer"
                 variant="others"
-                imgurl={imageUrl}
+                imgurl={
+                  imageCropUrl.length && !cropImage ? imageCropUrl : imageUrl
+                }
               />
             ) : (
               <AvatarForm className="w-20 h-20 cursor-pointer" variant="self" />
