@@ -2,12 +2,13 @@ const styles: Record<string, React.CSSProperties> = {
   container: {
     minHeight: "400px",
     minWidth: "400px",
-    height: "30vw",
     width: "30vw",
+    height: "30vw",
     padding: "1rem",
     display: "flex",
     flexDirection: "column",
     background: "#0c0a09",
+    position: "relative",
   },
   controls: {
     position: "absolute",

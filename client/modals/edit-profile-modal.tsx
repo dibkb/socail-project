@@ -27,8 +27,9 @@ export type openModal = UserKeys | false;
 const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
   const { setUser } = useUserStore((state) => state);
   const { user } = useUserStore((state) => state);
-  const [imageUrl, setImageUrl] = useState<string>();
   const [openEdit, setEdit] = useState<openModal>(false);
+  const [imageUrl, setImageUrl] = useState<string>();
+  const [imageCropUrl, setImageCropUrl] = useState<string>("");
   const [cropImage, setCropImage] = useState<boolean>(false);
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -36,7 +37,6 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
       const file = files[0];
       if (file && file.type.startsWith("image/")) {
         // const image = (await resizeFile(file, 180)) as string;
-
         // setImageUrl(image);
         const reader = new FileReader();
         reader.onloadend = () => {
@@ -64,6 +64,7 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
       }
     });
   };
+  console.log(imageCropUrl);
   return (
     <Modallayout setOpen={setOpen} closeOnClick={!(openEdit || cropImage)}>
       <div style={styles.container}>
@@ -121,7 +122,11 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
         />
       )}
       {cropImage && imageUrl && (
-        <Cropimagelayout setOpen={setCropImage} imageUrl={imageUrl} />
+        <Cropimagelayout
+          setOpen={setCropImage}
+          imageUrl={imageUrl}
+          setImageCropUrl={setImageCropUrl}
+        />
       )}
     </Modallayout>
   );

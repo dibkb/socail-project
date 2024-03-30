@@ -8,17 +8,21 @@ import getCroppedImg from "../utils/get-cropped-image";
 import { Button } from "@/components/ui/button";
 interface Cropimagelayout {
   setOpen: Dispatch<SetStateAction<boolean>>;
+  setImageCropUrl: Dispatch<SetStateAction<string>>;
   imageUrl: string;
 }
-const Cropimagelayout = ({ setOpen, imageUrl }: Cropimagelayout) => {
+const Cropimagelayout = ({
+  setOpen,
+  imageUrl,
+  setImageCropUrl,
+}: Cropimagelayout) => {
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [preview, setPreview] = useState("");
   const onCropComplete = async (croppedArea: Area, croppedAreaPixels: Area) => {
-    console.log(croppedArea);
-    console.log(croppedAreaPixels);
     const res = await getCroppedImg(imageUrl, croppedAreaPixels);
-    setPreview(res.img);
+    if (res) {
+      setImageCropUrl(res);
+    }
   };
   return (
     <Modallayout setOpen={() => setOpen(false)} z={1001} closeOnClick={true}>
@@ -30,7 +34,7 @@ const Cropimagelayout = ({ setOpen, imageUrl }: Cropimagelayout) => {
           image={imageUrl}
           crop={crop}
           zoom={zoom}
-          aspect={1}
+          aspect={4 / 3}
           onCropChange={setCrop}
           onCropComplete={onCropComplete}
           onZoomChange={setZoom}
@@ -45,7 +49,11 @@ const Cropimagelayout = ({ setOpen, imageUrl }: Cropimagelayout) => {
             onValueChange={(value: number[]) => setZoom(value[0])}
             className={cn("w-[100%]")}
           />
-          <Button style={styles.footer} variant={"default"}>
+          <Button
+            style={styles.footer}
+            variant={"default"}
+            onClick={() => setOpen(false)}
+          >
             Done
           </Button>
         </div>
