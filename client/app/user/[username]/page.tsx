@@ -37,15 +37,12 @@ const Userprofilepage = () => {
   const BODY =
     posts === "loading" ? (
       <div className="flex items-center justify-center">
-        <Spinner />
         <p>Loading</p>
       </div>
     ) : posts.posts.length === 0 ? (
       <div className="flex items-center justify-center"></div>
     ) : (
-      user.username && (
-        <Posts threads={posts.threads} posts={posts.posts} user={user} />
-      )
+      user.username && <Posts threads={posts.threads} posts={posts.posts} />
     );
   return <div className="grow">{BODY}</div>;
 };

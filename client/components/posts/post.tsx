@@ -11,10 +11,9 @@ import PostLayout from "./post-layout";
 interface Posts {
   posts: Post[];
   threads: Threads[];
-  user?: User | { id: string; username: string };
+  // user?: User | { id: string; username: string };
 }
-const Posts = React.memo(({ posts, threads, user }: Posts) => {
-  if (!user?.id) return;
+const Posts = React.memo(({ posts, threads }: Posts) => {
   const filterByThreadid = (id: string) => {
     return posts.filter((p) => p.threadId === id);
   };
@@ -38,11 +37,7 @@ const Posts = React.memo(({ posts, threads, user }: Posts) => {
             .map((th) => {
               return (
                 <div key={th.id} className="py-4 border-b border-stone-700">
-                  <PostLayout
-                    post={th}
-                    username={user?.username}
-                    userid={user?.id}
-                  />
+                  <PostLayout post={th} />
                 </div>
               );
             })}
@@ -56,8 +51,8 @@ const Posts = React.memo(({ posts, threads, user }: Posts) => {
                   <PostLayout
                     key={th.id}
                     post={th}
-                    username={user?.username}
-                    userid={user?.id}
+                    // username={user?.username}
+                    // userid={user?.id}
                   />
                 );
               })}

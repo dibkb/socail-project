@@ -39,13 +39,14 @@ export const Singlepost = React.memo(
             ))}
           </main>
           {post.image && (
-            <div className="flex items-center justify-between mt-3">
+            <div className="flex mt-3">
               <Image
                 src={post.image}
                 alt={post.body}
-                width={269}
-                height={269}
-                className="rounded-lg"
+                width={300}
+                height={300}
+                objectFit="cover"
+                className="rounded-md"
               />
             </div>
           )}

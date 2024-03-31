@@ -12,22 +12,24 @@ import Postcomment, { smallProfile } from "./post-comment";
 import { addComment } from "@/actions/addComment";
 import { sortbyTimeAscending } from "@/utils/sort-by-time";
 import { likePost, unlikePost } from "@/actions/likePost";
+import { useUserStore } from "@/src/providers/user-store-provider";
 interface PostLayout {
   post: Post;
-  username: string;
-  userid: string;
+  // username: string;
+  // userid: string;
 }
 interface ErrorData {
   message: string;
 }
-const PostLayout = React.memo(({ post, username, userid }: PostLayout) => {
+const PostLayout = React.memo(({ post }: PostLayout) => {
+  const { user } = useUserStore((state) => state);
   const { data, error, isLoading }: SWRResponse<Comment[], ErrorData, boolean> =
     useSWR(post?.id, commentFetcher);
   const {
     data: userProfile,
     error: userError,
     isLoading: userLoading,
-  }: SWRResponse<smallProfile> = useSWR(userid, smallProfileFetcher);
+  }: SWRResponse<smallProfile> = useSWR(post?.userId, smallProfileFetcher);
   const [body, setBody] = useState<string>("");
   const [comment, setComment] = useState<Comment[]>([]);
   const [likes, setLikes] = useState<{
@@ -35,8 +37,14 @@ const PostLayout = React.memo(({ post, username, userid }: PostLayout) => {
     liked: boolean;
   }>({
     number: post.likedIds.length,
-    liked: post.likedIds.includes(userid),
+    liked: post.likedIds.includes(user?.id || ""),
   });
+  useEffect(() => {
+    setLikes({
+      number: post.likedIds.length,
+      liked: post.likedIds.includes(user?.id || ""),
+    });
+  }, [post]);
   const [openComments, setOpenComments] = useState<boolean>(false);
   const handleSubmitComment = (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,7 +108,7 @@ const PostLayout = React.memo(({ post, username, userid }: PostLayout) => {
                 <p>{likes.number} like</p>
                 <p
                   className="hover:underline"
-                  onClick={() => setOpenComments(true)}
+                  onClick={() => setOpenComments((prev) => !prev)}
                 >
                   {comment?.length} comments
                 </p>

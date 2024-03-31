@@ -1,6 +1,7 @@
 "use client";
 import { getAllPosts, smallProfileFetcher } from "@/actions/getComment";
 import Loading from "@/components/guides/loading";
+import { PostSkeleton } from "@/components/guides/skeleton-loader";
 import Threadform from "@/components/home/thread-form";
 import { Globallayout } from "@/components/layouts/main";
 import Posts from "@/components/posts/post";
@@ -23,10 +24,10 @@ export default function Home() {
     <Globallayout>
       <Threadform />
       {isLoading ? (
-        <Loading />
+        <PostSkeleton />
       ) : (
         data?.posts &&
-        data.threads && <Posts posts={data?.posts} threads={data?.threads} />
+        data?.threads && <Posts posts={data?.posts} threads={data?.threads} />
       )}
     </Globallayout>
   );
