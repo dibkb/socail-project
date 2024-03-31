@@ -3,6 +3,7 @@ import { User } from "@/src/stores/user-store";
 import { useEffect, useState } from "react";
 
 export const useUserDataByUsername = (cleanedUsername: string | undefined) => {
+  const [loading, setLoading] = useState(true);
   const [res, setRes] = useState<
     | {
         data: User;
@@ -19,7 +20,9 @@ export const useUserDataByUsername = (cleanedUsername: string | undefined) => {
       return res;
     }
     cleanedUsername?.length &&
-      getuser(cleanedUsername).then((result) => setRes(result));
+      getuser(cleanedUsername)
+        .then((result) => setRes(result))
+        .finally(() => setLoading(true));
   }, [cleanedUsername]);
-  return res;
+  return { res, loading };
 };

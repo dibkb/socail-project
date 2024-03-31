@@ -30,8 +30,10 @@ export function getAllCoomentsUser(id: string) {
     .then((res) => res.data);
 }
 export function getAllCoomentsUserById(id: string) {
+  if (!id) return;
+  console.log(id);
   return axios
-    .get(`${SERVER}/api/v1/comment/user/:userid/all`, {
+    .get(`${SERVER}/api/v1/comment/user/${id}/all`, {
       withCredentials: true,
     })
     .then((res) => res.data);

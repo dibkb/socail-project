@@ -3,6 +3,7 @@ import { verifyRoute } from "../middlewares/verify-route";
 import {
   createComment,
   getComments,
+  getCommentsByUserId,
   getCommentsUser,
 } from "../controllers/comment.controller";
 

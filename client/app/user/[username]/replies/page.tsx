@@ -12,6 +12,7 @@ import {
   getAllCoomentsUserById,
 } from "@/actions/getComment";
 import MinimalPost from "@/components/posts/minimal-post";
+import Loading from "@/components/guides/loading";
 
 const Userreplies = () => {
   const { user } = useUserStore((state) => state);
@@ -20,12 +21,15 @@ const Userreplies = () => {
   if (cleanedUsername === user?.username) {
     redirect("/profile");
   }
-  const viewedUserData = useUserDataByUsername(cleanedUsername);
+  const { res: viewedUserData, loading } =
+    useUserDataByUsername(cleanedUsername);
   const { data, error, isLoading }: SWRResponse<CommentbodyResponse[]> = useSWR(
     viewedUserData?.data?.id,
     getAllCoomentsUserById
   );
-  console.log(data);
+  if (loading || !viewedUserData?.data) {
+    return <Loading />;
+  }
   return (
     <div>
       <div>
