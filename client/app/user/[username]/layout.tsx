@@ -93,7 +93,7 @@ export default function Username({ children }: Username) {
             </div>
             <main className="mt-4">
               <Bio bio={data?.bio} />
-              {user?.followingIds.includes(res?.data?.id) ? (
+              {user?.followingIds?.includes(res?.data?.id) ? (
                 <Button
                   variant="outline"
                   className="w-full rounded-lg mt-9"

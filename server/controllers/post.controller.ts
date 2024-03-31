@@ -221,12 +221,12 @@ export const getEveryPost = async (req: Request, res: Response) => {
   try {
     const posts = await prisma.post.findMany({
       orderBy: {
-        createdAt: "asc",
+        createdAt: "desc",
       },
     });
     const threads = await prisma.thread.findMany({
       orderBy: {
-        createdAt: "asc",
+        createdAt: "desc",
       },
     });
     return res.status(200).json({

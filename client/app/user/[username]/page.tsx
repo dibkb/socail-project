@@ -25,7 +25,6 @@ const Userprofilepage = () => {
     cleanedUsername &&
       getusePosts(cleanedUsername).then((result) => {
         setPosts(result.data);
-        console.log(result.data?.posts[0]?.userId);
         if (result.data?.posts[0]?.userId) {
           setUser((prev) => ({
             ...prev,
@@ -48,7 +47,6 @@ const Userprofilepage = () => {
         <Posts threads={posts.threads} posts={posts.posts} user={user} />
       )
     );
-
   return <div className="grow">{BODY}</div>;
 };
 
