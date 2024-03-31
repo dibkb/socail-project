@@ -50,7 +50,9 @@ export default function Profile({ children }: Profile) {
       </div>
       <main className="mt-4">
         <Bio bio={user.bio} />
-        {/* TODO : followers */}
+        <div className="mt-3 text-stone-600 text-sm">
+          {user?.followerIds?.length || 0} followers
+        </div>
         <Button
           variant="outline"
           className="w-full rounded-lg mt-9"

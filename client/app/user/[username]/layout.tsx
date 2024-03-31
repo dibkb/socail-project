@@ -49,10 +49,9 @@ export default function Username({ children }: Username) {
   const handleFollowUser = () => {
     startTransition(async () => {
       if (res?.data?.id && user) {
-        addFollowing(res?.data?.id);
         followuser(res?.data?.id).then((result) => {
-          if (res.error) {
-            removeFollowing(result?.data?.id);
+          if (res.data) {
+            addFollowing(res?.data?.id);
           }
         });
       }
@@ -61,10 +60,9 @@ export default function Username({ children }: Username) {
   const handleUnfollowUser = () => {
     startTransition(async () => {
       if (res?.data?.id && user) {
-        removeFollowing(res?.data?.id);
         unFollowUser(res?.data?.id).then((result) => {
-          if (result.error) {
-            addFollowing(result?.data?.id);
+          if (res.data) {
+            removeFollowing(res?.data?.id);
           }
         });
       }
@@ -93,6 +91,9 @@ export default function Username({ children }: Username) {
             </div>
             <main className="mt-4">
               <Bio bio={data?.bio} />
+              <div className="mt-3 text-stone-600 text-sm">
+                {data?.followerIds?.length || 0} followers
+              </div>
               {user?.followingIds?.includes(res?.data?.id) ? (
                 <Button
                   variant="outline"
