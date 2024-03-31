@@ -148,7 +148,7 @@ const PostLayout = React.memo(({ post }: PostLayout) => {
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
                 type="text"
-                placeholder="Add a comment"
+                placeholder="Reply to post..."
                 className="border-transparent text-xs group focus-visible:border-stone-500 focus-visible:ring-0 grow"
               />
             </form>

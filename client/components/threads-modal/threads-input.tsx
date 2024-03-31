@@ -70,7 +70,7 @@ const ThreadsInput = ({
       </span>
       <textarea
         value={value}
-        placeholder={id == 0 ? "Start a thread..." : "Say more..."}
+        placeholder={id == 0 ? "Start a shread..." : "Say more..."}
         className="text-sm bg-transparent focus:ring-transparent w-full"
         style={styles.textarea}
         onChange={(e) => onChangeTextArea(e, id)}
