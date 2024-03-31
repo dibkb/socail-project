@@ -35,7 +35,7 @@ const Profilepage = () => {
         </Button>
       </div>
     ) : (
-      user && <Posts threads={posts.threads} posts={posts.posts} user={user} />
+      user && <Posts threads={posts.threads} posts={posts.posts} />
     );
 
   return (

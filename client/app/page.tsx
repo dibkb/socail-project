@@ -5,6 +5,7 @@ import { PostSkeleton } from "@/components/guides/skeleton-loader";
 import Threadform from "@/components/home/thread-form";
 import { Globallayout } from "@/components/layouts/main";
 import Posts from "@/components/posts/post";
+import { Button } from "@/components/ui/button";
 import { Post, Threads } from "@/types";
 import { useState } from "react";
 import useSWR, { SWRResponse } from "swr";
@@ -26,8 +27,16 @@ export default function Home() {
       {isLoading ? (
         <PostSkeleton />
       ) : (
-        data?.posts &&
-        data?.threads && <Posts posts={data?.posts} threads={data?.threads} />
+        <div className="grow">
+          {data?.posts && data?.threads && (
+            <Posts posts={data?.posts} threads={data?.threads} />
+          )}
+          <div className="flex px-auto">
+            <Button className="my-3 mx-auto" variant={"ghost"}>
+              Load more
+            </Button>
+          </div>
+        </div>
       )}
     </Globallayout>
   );

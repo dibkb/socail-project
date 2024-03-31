@@ -7,6 +7,7 @@ import { getCleanedusername } from "./layout";
 import Spinner from "@/components/svg/spinner";
 import Posts from "@/components/posts/post";
 import Loading from "@/components/guides/loading";
+import { PostSkeleton } from "@/components/guides/skeleton-loader";
 const Userprofilepage = () => {
   const [posts, setPosts] = useState<
     "loading" | { posts: Post[]; threads: Threads[] }
@@ -33,14 +34,12 @@ const Userprofilepage = () => {
         }
       });
   }, [cleanedUsername]);
-  if (!cleanedUsername) return <Loading />;
+  if (!cleanedUsername) return <PostSkeleton />;
   const BODY =
     posts === "loading" ? (
-      <div className="flex items-center justify-center">
-        <p>Loading</p>
-      </div>
+      <PostSkeleton />
     ) : posts.posts.length === 0 ? (
-      <div className="flex items-center justify-center"></div>
+      <div className="flex items-center justify-center h-44">No posts yet</div>
     ) : (
       user.username && <Posts threads={posts.threads} posts={posts.posts} />
     );
