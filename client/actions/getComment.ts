@@ -8,6 +8,7 @@ export async function commentFetcher(postid: string) {
     .then((res) => res.data);
 }
 export async function smallProfileFetcher(userid: string) {
+  console.log("smallProfileFetcher", userid);
   return axios
     .get(`${SERVER}/api/v1/users/name-avatar/${userid}`, {
       withCredentials: true,
@@ -31,7 +32,6 @@ export function getAllCoomentsUser(id: string) {
 }
 export function getAllCoomentsUserById(id: string) {
   if (!id) return;
-  console.log(id);
   return axios
     .get(`${SERVER}/api/v1/comment/user/${id}/all`, {
       withCredentials: true,

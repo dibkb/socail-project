@@ -26,7 +26,12 @@ const ProfileReplies = () => {
       <div>
         {data?.map((c) => {
           return (
-            <MinimalPost post={c.post} key={c.id} body={c.body} user={user} />
+            <MinimalPost
+              post={c.post}
+              key={c.id}
+              body={c.body}
+              commentUser={user}
+            />
           );
         })}
       </div>

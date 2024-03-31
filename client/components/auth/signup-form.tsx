@@ -22,7 +22,7 @@ import { Successmessage } from "../succes/success-message";
 
 const SignupForm = () => {
   const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<boolean>(true);
+  const [success, setSuccess] = useState<boolean>(false);
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
   const form = useForm<z.infer<typeof signinSchema>>({

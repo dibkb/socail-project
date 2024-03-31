@@ -28,7 +28,7 @@ export default function Username({ children }: Username) {
   if (cleanedUsername === user?.username) {
     redirect("/profile");
   }
-  const res = useUserDataByUsername(cleanedUsername);
+  const { res, loading } = useUserDataByUsername(cleanedUsername);
   const [isPending, startTransition] = useTransition();
   const handleFollowUser = () => {
     startTransition(async () => {

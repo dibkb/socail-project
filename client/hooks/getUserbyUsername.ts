@@ -22,7 +22,7 @@ export const useUserDataByUsername = (cleanedUsername: string | undefined) => {
     cleanedUsername?.length &&
       getuser(cleanedUsername)
         .then((result) => setRes(result))
-        .finally(() => setLoading(true));
+        .finally(() => setLoading(false));
   }, [cleanedUsername]);
   return { res, loading };
 };

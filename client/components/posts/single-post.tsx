@@ -13,13 +13,14 @@ interface Singlepost {
 }
 export const Singlepost = React.memo(
   ({ post, user, trail = false, children }: Singlepost) => {
+    // console.log("user", user);
     return (
       <div className="flex gap-2">
         <div className="flex flex-col items-center gap-1">
           <Avatar
             variant="others"
-            imgurl={user.profilePic}
-            name={user.username}
+            imgurl={user?.profilePic}
+            name={user?.username}
           />
           {trail && (
             <span className="grow border border-stone-800 bg-stone-800"></span>

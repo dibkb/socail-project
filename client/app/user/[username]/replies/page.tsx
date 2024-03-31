@@ -13,6 +13,7 @@ import {
 } from "@/actions/getComment";
 import MinimalPost from "@/components/posts/minimal-post";
 import Loading from "@/components/guides/loading";
+import { useIsMounted } from "@/hooks/isMounted";
 
 const Userreplies = () => {
   const { user } = useUserStore((state) => state);
@@ -23,29 +24,36 @@ const Userreplies = () => {
   }
   const { res: viewedUserData, loading } =
     useUserDataByUsername(cleanedUsername);
+  const isMounted = useIsMounted();
   const { data, error, isLoading }: SWRResponse<CommentbodyResponse[]> = useSWR(
     viewedUserData?.data?.id,
     getAllCoomentsUserById
   );
-  if (loading || !viewedUserData?.data) {
-    return <Loading />;
-  }
-  return (
-    <div>
+  if (!viewedUserData?.data) {
+    if (loading || !isMounted) {
+      return <Loading />;
+    } else {
+      return redirect("/auth/login");
+    }
+  } else {
+    return (
       <div>
-        {data?.map((c) => {
-          return (
-            <MinimalPost
-              post={c.post}
-              key={c.id}
-              body={c.body}
-              user={viewedUserData?.data}
-            />
-          );
-        })}
+        <div>
+          {data?.length &&
+            data?.map((c) => {
+              return (
+                <MinimalPost
+                  post={c.post}
+                  key={c.id}
+                  body={c.body}
+                  commentUser={viewedUserData?.data}
+                />
+              );
+            })}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default Userreplies;
