@@ -14,6 +14,7 @@ import { useUserStore } from "@/src/providers/user-store-provider";
 import { followuser, unFollowUser } from "@/actions/followuser";
 import { redirect, usePathname } from "next/navigation";
 import Loading from "@/components/guides/loading";
+import { useUserDataByUsername } from "@/hooks/getUserbyUsername";
 // server actions
 interface Username {
   children: React.ReactNode;
@@ -27,25 +28,8 @@ export default function Username({ children }: Username) {
   if (cleanedUsername === user?.username) {
     redirect("/profile");
   }
-  const [res, setRes] = useState<
-    | {
-        data: User;
-        error?: undefined;
-      }
-    | {
-        error: any;
-        data?: undefined;
-      }
-  >();
+  const res = useUserDataByUsername(cleanedUsername);
   const [isPending, startTransition] = useTransition();
-  useEffect(() => {
-    async function getuser(username: string) {
-      const res = await getUserInfo(username);
-      return res;
-    }
-    cleanedUsername?.length &&
-      getuser(cleanedUsername).then((result) => setRes(result));
-  }, [cleanedUsername]);
   const handleFollowUser = () => {
     startTransition(async () => {
       if (res?.data?.id && user) {
