@@ -22,3 +22,10 @@ export async function getAllPosts(index: number) {
     })
     .then((res) => res.data);
 }
+export function getAllCoomentsUser(id: string) {
+  return axios
+    .get(`${SERVER}/api/v1/comment/user/all`, {
+      withCredentials: true,
+    })
+    .then((res) => res.data);
+}

@@ -9,7 +9,7 @@ interface Singlepost {
   post: Post;
   user: smallProfile;
   trail?: boolean;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 export const Singlepost = React.memo(
   ({ post, user, trail = false, children }: Singlepost) => {
