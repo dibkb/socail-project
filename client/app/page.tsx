@@ -38,7 +38,7 @@ export default function Home() {
       {isLoading ? (
         <PostSkeleton />
       ) : (
-        <div className="grow">
+        <div className="grow mt-6">
           {data?.posts && data.threads && (
             <>
               <Posts posts={data?.posts} threads={data?.threads} />
