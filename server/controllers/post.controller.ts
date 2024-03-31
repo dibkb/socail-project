@@ -217,14 +217,23 @@ const createPosts = async (posts: any[], userid: string): Promise<any> => {
 };
 export const getEveryPost = async (req: Request, res: Response) => {
   const { user } = req;
+  const { per_page, page } = req.query;
   if (!user) throw new Error("No user provided");
   try {
+    const offset = (Number(page) - 1) * Number(per_page);
+    // console.log("per_page", per_page);
+    // console.log("page", page);
+    // console.log("offset", offset);
     const posts = await prisma.post.findMany({
+      take: Number(per_page),
+      skip: offset,
       orderBy: {
         createdAt: "desc",
       },
     });
     const threads = await prisma.thread.findMany({
+      take: Number(per_page),
+      skip: offset,
       orderBy: {
         createdAt: "desc",
       },

@@ -14,9 +14,10 @@ export async function smallProfileFetcher(userid: string) {
     })
     .then((res) => res.data);
 }
-export async function getAllPosts() {
+export async function getAllPosts(index: number) {
+  const PAGE_SIZE = 4;
   return axios
-    .get(`${SERVER}/api/v1/posts/all`, {
+    .get(`${SERVER}/api/v1/posts/all?per_page=${PAGE_SIZE}&page=${index}`, {
       withCredentials: true,
     })
     .then((res) => res.data);
