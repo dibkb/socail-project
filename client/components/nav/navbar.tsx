@@ -1,9 +1,10 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { FaThreads } from "react-icons/fa6";
 import { DropdownMenu } from "./menu-icon";
 import { useIsBelowWidth } from "@/hooks/isBelowWidth";
 import NavbarCenter from "./center-nav";
+import ThreadformPortal from "@/modals/thread-modal";
 const Navbar = () => {
   const { isBelowWidth } = useIsBelowWidth(600);
   const right = (
@@ -36,7 +37,6 @@ const Navbar = () => {
       </nav>
     );
   }
-
   return NAVBAR;
 };
 

@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import Editprofileitems from "./edit-profile-values";
 import { User } from "@/src/stores/user-store";
 import AvatarForm from "@/components/home/avatar";
-import { resizeFile } from "@/utils/compress-image";
 import { update } from "@/actions/update";
 import Cropimagelayout from "./crop-image";
 interface EditProfilePortal {
@@ -55,7 +54,6 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
     }).then((res) => {
       if (res.data) {
         // DATA
-        console.log(res.data);
         setUser(res.data);
       }
       if (res.error) {
