@@ -44,13 +44,16 @@ const Posts = React.memo(({ posts, threads }: Posts) => {
         </TabsContent>
         <TabsContent value="shread">
           {/* Thread-posts */}
-          {threadsWithPosts.map((i, id) => (
-            <div key={id} className="py-4 w-full border-stone-700">
-              {i.posts.sort(sortbyTimeDescending).map((th: Post) => {
-                return <PostLayout key={th.id} post={th} />;
-              })}
-            </div>
-          ))}
+          {threadsWithPosts.map((i, id) => {
+            if (i.posts.length)
+              return (
+                <div key={id} className="py-4 w-full border-b border-stone-700">
+                  {i.posts.sort(sortbyTimeDescending).map((th: Post) => {
+                    return <PostLayout key={th.id} post={th} />;
+                  })}
+                </div>
+              );
+          })}
         </TabsContent>
       </Tabs>
     </div>
