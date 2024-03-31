@@ -110,7 +110,7 @@ const PostLayout = React.memo(({ post }: PostLayout) => {
                   className="hover:underline"
                   onClick={() => setOpenComments((prev) => !prev)}
                 >
-                  {comment?.length} comments
+                  {comment?.length} Replies
                 </p>
               </span>
               {comment?.length ? (

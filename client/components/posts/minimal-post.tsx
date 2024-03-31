@@ -8,6 +8,7 @@ import { Singlepost } from "./single-post";
 import Avatar from "../home/avatar";
 import { Postsk } from "../guides/skeleton-loader";
 import { User } from "@/src/stores/user-store";
+import { BsFillReplyAllFill } from "react-icons/bs";
 
 interface MinimalPost {
   post: Post;
@@ -27,6 +28,10 @@ const MinimalPost = ({ post, body, user }: MinimalPost) => {
   }
   return (
     <main className="flex flex-col gap-3 py-3 select-none">
+      <span className="flex items-center gap-2 text-stone-600 ml-auto text-sm">
+        <BsFillReplyAllFill />
+        <p>Replied to </p>
+      </span>
       <Singlepost post={post} user={postOwner} trail={true} />
       <span className="flex items-center justify-between text-xs text-stone-600 font-medium">
         {/* type-comment */}
