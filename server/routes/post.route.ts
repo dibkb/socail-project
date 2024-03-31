@@ -6,6 +6,7 @@ import {
   createThreads,
   getAllPosts,
   getAllPostsByUsername,
+  getEveryPost,
   getPost,
   likePost,
   unlikePost,
@@ -15,6 +16,7 @@ import { getThread } from "../controllers/thread.controller";
 const router = express.Router();
 // ------------GET--------------
 router.get("/threads/:threadId", verifyRoute, getThread);
+router.get("/all", verifyRoute, getEveryPost);
 router.get("/:postid", verifyRoute, getPost);
 router.get("/all/:userid", verifyRoute, getAllPosts);
 router.get("/all/username/:username", verifyRoute, getAllPostsByUsername);

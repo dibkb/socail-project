@@ -215,3 +215,25 @@ const createPosts = async (posts: any[], userid: string): Promise<any> => {
   }
   return createdPosts;
 };
+export const getEveryPost = async (req: Request, res: Response) => {
+  const { user } = req;
+  if (!user) throw new Error("No user provided");
+  try {
+    const posts = await prisma.post.findMany({
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
+    const threads = await prisma.thread.findMany({
+      orderBy: {
+        createdAt: "asc",
+      },
+    });
+    return res.status(200).json({
+      posts: posts,
+      threads: threads,
+    });
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+};
