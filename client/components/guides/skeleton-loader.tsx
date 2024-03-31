@@ -6,8 +6,8 @@ export const Postsk = () => {
 export const PostSkeleton = () => {
   return (
     <div className="flex flex-col gap-6 mt-4 animate-pulse">
-      {[...Array(4).fill(4)].map((ele) => (
-        <Postsk key={ele} />
+      {[...Array(4).fill(4)].map((ele, id) => (
+        <Postsk key={ele + id} />
       ))}
     </div>
   );
