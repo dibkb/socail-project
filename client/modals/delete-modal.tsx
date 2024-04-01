@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { Button } from "@/components/ui/button";
 interface DeleteModal {
   onCloseHandler: () => void;
   openDeleteModal: boolean;
@@ -36,23 +37,18 @@ const DeleteModal = ({ onCloseHandler, openDeleteModal }: DeleteModal) => {
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
-                  Payment successful
+                  Are you sure you want to delete this post
                 </Dialog.Title>
                 <div className="mt-2">
                   <p className="text-sm text-gray-500">
-                    Your payment has been successfully submitted. We’ve sent you
-                    an email with all of the details of your order.
+                    Deleting will permanently remove this post from the
+                    database. You can't retrive it again
                   </p>
                 </div>
-
                 <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                    onClick={onCloseHandler}
-                  >
-                    Got it, thanks!
-                  </button>
+                  <Button onClick={onCloseHandler} variant={"destructive"}>
+                    Yes I understand
+                  </Button>
                 </div>
               </Dialog.Panel>
             </Transition.Child>
