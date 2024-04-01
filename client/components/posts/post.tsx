@@ -11,9 +11,10 @@ import PostLayout from "./post-layout";
 interface Posts {
   posts: Post[];
   threads: Threads[];
+  edit?: boolean;
   // user?: User | { id: string; username: string };
 }
-const Posts = React.memo(({ posts, threads }: Posts) => {
+const Posts = React.memo(({ posts, threads, edit = false }: Posts) => {
   const filterByThreadid = (id: string) => {
     return posts.filter((p) => p.threadId === id);
   };
@@ -37,7 +38,7 @@ const Posts = React.memo(({ posts, threads }: Posts) => {
             .map((th) => {
               return (
                 <div key={th.id} className="py-4 border-b border-stone-700">
-                  <PostLayout post={th} />
+                  <PostLayout post={th} edit={edit} />
                 </div>
               );
             })}
@@ -49,7 +50,7 @@ const Posts = React.memo(({ posts, threads }: Posts) => {
               return (
                 <div key={id} className="py-4 w-full border-b border-stone-700">
                   {i.posts.sort(sortbyTimeDescending).map((th: Post) => {
-                    return <PostLayout key={th.id} post={th} />;
+                    return <PostLayout key={th.id} post={th} edit={edit} />;
                   })}
                 </div>
               );

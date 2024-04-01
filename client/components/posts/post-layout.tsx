@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Fragment } from "react";
 import { Singlepost } from "./single-post";
 import { IoMdHeartEmpty, IoMdHeart } from "react-icons/io";
 import Avatar from "../home/avatar";
@@ -13,15 +13,18 @@ import { addComment } from "@/actions/addComment";
 import { sortbyTimeAscending } from "@/utils/sort-by-time";
 import { likePost, unlikePost } from "@/actions/likePost";
 import { useUserStore } from "@/src/providers/user-store-provider";
+import { TrashIcon } from "@radix-ui/react-icons";
+import DeleteModal from "@/modals/delete-modal";
 interface PostLayout {
   post: Post;
+  edit?: boolean;
   // username: string;
   // userid: string;
 }
 interface ErrorData {
   message: string;
 }
-const PostLayout = React.memo(({ post }: PostLayout) => {
+const PostLayout = React.memo(({ post, edit }: PostLayout) => {
   const { user } = useUserStore((state) => state);
   const { data, error, isLoading }: SWRResponse<Comment[], ErrorData, boolean> =
     useSWR(post?.id, commentFetcher);
@@ -87,22 +90,29 @@ const PostLayout = React.memo(({ post }: PostLayout) => {
       setComment(data);
     }
   }, [data]);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   if (!userLoading && userProfile)
     return (
       <main className="flex flex-col gap-3 py-3 select-none">
         <Singlepost post={post} user={userProfile} trail={true}>
           <div className="w-full">
-            {likes.liked ? (
-              <IoMdHeart
-                className="h-5 w-5 cursor-pointer text-red-600"
-                onClick={postUnlikeHandler}
+            <span className="flex justify-between items-center">
+              {likes.liked ? (
+                <IoMdHeart
+                  className="h-5 w-5 cursor-pointer text-red-600"
+                  onClick={postUnlikeHandler}
+                />
+              ) : (
+                <IoMdHeartEmpty
+                  className="h-5 w-5 cursor-pointer"
+                  onClick={postLikeHandler}
+                />
+              )}
+              <TrashIcon
+                className="h-7 w-7 cursor-pointer p-1 text-stone-700 hover:text-slate-50"
+                onClick={() => setOpenDeleteModal(true)}
               />
-            ) : (
-              <IoMdHeartEmpty
-                className="h-5 w-5 cursor-pointer"
-                onClick={postLikeHandler}
-              />
-            )}
+            </span>
             <div className="flex justify-between items-center mt-4">
               <span className="flex items-center text-xs gap-3 text-stone-500 font-medium cursor-pointer">
                 <p>{likes.number} like</p>
@@ -125,6 +135,10 @@ const PostLayout = React.memo(({ post }: PostLayout) => {
                 ""
               )}
             </div>
+            <DeleteModal
+              onCloseHandler={() => setOpenDeleteModal(false)}
+              openDeleteModal={openDeleteModal}
+            />
             {/* comments */}
             <div className="mt-2 flex flex-col gap-1">
               {openComments &&

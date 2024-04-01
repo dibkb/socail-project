@@ -6,7 +6,6 @@ const usePreviewImg = ({
   setImgUrl: React.Dispatch<React.SetStateAction<imgurl[]>>;
 }) => {
   const handleImageChange = ({ id, e }: handleImageChange) => {
-    console.log(id);
     const files = e.target?.files;
     if (files) {
       const file = files[0];

@@ -8,7 +8,6 @@ export async function commentFetcher(postid: string) {
     .then((res) => res.data);
 }
 export async function smallProfileFetcher(userid: string) {
-  console.log("smallProfileFetcher", userid);
   return axios
     .get(`${SERVER}/api/v1/users/name-avatar/${userid}`, {
       withCredentials: true,
