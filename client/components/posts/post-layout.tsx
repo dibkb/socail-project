@@ -151,7 +151,9 @@ const PostLayout = React.memo(({ post, edit }: PostLayout) => {
               onCloseHandler={() => setOpenDeleteModal(false)}
               openDeleteModal={openDeleteModal}
             />
-            {openEditModal && <Editpostmodal setOpen={setOpenEditModal} />}
+            {openEditModal && (
+              <Editpostmodal setOpen={setOpenEditModal} post={post} />
+            )}
             {/* comments */}
             <div className="mt-2 flex flex-col gap-1">
               {openComments &&
