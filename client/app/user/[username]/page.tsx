@@ -3,11 +3,11 @@ import { getUserPostsByUsername } from "@/actions/getUserPosts";
 import { Post, Threads } from "@/types";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { getCleanedusername } from "./layout";
 import Spinner from "@/components/svg/spinner";
 import Posts from "@/components/posts/post";
 import Loading from "@/components/guides/loading";
 import { PostSkeleton } from "@/components/guides/skeleton-loader";
+import { getCleanedusername } from "@/utils/get-clean-username";
 const Userprofilepage = () => {
   const [posts, setPosts] = useState<
     "loading" | { posts: Post[]; threads: Threads[] }

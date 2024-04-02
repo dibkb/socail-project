@@ -1,7 +1,6 @@
 "use client";
 import { redirect, usePathname } from "next/navigation";
 import React from "react";
-import { getCleanedusername } from "../layout";
 import { useUserStore } from "@/src/providers/user-store-provider";
 import { stat } from "fs";
 import { useUserDataByUsername } from "@/hooks/getUserbyUsername";
@@ -14,6 +13,7 @@ import {
 import MinimalPost from "@/components/posts/minimal-post";
 import Loading from "@/components/guides/loading";
 import { useIsMounted } from "@/hooks/isMounted";
+import { getCleanedusername } from "@/utils/get-clean-username";
 
 const Userreplies = () => {
   const { user } = useUserStore((state) => state);
