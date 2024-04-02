@@ -1,50 +1,51 @@
-"use client";
+// "use client";
 import { getUserPostsByUsername } from "@/actions/getUserPosts";
 import { Post, Threads } from "@/types";
 import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { Suspense } from "react";
 import Spinner from "@/components/svg/spinner";
 import Posts from "@/components/posts/post";
 import Loading from "@/components/guides/loading";
 import { PostSkeleton } from "@/components/guides/skeleton-loader";
-import { getCleanedusername } from "@/utils/getCleanedusername";
-export async function generateStaticParams() {}
-const Userprofilepage = () => {
-  const [posts, setPosts] = useState<
-    "loading" | { posts: Post[]; threads: Threads[] }
-  >("loading");
-  const pathname = usePathname();
-  const cleanedUsername = getCleanedusername(pathname) as string;
-  const [user, setUser] = useState({
-    id: "",
-    username: cleanedUsername,
-  });
-  useEffect(() => {
-    async function getusePosts(username: string) {
-      const res = await getUserPostsByUsername(username);
-      return res;
-    }
-    cleanedUsername &&
-      getusePosts(cleanedUsername).then((result) => {
-        setPosts(result.data);
-        if (result.data?.posts[0]?.userId) {
-          setUser((prev) => ({
-            ...prev,
-            id: result.data?.posts[0]?.userId,
-          }));
-        }
-      });
-  }, [cleanedUsername]);
-  if (!cleanedUsername) return <PostSkeleton />;
-  const BODY =
-    posts === "loading" ? (
-      <PostSkeleton />
-    ) : posts.posts.length === 0 ? (
-      <div className="flex items-center justify-center h-44">No posts yet</div>
-    ) : (
-      user.username && <Posts threads={posts.threads} posts={posts.posts} />
-    );
-  return <div className="grow">{BODY}</div>;
+import {
+  getCleanedusername,
+  getCleanedusernameServer,
+} from "@/utils/getCleanedusername";
+import { getAllusernames } from "@/actions/getuser";
+import { smallProfileFetcher } from "@/actions/getComment";
+export async function generateStaticParams() {
+  const usernames = await getAllusernames();
+  return usernames.data.map((u: any) => ({
+    username: `@${u.username}`,
+  }));
+}
+interface posts {
+  posts: Post[];
+  threads: Threads[];
+}
+const Userprofilepage = async ({
+  params,
+}: {
+  params: { username: string };
+}) => {
+  const cleanedUsername = (await getCleanedusernameServer(
+    params.username
+  )) as string;
+  const { data } = await getUserPostsByUsername(cleanedUsername);
+  return (
+    <Suspense fallback={<PostSkeleton />}>
+      {data?.posts?.length === 0 && data?.threads?.length ? (
+        <div className="flex items-center justify-center h-44">
+          No posts yet
+        </div>
+      ) : (
+        ""
+      )}
+      {data?.threads && data?.threads && (
+        <Posts threads={data?.threads} posts={data?.posts} />
+      )}
+    </Suspense>
+  );
 };
 
 export default Userprofilepage;

@@ -6,3 +6,6 @@ export function getCleanedusername(name: string) {
     return res;
   }
 }
+export function getCleanedusernameServer(name: string) {
+  return name.split("%40").pop();
+}

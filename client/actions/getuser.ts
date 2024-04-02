@@ -17,3 +17,20 @@ export async function getUserInfo(username: string) {
     };
   }
 }
+export async function getAllusernames() {
+  try {
+    const serverResponse = await axios.get(
+      `${SERVER}/api/v1/users/username/all`,
+      {
+        withCredentials: true,
+      }
+    );
+    return {
+      data: serverResponse.data,
+    };
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
+}

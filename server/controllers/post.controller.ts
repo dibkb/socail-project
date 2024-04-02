@@ -159,10 +159,8 @@ export const getAllPosts = async (req: Request, res: Response) => {
   }
 };
 export const getAllPostsByUsername = async (req: Request, res: Response) => {
-  const { user } = req;
   const { username } = req.params;
   try {
-    if (!user) throw new Error("No user provided");
     const foundUser = await prisma.user.findUnique({
       where: {
         username: username,
