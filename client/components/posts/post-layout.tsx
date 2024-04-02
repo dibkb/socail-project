@@ -13,8 +13,9 @@ import { addComment } from "@/actions/addComment";
 import { sortbyTimeAscending } from "@/utils/sort-by-time";
 import { likePost, unlikePost } from "@/actions/likePost";
 import { useUserStore } from "@/src/providers/user-store-provider";
-import { TrashIcon } from "@radix-ui/react-icons";
+import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
 import DeleteModal from "@/modals/delete-modal";
+import Editpostmodal from "@/modals/edit-post-modal";
 interface PostLayout {
   post: Post;
   edit?: boolean;
@@ -91,6 +92,7 @@ const PostLayout = React.memo(({ post, edit }: PostLayout) => {
     }
   }, [data]);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [openEditModal, setOpenEditModal] = useState(false);
   if (!userLoading && userProfile)
     return (
       <main className="flex flex-col gap-3 py-3 select-none">
@@ -108,10 +110,20 @@ const PostLayout = React.memo(({ post, edit }: PostLayout) => {
                   onClick={postLikeHandler}
                 />
               )}
-              <TrashIcon
-                className="h-7 w-7 cursor-pointer p-1 text-stone-700 hover:text-slate-50"
-                onClick={() => setOpenDeleteModal(true)}
-              />
+              {edit ? (
+                <div className="flex items-center gap-1">
+                  <TrashIcon
+                    className="h-7 w-7 cursor-pointer p-1 text-stone-700 hover:text-slate-50"
+                    onClick={() => setOpenDeleteModal(true)}
+                  />
+                  <Pencil1Icon
+                    className="h-7 w-7 cursor-pointer p-1 text-stone-700 hover:text-slate-50"
+                    onClick={() => setOpenEditModal(true)}
+                  />
+                </div>
+              ) : (
+                ""
+              )}
             </span>
             <div className="flex justify-between items-center mt-4">
               <span className="flex items-center text-xs gap-3 text-stone-500 font-medium cursor-pointer">
@@ -139,6 +151,7 @@ const PostLayout = React.memo(({ post, edit }: PostLayout) => {
               onCloseHandler={() => setOpenDeleteModal(false)}
               openDeleteModal={openDeleteModal}
             />
+            {openEditModal && <Editpostmodal setOpen={setOpenEditModal} />}
             {/* comments */}
             <div className="mt-2 flex flex-col gap-1">
               {openComments &&
