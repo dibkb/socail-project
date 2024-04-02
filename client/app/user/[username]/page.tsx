@@ -7,7 +7,7 @@ import { getCleanedusernameServer } from "@/utils/getCleanedusername";
 import { getAllusernames } from "@/actions/getuser";
 export async function generateStaticParams() {
   const usernames = await getAllusernames();
-  return usernames.data.map((u: any) => ({
+  return usernames?.data?.map((u: any) => ({
     username: `@${u.username}`,
   }));
 }
