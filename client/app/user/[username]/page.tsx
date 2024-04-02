@@ -8,6 +8,7 @@ import Posts from "@/components/posts/post";
 import Loading from "@/components/guides/loading";
 import { PostSkeleton } from "@/components/guides/skeleton-loader";
 import { getCleanedusername } from "@/utils/getCleanedusername";
+export async function generateStaticParams() {}
 const Userprofilepage = () => {
   const [posts, setPosts] = useState<
     "loading" | { posts: Post[]; threads: Threads[] }
