@@ -27,9 +27,10 @@ export async function getUserPosts(userid: string) {
 // }
 export async function getUserPostsByUsername(username: string) {
   try {
-    const serverResponse = await axios.get(
+    const serverResponse = await axios(
       `${SERVER}/api/v1/posts/all/username/${username}`,
       {
+        method: "get",
         withCredentials: true,
       }
     );

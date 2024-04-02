@@ -32,17 +32,20 @@ const Userprofilepage = async ({
     params.username
   )) as string;
   const { data } = await getUserPostsByUsername(cleanedUsername);
+  console.log(data?.posts?.length && data?.threads?.length);
   return (
     <Suspense fallback={<PostSkeleton />}>
-      {data?.posts?.length === 0 && data?.threads?.length ? (
+      {data?.posts?.length === 0 && data?.threads?.length === 0 ? (
         <div className="flex items-center justify-center h-44">
           No posts yet
         </div>
       ) : (
         ""
       )}
-      {data?.threads && data?.threads && (
+      {data?.threads.length || data?.threads.length ? (
         <Posts threads={data?.threads} posts={data?.posts} />
+      ) : (
+        ""
       )}
     </Suspense>
   );
