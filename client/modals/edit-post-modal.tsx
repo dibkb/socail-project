@@ -73,11 +73,12 @@ const Editpostmodal = ({ setOpen, post }: Editpostmodal) => {
               hidden
               onChange={(e) => handleFileChange(e)}
             />
-            <label htmlFor={`imageinput`}>
-              <TbPhoto
-                size={18}
-                className="cursor-pointer text-stone-500 hover:text-white"
-              />
+            <label
+              htmlFor={`imageinput`}
+              className="flex items-center gap-2 text-stone-500 hover:text-white text-sm"
+            >
+              {image ? "Edit photo" : "Add photo"}
+              <TbPhoto size={18} className="cursor-pointer " />
             </label>
           </main>
           <Button className="mt-6" variant={"default"}>

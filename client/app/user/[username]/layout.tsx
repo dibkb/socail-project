@@ -15,6 +15,7 @@ import { followuser, unFollowUser } from "@/actions/followuser";
 import { redirect, usePathname } from "next/navigation";
 import Loading from "@/components/guides/loading";
 import { useUserDataByUsername } from "@/hooks/getUserbyUsername";
+import { getCleanedusername } from "@/utils/getCleanedusername";
 // server actions
 interface Username {
   children: React.ReactNode;
@@ -137,14 +138,5 @@ export default function Username({ children }: Username) {
     }
   } else {
     return <Loading />;
-  }
-}
-
-export function getCleanedusername(name: string) {
-  const res = name.split("/@").pop();
-  if (res?.split("/").length) {
-    return res?.split("/")[0];
-  } else {
-    return res;
   }
 }
