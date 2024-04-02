@@ -6,6 +6,7 @@ import Image from "next/image";
 import { RxCross1 } from "react-icons/rx";
 import { TbPhoto } from "react-icons/tb";
 import { resizeFile } from "@/utils/compress-image";
+import { AlertDestructive } from "@/components/errors/error-message";
 interface Editpostmodal {
   setOpen: Dispatch<SetStateAction<boolean>>;
   post: Post;
@@ -13,6 +14,7 @@ interface Editpostmodal {
 const Editpostmodal = ({ setOpen, post }: Editpostmodal) => {
   const [body, setBody] = useState<string>(post.body);
   const [image, setImage] = useState<string>(post?.image || "");
+  const [error, setError] = useState(false);
   const changeTextAreaHandler = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -28,6 +30,7 @@ const Editpostmodal = ({ setOpen, post }: Editpostmodal) => {
         const image = (await resizeFile(file)) as string;
         setImage(image);
       } else {
+        setError(true);
       }
     }
   };
@@ -77,6 +80,14 @@ const Editpostmodal = ({ setOpen, post }: Editpostmodal) => {
             </label>
           </main>
         </form>
+        {error ? (
+          <AlertDestructive
+            message="Only images are allowed"
+            onCloseHandler={() => setError(false)}
+          />
+        ) : (
+          ""
+        )}
       </div>
     </Modallayout>
   );
