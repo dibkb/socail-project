@@ -4,9 +4,9 @@ import { prisma } from "../index";
 
 export const createPost = async (req: Request, res: Response) => {
   const { user } = req;
-  if (!user) throw new Error("No user provided");
   const { body, image } = req.body;
   try {
+    if (!user) throw new Error("No user provided");
     if (!(body || image)) {
       throw new Error("No fields provided");
     }
@@ -30,8 +30,8 @@ export const createPost = async (req: Request, res: Response) => {
 
 export const createThreads = async (req: Request, res: Response) => {
   const { user } = req;
-  if (!user) throw new Error("No user provided");
   try {
+    if (!user) throw new Error("No user provided");
     const { title, image, posts } = req.body;
     let imgurl = "";
     if (image) {
@@ -67,8 +67,8 @@ export const createThreads = async (req: Request, res: Response) => {
 export const getPost = async (req: Request, res: Response) => {
   const { user } = req;
   const { postid } = req.params;
-  if (!user) throw new Error("No user provided");
   try {
+    if (!user) throw new Error("No user provided");
     const post = await prisma.post.findUnique({
       where: { id: postid },
     });
@@ -80,8 +80,8 @@ export const getPost = async (req: Request, res: Response) => {
 export const likePost = async (req: Request, res: Response) => {
   const { user } = req;
   const { postid } = req.params;
-  if (!user) throw new Error("No user provided");
   try {
+    if (!user) throw new Error("No user provided");
     const post = await prisma.post.findUnique({
       where: { id: postid },
     });
@@ -107,8 +107,8 @@ export const likePost = async (req: Request, res: Response) => {
 export const unlikePost = async (req: Request, res: Response) => {
   const { user } = req;
   const { postid } = req.params;
-  if (!user) throw new Error("No user provided");
   try {
+    if (!user) throw new Error("No user provided");
     const post = await prisma.post.findUnique({
       where: { id: postid },
     });
@@ -134,8 +134,8 @@ export const unlikePost = async (req: Request, res: Response) => {
 export const getAllPosts = async (req: Request, res: Response) => {
   const { user } = req;
   const { userid } = req.params;
-  if (!user) throw new Error("No user provided");
   try {
+    if (!user) throw new Error("No user provided");
     const posts = await prisma.post.findMany({
       where: {
         userId: userid,
@@ -161,9 +161,9 @@ export const getAllPosts = async (req: Request, res: Response) => {
 export const getAllPostsByUsername = async (req: Request, res: Response) => {
   const { user } = req;
   const { username } = req.params;
-  if (!user) throw new Error("No user provided");
   try {
-    const user = await prisma.user.findUnique({
+    if (!user) throw new Error("No user provided");
+    const foundUser = await prisma.user.findUnique({
       where: {
         username: username,
       },
@@ -171,19 +171,19 @@ export const getAllPostsByUsername = async (req: Request, res: Response) => {
         id: true,
       },
     });
-    if (!user) {
+    if (!foundUser) {
       throw new Error("User not found");
     }
     const posts = await prisma.post.findMany({
       where: {
-        userId: user.id,
+        userId: foundUser.id,
       },
     });
     const threads = await prisma.thread.findMany({
       where: {
         posts: {
           some: {
-            userId: user.id,
+            userId: foundUser.id,
           },
         },
       },
@@ -218,8 +218,9 @@ const createPosts = async (posts: any[], userid: string): Promise<any> => {
 export const getEveryPost = async (req: Request, res: Response) => {
   const { user } = req;
   const { per_page, page } = req.query;
-  if (!user) throw new Error("No user provided");
   try {
+    if (!user) throw new Error("No user provided");
+
     const offset = (Number(page) - 1) * Number(per_page);
     // console.log("per_page", per_page);
     // console.log("page", page);
@@ -242,6 +243,47 @@ export const getEveryPost = async (req: Request, res: Response) => {
       posts: posts,
       threads: threads,
     });
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+export const updatePost = async (req: Request, res: Response) => {
+  const { user } = req;
+  const { postid } = req.params;
+  const { body, image } = req.body;
+  try {
+    if (!user) throw new Error("No user provided");
+    if (!postid) throw new Error("No postid provided");
+    if (!(body || image)) {
+      throw new Error("No fields provided");
+    }
+    const post = await prisma.post.findUnique({
+      where: {
+        id: postid,
+      },
+    });
+    if (post?.userId !== user.id) {
+      throw new Error("Not authorized");
+    }
+    // delete cloudinary image if available
+    if (image && post.image) {
+      await cloudinary.uploader.destroy(post?.image);
+    }
+    let newimage = "";
+    if (image) {
+      const newprofile = await cloudinary.uploader.upload(image);
+      newimage = newprofile.secure_url;
+    }
+    const updatedPost = await prisma.post.update({
+      where: {
+        id: postid,
+      },
+      data: {
+        body: body || post.body,
+        image: newimage.length ? newimage : post.image,
+      },
+    });
+    return res.status(200).json(updatedPost);
   } catch (error: any) {
     return res.status(500).json({ message: error.message });
   }

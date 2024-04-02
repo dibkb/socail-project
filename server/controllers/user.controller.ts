@@ -208,7 +208,6 @@ export const updateUser = async (req: Request, res: Response) => {
       }
       const newprofile = await cloudinary.uploader.upload(profilePic);
       newprofileUrl = newprofile.secure_url;
-      console.log(newprofileUrl);
     }
     const updatedUser = await updateUserFields({
       id: user.id,

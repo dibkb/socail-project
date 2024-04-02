@@ -10,6 +10,7 @@ import {
   getPost,
   likePost,
   unlikePost,
+  updatePost,
 } from "../controllers/post.controller";
 import { getThread } from "../controllers/thread.controller";
 
@@ -25,4 +26,6 @@ router.post("/like/:postid", verifyRoute, likePost);
 router.post("/unlike/:postid", verifyRoute, unlikePost);
 router.post("/create", verifyRoute, createPost);
 router.post("/threads/create", verifyRoute, createThreads);
+// -------------PUT----------------
+router.put("/:postid", verifyRoute, updatePost);
 export default router;

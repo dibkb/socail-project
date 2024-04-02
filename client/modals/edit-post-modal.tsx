@@ -7,6 +7,7 @@ import { RxCross1 } from "react-icons/rx";
 import { TbPhoto } from "react-icons/tb";
 import { resizeFile } from "@/utils/compress-image";
 import { AlertDestructive } from "@/components/errors/error-message";
+import { Button } from "@/components/ui/button";
 interface Editpostmodal {
   setOpen: Dispatch<SetStateAction<boolean>>;
   post: Post;
@@ -79,6 +80,9 @@ const Editpostmodal = ({ setOpen, post }: Editpostmodal) => {
               />
             </label>
           </main>
+          <Button className="mt-6" variant={"default"}>
+            Update post
+          </Button>
         </form>
         {error ? (
           <AlertDestructive
