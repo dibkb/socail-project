@@ -13,6 +13,9 @@ import {
   removeUserFollowers,
   removeUserFollowing,
 } from "../utils/unfollowing-user";
+export const testUsr = async (req: Request, res: Response) => {
+  return res.status(200).json("Shreads test user");
+};
 export const getuserProfile = async (req: Request, res: Response) => {
   const { username } = req.params;
   try {
