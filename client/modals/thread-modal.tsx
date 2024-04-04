@@ -105,7 +105,14 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
       className="flex flex-col gap-y-2 sm:gap-y-6 relative"
       style={isBelowWidth ? styles.containerSmall : styles.container}
     >
-      <h3 className="text-center text-sm font-semibold">New Shread</h3>
+      <div className="relative mb-2">
+        {isBelowWidth && (
+          <h3 className="absolute" onClick={() => setOpen(false)}>
+            Cancel
+          </h3>
+        )}
+        <h3 className="text-center text-sm font-semibold">New Shread</h3>
+      </div>
       <form className="bg-stone-800" onSubmit={createPostHandler}>
         <main
           className="flex gap-x-4"
