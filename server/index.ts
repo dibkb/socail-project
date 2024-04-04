@@ -9,15 +9,14 @@ import { PrismaClient } from "@prisma/client";
 import router from "./routes/routes";
 
 // cloudinay
-
-cloudinary.config({
-  cloud_name: `${process.env.CLOUDINARY_CLOUD_NAME}`,
-  api_key: `${process.env.CLOUDINARY_API_KEY}`,
-  api_secret: `${process.env.CLOUDINARY_API_SECRET}`,
-});
 const app = express();
 dotenv.config();
 
+cloudinary.config({
+  cloud_name: `djbju3th8`,
+  api_key: `${process.env.CLOUDINARY_API_KEY}`,
+  api_secret: `${process.env.CLOUDINARY_API_SECRET}`,
+});
 // middleware
 app.set("trust proxy", 1);
 app.use(helmet());

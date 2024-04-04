@@ -8,6 +8,7 @@ const user_controller_1 = require("../controllers/user.controller");
 const verify_route_1 = require("../middlewares/verify-route");
 const router = express_1.default.Router();
 router.get(`/:username`, user_controller_1.getuserProfile);
+router.get(`/test/test`, user_controller_1.testUsr);
 router.get(`/name-avatar/:userid`, user_controller_1.getSmallUser);
 router.post(`/signup`, user_controller_1.signupUser);
 router.post(`/login`, user_controller_1.loginUser);

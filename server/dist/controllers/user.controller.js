@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = exports.unFollowUser = exports.followUser = exports.logoutUser = exports.loginUser = exports.signupUser = exports.getSmallUser = exports.getuserProfile = void 0;
+exports.updateUser = exports.unFollowUser = exports.followUser = exports.logoutUser = exports.loginUser = exports.signupUser = exports.getSmallUser = exports.getuserProfile = exports.testUsr = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const index_1 = require("../index");
 const cloudinary_1 = require("cloudinary");
@@ -21,6 +21,10 @@ const get_user_1 = require("../utils/get-user");
 const following_user_1 = require("../utils/following-user");
 const update_user_1 = require("../utils/update-user");
 const unfollowing_user_1 = require("../utils/unfollowing-user");
+const testUsr = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    return res.status(200).json("Shreads test user");
+});
+exports.testUsr = testUsr;
 const getuserProfile = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username } = req.params;
     try {
