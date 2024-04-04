@@ -69,7 +69,7 @@ const Modallayout: React.FC<PortalProps> = ({
   );
   const responsivContent = (
     <main
-      className="h-full w-full border fixed top-0 left-0 "
+      className="h-full w-full fixed top-0 left-0 "
       style={{
         backgroundColor: "rgba(0,0,0,0.7)",
         zIndex: z,

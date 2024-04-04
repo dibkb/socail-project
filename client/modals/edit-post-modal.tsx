@@ -99,6 +99,3 @@ const Editpostmodal = ({ setOpen, post }: Editpostmodal) => {
 };
 
 export default Editpostmodal;
-function setImgUrl(arg0: (prev: any) => any[]) {
-  throw new Error("Function not implemented.");
-}
