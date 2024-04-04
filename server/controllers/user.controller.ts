@@ -17,6 +17,7 @@ import {
   removeUserFollowers,
   removeUserFollowing,
 } from "../utils/unfollowing-user";
+import { searchNamesUserNames } from "../utils/search-names-usernmaes";
 export const testUsr = async (req: Request, res: Response) => {
   return res.status(200).json("Shreads test user");
 };
@@ -234,6 +235,21 @@ export const updateUser = async (req: Request, res: Response) => {
       profilePic: newprofileUrl || user.profilePic,
     });
     return res.status(202).json(updatedUser);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
+export const searchUsers = async (req: Request, res: Response) => {
+  const { user } = req;
+  const { query } = req.query;
+  try {
+    if (!user) throw new Error("No user provided");
+    if (typeof query === "string") {
+      const users = await searchNamesUserNames(query);
+      return res.status(202).json(users);
+    } else {
+      throw new Error("query should be a string");
+    }
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
