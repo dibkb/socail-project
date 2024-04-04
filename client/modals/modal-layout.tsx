@@ -1,4 +1,5 @@
 "use client";
+import { useIsBelowWidth } from "@/hooks/isBelowWidth";
 import React, {
   useRef,
   useEffect,
@@ -14,14 +15,17 @@ interface PortalProps {
   children: React.ReactNode;
   setOpen: Dispatch<SetStateAction<boolean>>;
   z?: number;
+  responsive?: boolean;
 }
 const Modallayout: React.FC<PortalProps> = ({
   closeOnClick = true,
   children,
   setOpen,
+  responsive = false,
   z = 1000,
 }) => {
   const ref: RefObject<HTMLDivElement> = useRef(null);
+  const { isBelowWidth } = useIsBelowWidth(600);
   useEffect(() => {
     if (closeOnClick) {
       const handleClickOutside = (event: MouseEvent) => {
@@ -63,9 +67,20 @@ const Modallayout: React.FC<PortalProps> = ({
       </div>
     </main>
   );
+  const responsivContent = (
+    <main
+      className="h-full w-full border fixed top-0 left-0 "
+      style={{
+        backgroundColor: "rgba(0,0,0,0.7)",
+        zIndex: z,
+      }}
+    >
+      {children}
+    </main>
+  );
   return mounted
     ? ReactDOM.createPortal(
-        content,
+        responsive && isBelowWidth ? responsivContent : content,
         document.getElementById("portal-root") as HTMLElement
       )
     : null;

@@ -1,7 +1,6 @@
 "use client";
 import { Post, Threads } from "@/types";
 import React from "react";
-import { User } from "@/src/stores/user-store";
 import {
   sortbyTimeAscending,
   sortbyTimeDescending,
