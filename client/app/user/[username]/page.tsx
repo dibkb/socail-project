@@ -1,10 +1,11 @@
-// "use client";
+"use client";
 import { getUserPostsByUsername } from "@/actions/getUserPosts";
 import { Post, Threads } from "@/types";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import Spinner from "@/components/svg/spinner";
 import { getCleanedusername } from "@/utils/get-clean-username";
+import { PostSkeleton } from "@/components/guides/skeleton-loader";
+import Posts from "@/components/posts/post";
 const Userprofilepage = () => {
   const [posts, setPosts] = useState<
     "loading" | { posts: Post[]; threads: Threads[] }
@@ -22,12 +23,14 @@ const Userprofilepage = () => {
     }
     cleanedUsername &&
       getusePosts(cleanedUsername).then((result) => {
-        setPosts(result.data);
-        if (result.data?.posts[0]?.userId) {
-          setUser((prev) => ({
-            ...prev,
-            id: result.data?.posts[0]?.userId,
-          }));
+        if (result.data) {
+          setPosts(result?.data);
+          if (result.data?.posts[0]?.userId) {
+            setUser((prev) => ({
+              ...prev,
+              id: result.data?.posts[0]?.userId,
+            }));
+          }
         }
       });
   }, [cleanedUsername]);
