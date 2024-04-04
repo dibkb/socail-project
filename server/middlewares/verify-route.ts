@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { findUserById } from "../utils/get-user";
 import { Token } from "../utils/helpers";
-import { Prisma } from "@prisma/client";
 const jwtsecret = `${process.env.JWT_SECRET}` || "";
 export const verifyRoute = async (
   req: Request,
