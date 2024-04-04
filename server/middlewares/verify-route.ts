@@ -10,7 +10,6 @@ export const verifyRoute = async (
 ) => {
   try {
     const token = req.cookies.jwt;
-    console.log("verifyRoute", req.cookies);
     if (!token)
       return res.status(401).json({ message: "Unauthorized, jwt missing" });
     const decoded = jwt.verify(token, jwtsecret) as Token;
