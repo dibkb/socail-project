@@ -38,7 +38,12 @@ const Navbar = () => {
       );
     }
     return NAVBAR;
-  } else return "";
+  } else
+    return (
+      <nav className="flex justify-between min-h-14 p-2 w-full fixed z-50">
+        <div className="bg-stone-900 animate-pulse rounded-lg w-full"></div>
+      </nav>
+    );
 };
 
 export default Navbar;
