@@ -8,6 +8,14 @@ export async function commentFetcher(postid: string) {
     })
     .then((res) => res.data);
 }
+export async function searchNameUsername(query: string) {
+  console.log("query", query);
+  return axios
+    .get(`${SERVER}/api/v1/users/search/name&username?query=${query}`, {
+      withCredentials: true,
+    })
+    .then((res) => res.data);
+}
 export async function smallProfileFetcher(userid: string) {
   return axios
     .get(`${SERVER}/api/v1/users/name-avatar/${userid}`, {

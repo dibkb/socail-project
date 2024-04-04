@@ -2,6 +2,17 @@ import { prisma } from "../index";
 
 export const searchNamesUserNames = async (query: string) => {
   try {
+    if (query === "*") {
+      const search = await prisma.user.findMany({
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          profilePic: true,
+        },
+      });
+      return search;
+    }
     const search = await prisma.user.findMany({
       where: {
         OR: [
@@ -13,6 +24,7 @@ export const searchNamesUserNames = async (query: string) => {
         id: true,
         name: true,
         username: true,
+        profilePic: true,
       },
     });
     return search;

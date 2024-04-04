@@ -4,8 +4,5 @@ axios.defaults.withCredentials = true;
 export const instance: AxiosInstance = axios.create({
   baseURL: SERVER,
   timeout: 5000,
-  headers: {
-    // "Access-Control-Allow-Origin": "*",
-    // "Content-Type": "application/json",
-  },
+  headers: {},
 });
