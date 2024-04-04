@@ -20,7 +20,7 @@ router.get("/threads/:threadId", verifyRoute, getThread);
 router.get("/all", verifyRoute, getEveryPost);
 router.get("/:postid", verifyRoute, getPost);
 router.get("/all/:userid", verifyRoute, getAllPosts);
-router.get("/all/username/:username", verifyRoute, getAllPostsByUsername);
+router.get("/all/username/:username", getAllPostsByUsername);
 // ------------POST--------------
 router.post("/like/:postid", verifyRoute, likePost);
 router.post("/unlike/:postid", verifyRoute, unlikePost);

@@ -3,7 +3,11 @@ import bcrypt from "bcrypt";
 import { prisma } from "../index";
 import { v2 as cloudinary } from "cloudinary";
 import { generateAndSetCookie } from "../utils/helpers";
-import { findUserById, findUserByUsername } from "../utils/get-user";
+import {
+  findUserById,
+  findUserByUsername,
+  findAllUsers,
+} from "../utils/get-user";
 import {
   updateUserFollowers,
   updateUserFollowing,
@@ -21,6 +25,16 @@ export const getuserProfile = async (req: Request, res: Response) => {
   try {
     const user = await findUserByUsername(username);
     return res.status(200).json(user);
+  } catch (error: any) {
+    return res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+export const getAllUsernames = async (req: Request, res: Response) => {
+  try {
+    const users = await findAllUsers();
+    return res.status(200).json(users);
   } catch (error: any) {
     return res.status(500).json({
       message: error.message,

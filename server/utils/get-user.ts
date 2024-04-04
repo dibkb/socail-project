@@ -51,3 +51,17 @@ export async function findUserByUsername(username: string) {
     throw error;
   }
 }
+export async function findAllUsers() {
+  try {
+    const user = await prisma.user.findMany({
+      select: {
+        username: true,
+      },
+    });
+
+    return user;
+  } catch (error) {
+    console.error("Error finding user by username:", error);
+    throw error;
+  }
+}
