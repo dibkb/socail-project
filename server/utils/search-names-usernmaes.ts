@@ -26,6 +26,7 @@ export const searchNamesUserNames = async (query: string) => {
         username: true,
         profilePic: true,
       },
+      take: 9,
     });
     return search;
   } catch (error) {}

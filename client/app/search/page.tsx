@@ -6,6 +6,7 @@ import { Globallayout } from "@/components/layouts/main";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { User } from "@/src/stores/user-store";
+import Link from "next/link";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import useSWR, { SWRResponse } from "swr";
 export default function Search() {
@@ -35,11 +36,14 @@ export default function Search() {
   const userbody = data?.map((u) => (
     <section key={u.id} className="py-2 flex gap-3 items-start">
       <Avatar variant="others" imgurl={u.profilePic} name={u.name} />
-      <main className="flex grow">
-        <div className="grow flex flex-col gap-1 text-sm">
-          <span>{u.name}</span>
+      <main className="flex grow border-b-[1px] border-stone-800 pb-4">
+        <Link
+          href={`/user/@${u.username}`}
+          className="grow flex flex-col gap-1 text-sm cursor-pointer group"
+        >
+          <span className="group-hover:underline">{u.name}</span>
           <span className="text-stone-700">{u.username}</span>
-        </div>
+        </Link>
         <Button variant={"outline"} className="rounded-xl px-8 bg-transparent">
           Follow
         </Button>
