@@ -61,29 +61,33 @@ const PostLayout = React.memo(({ post, edit }: PostLayout) => {
       .finally(() => {});
   };
   const postLikeHandler = () => {
+    setLikes((prev) => ({
+      number: prev.number + 1,
+      liked: true,
+    }));
     likePost(post.id)
-      .then((res) => {
-        if (res.data) {
-          setLikes((prev) => ({
-            number: prev.number + 1,
-            liked: true,
-          }));
-        }
+      .then((res) => {})
+      .catch(() => {
+        setLikes((prev) => ({
+          number: prev.number - 1,
+          liked: false,
+        }));
       })
-      .catch(() => {})
       .finally(() => {});
   };
   const postUnlikeHandler = () => {
+    setLikes((prev) => ({
+      number: prev.number - 1,
+      liked: false,
+    }));
     unlikePost(post.id)
-      .then((res) => {
-        if (res.data) {
-          setLikes((prev) => ({
-            number: prev.number - 1,
-            liked: false,
-          }));
-        }
+      .then((res) => {})
+      .catch(() => {
+        setLikes((prev) => ({
+          number: prev.number + 1,
+          liked: true,
+        }));
       })
-      .catch(() => {})
       .finally(() => {});
   };
   useEffect(() => {
