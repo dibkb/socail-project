@@ -147,10 +147,7 @@ const PostLayout = React.memo(({ post, edit }: PostLayout) => {
                 ""
               )}
             </div>
-            <DeleteModal
-              onCloseHandler={() => setOpenDeleteModal(false)}
-              openDeleteModal={openDeleteModal}
-            />
+            {openDeleteModal && <DeleteModal setOpen={setOpenDeleteModal} />}
             {openEditModal && (
               <Editpostmodal setOpen={setOpenEditModal} post={post} />
             )}

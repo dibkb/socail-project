@@ -32,29 +32,34 @@ const Posts = React.memo(({ posts, threads, edit = false }: Posts) => {
         </TabsList>
         <TabsContent value="single">
           {/* Single-posts */}
-          {posts
-            .sort(sortbyTimeAscending)
-            .filter((post) => post.threadId === null)
-            .map((th) => {
-              return (
-                <div key={th.id} className="py-4 border-b border-stone-700">
-                  <PostLayout post={th} edit={edit} />
-                </div>
-              );
-            })}
+          {posts &&
+            posts
+              .sort(sortbyTimeAscending)
+              .filter((post) => post.threadId === null)
+              .map((th) => {
+                return (
+                  <div key={th.id} className="py-4 border-b border-stone-700">
+                    <PostLayout post={th} edit={edit} />
+                  </div>
+                );
+              })}
         </TabsContent>
         <TabsContent value="shread">
           {/* Thread-posts */}
-          {threadsWithPosts.map((i, id) => {
-            if (i.posts.length)
-              return (
-                <div key={id} className="py-4 w-full border-b border-stone-700">
-                  {i.posts.sort(sortbyTimeDescending).map((th: Post) => {
-                    return <PostLayout key={th.id} post={th} edit={edit} />;
-                  })}
-                </div>
-              );
-          })}
+          {threadsWithPosts &&
+            threadsWithPosts.map((i, id) => {
+              if (i.posts.length)
+                return (
+                  <div
+                    key={id}
+                    className="py-4 w-full border-b border-stone-700"
+                  >
+                    {i.posts.sort(sortbyTimeDescending).map((th: Post) => {
+                      return <PostLayout key={th.id} post={th} edit={edit} />;
+                    })}
+                  </div>
+                );
+            })}
         </TabsContent>
       </Tabs>
     </div>

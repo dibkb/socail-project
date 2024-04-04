@@ -1,61 +1,60 @@
 import React, { Fragment } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import styles from "@/styles/delete-modal";
+import Modallayout from "./modal-layout";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 interface DeleteModal {
-  onCloseHandler: () => void;
-  openDeleteModal: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const DeleteModal = ({ onCloseHandler, openDeleteModal }: DeleteModal) => {
+const DeleteModal = ({ setOpen }: DeleteModal) => {
   return (
-    <Transition appear show={openDeleteModal} as={Fragment}>
-      <Dialog as="div" className="relative z-10" onClose={onCloseHandler}>
-        <Transition.Child
-          as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="opacity-0"
-          enterTo="opacity-100"
-          leave="ease-in duration-200"
-          leaveFrom="opacity-100"
-          leaveTo="opacity-0"
+    <Modallayout setOpen={setOpen}>
+      <div style={styles.container} className="relative p-1">
+        {/* <h3
+          className="text-center font-medium"
+          style={{
+            fontSize: "2rem",
+            color: "#1c1917",
+          }}
         >
-          <div className="fixed inset-0 bg-black/25" />
-        </Transition.Child>
-
-        <div className="fixed inset-0 overflow-y-auto">
-          <div className="flex min-h-full items-center justify-center p-4 text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
+          Delete Post
+        </h3> */}
+        <main className="mt-2 text-sm flex flex-col gap-3 items-center">
+          <Image
+            src={`https://cdn.dribbble.com/users/897074/screenshots/16927015/media/b754d4f6646c58e7038ef672be5ea2b9.jpg?resize=300x300&vertical=center`}
+            width={200}
+            height={200}
+            alt="Dustbin"
+          />
+          <h3
+            className="text-base font-medium"
+            style={{
+              color: "#1c1917",
+            }}
+          >
+            Are you sure you want to delete this post?
+          </h3>
+          <div
+            className="text-sm flex gap-3 w-full mt-4"
+            style={{
+              fontSize: ".8rem",
+              fontWeight: "400",
+            }}
+          >
+            <Button variant={"destructive"} className="grow">
+              Yes Delete
+            </Button>
+            <Button
+              variant={"default"}
+              className="grow"
+              onClick={() => setOpen(false)}
             >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                <Dialog.Title
-                  as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900"
-                >
-                  Are you sure you want to delete this post
-                </Dialog.Title>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    Deleting will permanently remove this post from the
-                    database. You can't retrive it again
-                  </p>
-                </div>
-                <div className="mt-4">
-                  <Button onClick={onCloseHandler} variant={"destructive"}>
-                    Yes I understand
-                  </Button>
-                </div>
-              </Dialog.Panel>
-            </Transition.Child>
+              No
+            </Button>
           </div>
-        </div>
-      </Dialog>
-    </Transition>
+        </main>
+      </div>
+    </Modallayout>
   );
 };
 
