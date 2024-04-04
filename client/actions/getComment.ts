@@ -1,4 +1,5 @@
 import axios from "axios";
+import { instance } from "./instance";
 const SERVER = process.env.NEXT_PUBLIC_SERVER_URL;
 export async function commentFetcher(postid: string) {
   return axios
@@ -16,7 +17,7 @@ export async function smallProfileFetcher(userid: string) {
 }
 export async function getAllPosts(index: number) {
   const PAGE_SIZE = 4;
-  return axios
+  return instance
     .get(`${SERVER}/api/v1/posts/all?per_page=${PAGE_SIZE}&page=${index}`, {
       withCredentials: true,
     })
