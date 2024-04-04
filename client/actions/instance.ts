@@ -3,9 +3,9 @@ const SERVER = process.env.NEXT_PUBLIC_SERVER_URL;
 axios.defaults.withCredentials = true;
 export const instance: AxiosInstance = axios.create({
   baseURL: SERVER,
-  timeout: 1000,
+  timeout: 5000,
   headers: {
-    "Access-Control-Allow-Origin": "*",
+    // "Access-Control-Allow-Origin": "*",
     // "Content-Type": "application/json",
   },
 });
