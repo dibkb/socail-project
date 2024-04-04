@@ -6,7 +6,7 @@ export const Globallayout = ({ children }: { children: React.ReactNode }) => {
 
 export const Profilelayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="w-full max-w-2xl container min-h-[90vh] flex flex-col">
+    <div className="w-full sm:max-w-2xl sm:container sm:min-h-[90vh] flex flex-col">
       {children}
     </div>
   );
