@@ -17,6 +17,7 @@ import { createPost } from "@/actions/post";
 import { cn } from "@/lib/utils";
 import Spinner from "@/components/svg/spinner";
 import { AlertDestructive } from "@/components/errors/error-message";
+import { useIsBelowWidth } from "@/hooks/isBelowWidth";
 interface ThreadformPortal {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
@@ -29,6 +30,7 @@ export interface threads {
   value: string;
 }
 const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
+  const { isBelowWidth } = useIsBelowWidth(600);
   const { user } = useUserStore((state) => state);
   const [threads, setThreads] = useState<threads[]>([{ id: 0, value: "" }]);
   const [imgUrl, setImgUrl] = useState<imgurl[]>([{ id: 0, data: "" }]);
@@ -99,14 +101,16 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
     </div>
   );
   const body = (
-    <div className="flex flex-col gap-y-6 relative">
+    <div
+      className="flex flex-col gap-y-2 sm:gap-y-6 relative"
+      style={isBelowWidth ? styles.containerSmall : styles.container}
+    >
       <h3 className="text-center text-sm font-semibold">New Shread</h3>
-      <form
-        className="border bg-stone-800"
-        style={styles.container}
-        onSubmit={createPostHandler}
-      >
-        <main className="flex gap-x-4" style={styles.main}>
+      <form className="bg-stone-800" onSubmit={createPostHandler}>
+        <main
+          className="flex gap-x-4"
+          style={isBelowWidth ? styles.mainSmall : styles.main}
+        >
           <div
             className="flex flex-col items-center"
             style={styles.leftContainer}
@@ -178,7 +182,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
     </div>
   );
   return (
-    <Modallayout setOpen={setOpen}>
+    <Modallayout setOpen={setOpen} responsive={true}>
       {loading.state ? loadingFrame : body}
     </Modallayout>
   );

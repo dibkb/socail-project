@@ -7,9 +7,19 @@ const styles: Record<string, React.CSSProperties> = {
     borderColor: "#44403c",
     maxHeight: "600px",
     overflowY: "scroll",
+    backgroundColor: "#292524",
+  },
+  containerSmall: {
+    padding: "1rem",
+    height: "100vh",
+    backgroundColor: "#292524",
+    overflowY: "scroll",
   },
   main: {
     marginBottom: "1rem",
+  },
+  mainSmall: {
+    padding: "1rem",
   },
   rightContainer: {
     flexGrow: 1,

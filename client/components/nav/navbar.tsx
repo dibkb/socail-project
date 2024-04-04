@@ -24,7 +24,7 @@ const Navbar = () => {
           {left}
           {right}
         </nav>
-        <NavbarCenter className="fixed bottom-0 w-full" />
+        <NavbarCenter className="fixed bg-stone-950 z-50 bottom-0 w-full" />
       </>
     );
   } else {
