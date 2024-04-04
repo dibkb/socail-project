@@ -13,8 +13,7 @@ import {
 import MinimalPost from "@/components/posts/minimal-post";
 import Loading from "@/components/guides/loading";
 import { useIsMounted } from "@/hooks/isMounted";
-import { getCleanedusername } from "@/utils/getCleanedusername";
-
+import { getCleanedusername } from "@/utils/get-clean-username";
 const Userreplies = () => {
   const { user } = useUserStore((state) => state);
   const pathname = usePathname();

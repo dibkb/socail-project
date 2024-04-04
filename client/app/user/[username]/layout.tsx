@@ -15,7 +15,7 @@ import { followuser, unFollowUser } from "@/actions/followuser";
 import { redirect, usePathname } from "next/navigation";
 import Loading from "@/components/guides/loading";
 import { useUserDataByUsername } from "@/hooks/getUserbyUsername";
-import { getCleanedusername } from "@/utils/getCleanedusername";
+import { getCleanedusername } from "@/utils/get-clean-username";
 // server actions
 interface Username {
   children: React.ReactNode;

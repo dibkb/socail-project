@@ -9,22 +9,29 @@ import { PrismaClient } from "@prisma/client";
 import router from "./routes/routes";
 
 // cloudinay
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
 const app = express();
 dotenv.config();
 
+cloudinary.config({
+  cloud_name: `djbju3th8`,
+  api_key: `${process.env.CLOUDINARY_API_KEY}`,
+  api_secret: `${process.env.CLOUDINARY_API_SECRET}`,
+});
 // middleware
+app.set("trust proxy", 1);
 app.use(helmet());
 app.use(morgan("common"));
-const corsOptions = {
-  origin: "http://localhost:3000",
-  credentials: true, //access-control-allow-credentials:true
-  optionSuccessStatus: 200,
+const allowedOrigins = ["http://localhost:3000", "https://shreads.vercel.app"];
+
+const corsOptions: cors.CorsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true, // Allow credentials (cookies)
 };
 app.use(cors(corsOptions));
 app.use(express.json({ limit: "3mb" }));

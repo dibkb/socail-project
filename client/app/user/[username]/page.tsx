@@ -1,39 +1,46 @@
 // "use client";
 import { getUserPostsByUsername } from "@/actions/getUserPosts";
-import React, { Suspense } from "react";
-import Posts from "@/components/posts/post";
-import { PostSkeleton } from "@/components/guides/skeleton-loader";
-import { getCleanedusernameServer } from "@/utils/getCleanedusername";
-import { getAllusernames } from "@/actions/getuser";
-export async function generateStaticParams() {
-  const usernames = await getAllusernames();
-  return usernames?.data?.map((u: any) => ({
-    username: `@${u.username}`,
-  }));
-}
-const Userprofilepage = async ({
-  params,
-}: {
-  params: { username: string };
-}) => {
-  const cleanedUsername = getCleanedusernameServer(params.username) as string;
-  const { data, error } = await getUserPostsByUsername(cleanedUsername);
-  return (
-    <Suspense fallback={<PostSkeleton />}>
-      {data?.posts?.length === 0 && data?.threads?.length === 0 ? (
-        <div className="flex items-center justify-center h-44">
-          No posts yet
-        </div>
-      ) : (
-        ""
-      )}
-      {data?.threads.length || data?.threads.length ? (
-        <Posts threads={data?.threads} posts={data?.posts} />
-      ) : (
-        ""
-      )}
-    </Suspense>
-  );
+import { Post, Threads } from "@/types";
+import { usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import Spinner from "@/components/svg/spinner";
+import { getCleanedusername } from "@/utils/get-clean-username";
+const Userprofilepage = () => {
+  const [posts, setPosts] = useState<
+    "loading" | { posts: Post[]; threads: Threads[] }
+  >("loading");
+  const pathname = usePathname();
+  const cleanedUsername = getCleanedusername(pathname) as string;
+  const [user, setUser] = useState({
+    id: "",
+    username: cleanedUsername,
+  });
+  useEffect(() => {
+    async function getusePosts(username: string) {
+      const res = await getUserPostsByUsername(username);
+      return res;
+    }
+    cleanedUsername &&
+      getusePosts(cleanedUsername).then((result) => {
+        setPosts(result.data);
+        if (result.data?.posts[0]?.userId) {
+          setUser((prev) => ({
+            ...prev,
+            id: result.data?.posts[0]?.userId,
+          }));
+        }
+      });
+  }, [cleanedUsername]);
+  if (!cleanedUsername) return <PostSkeleton />;
+  const BODY =
+    posts === "loading" ? (
+      <PostSkeleton />
+    ) : posts.posts.length === 0 ? (
+      <div className="flex items-center justify-center h-44">No posts yet</div>
+    ) : (
+      user.username && <Posts threads={posts.threads} posts={posts.posts} />
+    );
+  return <div className="grow">{BODY}</div>;
 };
 
 export default Userprofilepage;

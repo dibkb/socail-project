@@ -8,12 +8,12 @@ import {
   unFollowUser,
   getSmallUser,
   updateUser,
-  getAllUsernames,
+  testUsr,
 } from "../controllers/user.controller";
 import { verifyRoute } from "../middlewares/verify-route";
 const router = express.Router();
 router.get(`/:username`, getuserProfile);
-router.get(`/username/all`, getAllUsernames);
+router.get(`/test/test`, testUsr);
 router.get(`/name-avatar/:userid`, getSmallUser);
 router.post(`/signup`, signupUser);
 router.post(`/login`, loginUser);
