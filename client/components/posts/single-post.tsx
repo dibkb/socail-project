@@ -5,6 +5,7 @@ import Avatar from "../home/avatar";
 import { Post } from "@/types";
 import Image from "next/image";
 import { smallProfile } from "./post-comment";
+import Link from "next/link";
 interface Singlepost {
   post: Post;
   user: smallProfile;
@@ -19,6 +20,7 @@ export const Singlepost = React.memo(
         <div className="flex flex-col items-center gap-1">
           <Avatar
             variant="others"
+            className="cursor-pointer"
             imgurl={user?.profilePic}
             name={user?.username}
           />
@@ -28,7 +30,12 @@ export const Singlepost = React.memo(
         </div>
         <div className="flex flex-col grow">
           <span className="flex items-center justify-between w-full">
-            <p className="text-sm">{user.username}</p>
+            <Link href={`user/@${user?.username}`}>
+              <p className="text-sm cursor-pointer hover:underline">
+                {user.username}
+              </p>
+            </Link>
+
             <span className="flex items-center gap-1 text-stone-600 text-xs font-medium">
               <p>{calulateTime(post.createdAt).quantity}</p>
               <p>{calulateTime(post.createdAt).unit}</p>
