@@ -14,6 +14,12 @@ datasource db {
   relationMode = "prisma"
 }
 
+enum NotificationType {
+  LIKE
+  COMMENT
+  FOLLOW
+}
+
 model User {
   id           String   @id @default(auto()) @map("_id") @db.ObjectId
   name         String
@@ -28,8 +34,19 @@ model User {
   followingIds String[] @db.ObjectId
   followerIds  String[] @db.ObjectId
 
-  posts    Post[]
-  comments Comment[]
+  posts         Post[]
+  comments      Comment[]
+  notifications Notification[]
+}
+
+model Notification {
+  userId    String           @db.ObjectId
+  id        String           @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime         @default(now())
+  type      NotificationType
+  creatorId String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Post {

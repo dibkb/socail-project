@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { v2 as cloudinary } from "cloudinary";
 import { prisma } from "../index";
-
+import { NotificationType } from "@prisma/client";
 export const createPost = async (req: Request, res: Response) => {
   const { user } = req;
   const { body, image } = req.body;
@@ -89,7 +89,7 @@ export const likePost = async (req: Request, res: Response) => {
     if (post?.likedIds.includes(user.id)) {
       throw new Error("User already liked the post");
     }
-    const updatedUser = await prisma.post.update({
+    const updatedPost = await prisma.post.update({
       where: {
         id: postid,
       },
@@ -99,7 +99,18 @@ export const likePost = async (req: Request, res: Response) => {
         },
       },
     });
-    return res.status(201).json(updatedUser);
+    // trigger notification
+    if (updatedPost.userId !== user.id) {
+      await prisma.notification.create({
+        data: {
+          userId: updatedPost.userId,
+          type: NotificationType["LIKE"],
+          creatorId: user.id,
+        },
+      });
+    }
+
+    return res.status(201).json(updatedPost);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
