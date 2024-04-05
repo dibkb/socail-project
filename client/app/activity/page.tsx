@@ -13,5 +13,9 @@ export default function Activity() {
   const notificationBody = data?.map((u) => (
     <Notificationbody key={u.id} data={u}></Notificationbody>
   ));
-  return <Globallayout>{notificationBody}</Globallayout>;
+  return (
+    <Globallayout>
+      <div className="gap-2 flex flex-col">{notificationBody}</div>
+    </Globallayout>
+  );
 }
