@@ -12,7 +12,8 @@ export function DropdownMenu() {
     logoutUser()
       .then((r) => {
         if (r.data) {
-          router.push("/auth/login");
+          // router.push("/auth/login");
+          window.location.reload();
           setUser(null);
         }
       })

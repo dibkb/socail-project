@@ -17,6 +17,8 @@ export default function Home() {
   const [data, setData] = useState<{ posts: Post[]; threads: Threads[] }>();
   const [page, setPage] = useState<number>(1);
   const { user } = useUserStore((state) => state);
+  const isMounted = useIsMounted();
+  if (!user && isMounted) return redirect("/auth/login");
   useEffect(() => {
     getAllPosts(page)
       .then((res) => {
@@ -34,10 +36,10 @@ export default function Home() {
           }
         });
       })
+      .catch((err) => console.error(err))
       .finally(() => setisLoading(false));
   }, [page]);
-  const isMounted = useIsMounted();
-  if (!user && isMounted) return redirect("/auth/login");
+
   return (
     <Globallayout>
       <Threadform />

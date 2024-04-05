@@ -19,6 +19,7 @@ import { register } from "@/actions/signup";
 import { AlertDestructive } from "../errors/error-message";
 import { useRouter } from "next/navigation";
 import { Successmessage } from "../succes/success-message";
+import Link from "next/link";
 
 const SignupForm = () => {
   const [error, setError] = useState<string | undefined>("");
@@ -151,7 +152,9 @@ const SignupForm = () => {
                 )}
                 {success ? (
                   <Successmessage onCloseHandler={() => setSuccess(false)}>
-                    You can now login
+                    <Link href={"/auth/login"} className="underline">
+                      You can now login. Go to login
+                    </Link>
                   </Successmessage>
                 ) : (
                   ""
