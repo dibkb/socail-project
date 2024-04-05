@@ -16,6 +16,7 @@ import { redirect, usePathname } from "next/navigation";
 import Loading from "@/components/guides/loading";
 import { useUserDataByUsername } from "@/hooks/getUserbyUsername";
 import { getCleanedusername } from "@/utils/get-clean-username";
+import { useIsMounted } from "@/hooks/isMounted";
 // server actions
 interface Username {
   children: React.ReactNode;
@@ -55,6 +56,8 @@ export default function Username({ children }: Username) {
       }
     });
   };
+  const isMounted = useIsMounted();
+  if (!user && isMounted) return redirect("/auth/login");
   if (res) {
     if (res.data) {
       const data = res.data;

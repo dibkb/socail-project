@@ -17,7 +17,6 @@ export default function Home() {
   const [data, setData] = useState<{ posts: Post[]; threads: Threads[] }>();
   const [page, setPage] = useState<number>(1);
   const { user } = useUserStore((state) => state);
-  const isMounted = useIsMounted();
   useEffect(() => {
     getAllPosts(page)
       .then((res) => {
@@ -37,6 +36,7 @@ export default function Home() {
       })
       .finally(() => setisLoading(false));
   }, [page]);
+  const isMounted = useIsMounted();
   if (!user && isMounted) return redirect("/auth/login");
   return (
     <Globallayout>
