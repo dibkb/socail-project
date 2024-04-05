@@ -36,6 +36,9 @@ const Editpostmodal = ({ setOpen, post }: Editpostmodal) => {
       }
     }
   };
+  const updatePostHandler = (e: React.ChangeEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
   const { isBelowWidth } = useIsBelowWidth(600);
   return (
     <Modallayout setOpen={setOpen}>
@@ -47,7 +50,7 @@ const Editpostmodal = ({ setOpen, post }: Editpostmodal) => {
             ...styles.container,
             minWidth: isBelowWidth ? "90vw" : 600,
           }}
-          //   onSubmit={createPostHandler}
+          onSubmit={updatePostHandler}
         >
           <main className="flex flex-col gap-x-4" style={styles.main}>
             <textarea
@@ -86,7 +89,7 @@ const Editpostmodal = ({ setOpen, post }: Editpostmodal) => {
               <TbPhoto size={18} className="cursor-pointer " />
             </label>
           </main>
-          <Button className="mt-6" variant={"default"}>
+          <Button className="mt-6" variant={"default"} type="submit">
             Update post
           </Button>
         </form>

@@ -3,10 +3,10 @@ import { TbMenu } from "react-icons/tb";
 import { useState } from "react";
 import { useUserStore } from "@/src/providers/user-store-provider";
 import { logoutUser } from "@/actions/logout";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 export function DropdownMenu() {
   const router = useRouter();
-  const { user, setUser } = useUserStore((state) => state);
+  const { setUser } = useUserStore((state) => state);
   const [showMenu, setShowMenu] = useState(false);
   const logoutHandler = async () => {
     logoutUser()
