@@ -13,18 +13,17 @@ import {
 } from "../controllers/user.controller";
 import { verifyRoute } from "../middlewares/verify-route";
 const router = express.Router();
-router.get(`/:username`, getuserProfile);
-router.get(`/test/test`, testUsr);
-router.get(`/name-avatar/:userid`, getSmallUser);
-router.post(`/signup`, signupUser);
-router.post(`/login`, loginUser);
+router.get(`/:username`, getuserProfile as any);
+router.get(`/test/test`, testUsr as any);
+router.get(`/name-avatar/:userid`, getSmallUser as any);
+router.post(`/signup`, signupUser as any);
+router.post(`/login`, loginUser as any);
 // protected route
-router.get(`/search/name&username`, verifyRoute, searchUsers);
-router.post(`/follow/:userid`, verifyRoute, followUser);
-router.post(`/unfollow/:userid`, verifyRoute, unFollowUser);
+router.get(`/search/name&username`, verifyRoute as any, searchUsers as any);
+router.post(`/follow/:userid`, verifyRoute as any, followUser as any);
+router.post(`/unfollow/:userid`, verifyRoute as any, unFollowUser as any);
 // edit update
-router.put(`/update`, verifyRoute, updateUser);
+router.put(`/update`, verifyRoute as any, updateUser as any);
 // router.post(`/unfollow/:userid`, verifyRoute, unfollowUser);
-router.post(`/logout`, verifyRoute, logoutUser);
-
+router.post(`/logout`, verifyRoute as any, logoutUser as any);
 export default router;

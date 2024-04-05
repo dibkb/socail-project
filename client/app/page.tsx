@@ -7,12 +7,16 @@ import Threadform from "@/components/home/thread-form";
 import { Globallayout } from "@/components/layouts/main";
 import Posts from "@/components/posts/post";
 import { Button } from "@/components/ui/button";
+import { useIsMounted } from "@/hooks/isMounted";
+import { useUserStore } from "@/src/providers/user-store-provider";
 import { Post, Threads } from "@/types";
+import { redirect } from "next/navigation";
 import { use, useEffect, useState } from "react";
 export default function Home() {
   const [isLoading, setisLoading] = useState(true);
   const [data, setData] = useState<{ posts: Post[]; threads: Threads[] }>();
   const [page, setPage] = useState<number>(1);
+  const { user } = useUserStore((state) => state);
   useEffect(() => {
     getAllPosts(page)
       .then((res) => {
@@ -32,6 +36,8 @@ export default function Home() {
       })
       .finally(() => setisLoading(false));
   }, [page]);
+  const isMounted = useIsMounted();
+  if (!user && isMounted) return redirect("/auth/login");
   return (
     <Globallayout>
       <Threadform />
