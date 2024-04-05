@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import styles from "@/styles/crop-image";
 import getCroppedImg from "../utils/get-cropped-image";
 import { Button } from "@/components/ui/button";
+import { useIsBelowWidth } from "@/hooks/isBelowWidth";
 interface Cropimagelayout {
   setOpen: Dispatch<SetStateAction<boolean>>;
   setImageCropUrl: Dispatch<SetStateAction<string>>;
@@ -16,6 +17,7 @@ const Cropimagelayout = ({
   imageUrl,
   setImageCropUrl,
 }: Cropimagelayout) => {
+  const { isBelowWidth } = useIsBelowWidth(600);
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const onCropComplete = async (croppedArea: Area, croppedAreaPixels: Area) => {
@@ -26,7 +28,13 @@ const Cropimagelayout = ({
   };
   return (
     <Modallayout setOpen={() => setOpen(false)} z={1001} closeOnClick={true}>
-      <div className="rounded-md" style={styles.container}>
+      <div
+        className="rounded-md"
+        style={{
+          ...styles.container,
+          minWidth: isBelowWidth ? "90vw" : 600,
+        }}
+      >
         <p className="text-stone-50 text-center" style={styles.header}>
           Crop Profile Pic
         </p>
