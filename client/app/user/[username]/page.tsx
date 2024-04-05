@@ -38,10 +38,10 @@ const Userprofilepage = () => {
   const BODY =
     posts === "loading" ? (
       <PostSkeleton />
-    ) : posts.posts.length === 0 ? (
+    ) : posts?.posts?.length === 0 ? (
       <div className="flex items-center justify-center h-44">No posts yet</div>
     ) : (
-      user.username && <Posts threads={posts.threads} posts={posts.posts} />
+      user?.username && <Posts threads={posts?.threads} posts={posts?.posts} />
     );
   return <div className="grow">{BODY}</div>;
 };

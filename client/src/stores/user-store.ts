@@ -26,7 +26,7 @@ export type UserState = {
 };
 
 export type UserActions = {
-  setUser: (user: User) => void;
+  setUser: (user: UserState["user"]) => void;
   addFollowing: (userid: string) => void;
   removeFollowing: (userid: string) => void;
 };

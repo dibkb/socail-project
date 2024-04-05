@@ -154,7 +154,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
                   cursor: "not-allowed",
                 }}
               >
-                Add to thread
+                Add to shread
               </button>
             ) : (
               <button
@@ -165,7 +165,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
                 }}
                 onClick={handleAddInput}
               >
-                Add to thread
+                Add to shread
               </button>
             )}
           </div>
