@@ -21,7 +21,7 @@ const CardContainer = ({
         <hr className="w-full border-stone-700 rounded-lg" />
       </CardContent>
       <CardContent className="border-none cursor-pointer">
-        <Card
+        {/* <Card
           className="border border-stone-700
               hover:bg-stone-700 
         rounded-lg p-6 flex items-center justify-between"
@@ -29,7 +29,7 @@ const CardContainer = ({
           <GitHubLogoIcon className="h-8 w-8" />
           <p className="font-semibold">Continue with Github</p>
           <ChevronRightIcon />
-        </Card>
+        </Card> */}
         <div className="mt-4 text-sm text-center text-stone-500 hover:underline">
           <Link href={alternateLink}>{alternateLabel}</Link>
         </div>

@@ -116,14 +116,14 @@ const LoginForm = () => {
               </form>
             </Form>
           </CardContent>
-          <CardContent>
+          {/* <CardContent>
             <Link
               href={"/"}
               className="hover:underline text-stone-500 text-sm flex justify-center"
             >
               Forgotten Password?
             </Link>
-          </CardContent>
+          </CardContent> */}
         </Card>
       </CardContainer>
     </div>
