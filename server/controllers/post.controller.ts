@@ -246,6 +246,7 @@ export const updatePost = async (req: Request, res: Response) => {
   const { user } = req;
   const { postid } = req.params;
   const { body, image } = req.body;
+  console.log(body, image);
   try {
     if (!user) throw new Error("No user provided");
     if (!postid) throw new Error("No postid provided");
@@ -297,16 +298,19 @@ export const deletePost = async (req: Request, res: Response) => {
     if (post?.userId !== user.id) {
       throw new Error("Not authorized");
     }
-    // delete cloudinary image if available
-    if (post.image) {
-      await cloudinary.uploader.destroy(post.image);
-    }
     // Delete the post by its ID
     const deletedPost = await prisma.post.delete({
       where: {
         id: postid,
       },
     });
+    if (deletedPost && deletedPost?.image) {
+      await cloudinary.uploader.destroy(deletedPost?.image);
+      console.log("Image deleted from Cloudinary");
+    } else {
+      console.log("Post deleted, but no image found to delete");
+    }
+
     return res.status(200).json(deletedPost);
   } catch (error: any) {
     return res.status(500).json({ message: error.message });

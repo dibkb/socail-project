@@ -80,6 +80,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
                 error: "",
               });
               setOpen(false);
+              window.location.reload();
             }
           }
         })

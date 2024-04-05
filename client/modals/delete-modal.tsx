@@ -73,8 +73,20 @@ const DeleteModal = ({ id, setOpen }: DeleteModal) => {
               fontWeight: "400",
             }}
           >
-            <Button variant={"destructive"} className="grow" type="submit">
-              {state.loading ? <Spinner /> : "Yes Delete"}
+            <Button
+              variant={"destructive"}
+              className="grow"
+              type="submit"
+              disabled={state.loading}
+            >
+              {state.loading ? (
+                <>
+                  <Spinner />
+                  Deleting
+                </>
+              ) : (
+                "Yes Delete"
+              )}
             </Button>
             <Button
               variant={"default"}

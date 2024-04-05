@@ -9,11 +9,17 @@ import { resizeFile } from "@/utils/compress-image";
 import { AlertDestructive } from "@/components/errors/error-message";
 import { Button } from "@/components/ui/button";
 import { useIsBelowWidth } from "@/hooks/isBelowWidth";
+import { updatePost } from "@/actions/updatePost";
+import Spinner from "@/components/svg/spinner";
 interface Editpostmodal {
   setOpen: Dispatch<SetStateAction<boolean>>;
   post: Post;
 }
 const Editpostmodal = ({ setOpen, post }: Editpostmodal) => {
+  const [state, setState] = useState({
+    loading: false,
+    errorMessage: "",
+  });
   const [body, setBody] = useState<string>(post.body);
   const [image, setImage] = useState<string>(post?.image || "");
   const [error, setError] = useState(false);
@@ -38,6 +44,29 @@ const Editpostmodal = ({ setOpen, post }: Editpostmodal) => {
   };
   const updatePostHandler = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setState({
+      loading: true,
+      errorMessage: "",
+    });
+    updatePost({
+      id: post.id,
+      body: body,
+      image: image,
+    }).then((res) => {
+      if (res.data) {
+        setState({
+          loading: false,
+          errorMessage: "",
+        });
+        window.location.reload();
+      }
+      if (res.error) {
+        setState({
+          loading: false,
+          errorMessage: res.error,
+        });
+      }
+    });
   };
   const { isBelowWidth } = useIsBelowWidth(600);
   return (
@@ -89,8 +118,25 @@ const Editpostmodal = ({ setOpen, post }: Editpostmodal) => {
               <TbPhoto size={18} className="cursor-pointer " />
             </label>
           </main>
-          <Button className="mt-6" variant={"default"} type="submit">
-            Update post
+          {state.errorMessage?.length ? (
+            <p className="text-red-600 text-center">{state.errorMessage}</p>
+          ) : (
+            ""
+          )}
+          <Button
+            className="mt-6 select-none"
+            variant={"default"}
+            type="submit"
+            disabled={state.loading}
+          >
+            {state.loading ? (
+              <>
+                <Spinner fill="#000" />
+                Updating post
+              </>
+            ) : (
+              "Update post"
+            )}
           </Button>
         </form>
         {error ? (
