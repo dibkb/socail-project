@@ -1,15 +1,20 @@
 "use client";
+import { followuser, unFollowUser } from "@/actions/followuser";
 import { searchNameUsername } from "@/actions/getComment";
 import Loading from "@/components/guides/loading";
 import Avatar from "@/components/home/avatar";
 import { Globallayout } from "@/components/layouts/main";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useUserStore } from "@/src/providers/user-store-provider";
 import { User } from "@/src/stores/user-store";
 import Link from "next/link";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import useSWR, { SWRResponse } from "swr";
 export default function Search() {
+  const { user, addFollowing, removeFollowing } = useUserStore(
+    (state) => state
+  );
   const [inputValue, setInputValue] = useState("");
   const [debouncedValue, setDebouncedValue] = useState("");
   const [notTyping, setNotTyping] = useState<boolean>(false);
@@ -33,6 +38,28 @@ export default function Search() {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);
   };
+  const followHandler = (id: string) => {
+    addFollowing(id);
+    followuser(id).then((r) => {
+      if (r.data) {
+      }
+      if (r.error) {
+        removeFollowing(id);
+      }
+    });
+  };
+  const unfollowHandler = (id: string) => {
+    removeFollowing(id);
+    unFollowUser(id)
+      .then((r) => {
+        if (r.data) {
+        }
+        if (r.error) {
+          addFollowing(id);
+        }
+      })
+      .catch(() => {});
+  };
   const userbody = data?.map((u) => (
     <section key={u.id} className="py-2 flex gap-3 items-start">
       <Avatar variant="others" imgurl={u.profilePic} name={u.name} />
@@ -44,9 +71,23 @@ export default function Search() {
           <span className="group-hover:underline">{u.name}</span>
           <span className="text-stone-700">{u.username}</span>
         </Link>
-        <Button variant={"outline"} className="rounded-xl px-8 bg-transparent">
-          Follow
-        </Button>
+        {user?.followingIds?.includes(u.id) ? (
+          <Button
+            variant={"outline"}
+            className="rounded-xl px-8"
+            onClick={() => unfollowHandler(u.id)}
+          >
+            Following
+          </Button>
+        ) : (
+          <Button
+            variant={"default"}
+            className="rounded-xl px-8"
+            onClick={() => followHandler(u.id)}
+          >
+            Follow
+          </Button>
+        )}
       </main>
     </section>
   ));

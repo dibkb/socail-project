@@ -55,9 +55,9 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
               state.user.followingIds.length > 0
             ) {
               return {
+                ...skeletonUser,
                 ...state,
                 user: {
-                  ...skeletonUser,
                   ...state.user,
                   followingIds: [...state.user.followingIds, userid],
                 },
@@ -80,12 +80,12 @@ export const createUserStore = (initState: UserState = defaultInitState) => {
               state.user.followingIds.length > 0
             ) {
               return {
+                ...skeletonUser,
                 ...state,
                 user: {
-                  ...skeletonUser,
                   ...state.user,
                   followingIds: [
-                    ...state.user.followerIds.filter((id) => id !== userid),
+                    ...state.user.followingIds.filter((id) => id !== userid),
                   ],
                 },
               };
