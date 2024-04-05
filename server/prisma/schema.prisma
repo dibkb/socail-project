@@ -45,8 +45,7 @@ model Notification {
   createdAt DateTime         @default(now())
   type      NotificationType
   creatorId String
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Post {

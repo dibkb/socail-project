@@ -9,7 +9,6 @@ export async function commentFetcher(postid: string) {
     .then((res) => res.data);
 }
 export async function searchNameUsername(query: string) {
-  console.log("query", query);
   return axios
     .get(`${SERVER}/api/v1/users/search/name&username?query=${query}`, {
       withCredentials: true,
@@ -34,6 +33,13 @@ export async function getAllPosts(index: number) {
 export function getAllCoomentsUser(id: string) {
   return axios
     .get(`${SERVER}/api/v1/comment/user/all`, {
+      withCredentials: true,
+    })
+    .then((res) => res.data);
+}
+export function getAllUserNotifications(id: string) {
+  return axios
+    .get(`${SERVER}/api/v1/notification/all`, {
       withCredentials: true,
     })
     .then((res) => res.data);

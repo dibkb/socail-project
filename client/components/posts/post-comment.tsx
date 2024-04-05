@@ -11,10 +11,7 @@ import Link from "next/link";
 interface Postcomment {
   com: Comment;
 }
-export type smallProfile = Omit<
-  User,
-  "name" | "email" | "bio" | "followingIds" | "followerIds"
->;
+export type smallProfile = Pick<User, "id" | "username" | "profilePic">;
 const Postcomment = React.memo(({ com }: Postcomment) => {
   const { data, error, isLoading }: SWRResponse<smallProfile> = useSWR(
     com.userId,

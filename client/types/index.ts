@@ -20,3 +20,15 @@ export interface Comment {
   userId: string;
   createdAt: string;
 }
+enum ntype {
+  LIKE = "LIKE",
+  FOLLOW = "FOLLOW",
+  COMMENT = "COMMENT",
+}
+export interface Notification {
+  userId: string;
+  id: string;
+  createdAt: string;
+  type: keyof typeof ntype;
+  creatorId: string;
+}
