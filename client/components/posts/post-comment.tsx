@@ -34,7 +34,11 @@ const Postcomment = React.memo(({ com }: Postcomment) => {
             name={data?.username}
             className="h-8 w-8"
           />
-          {isBelowWidth ? "" : <p className="text-sm ">{data?.username}</p>}
+          {isBelowWidth ? (
+            ""
+          ) : (
+            <p className="text-xs sm:text-sm">{data?.username}</p>
+          )}
         </Link>
         <p className="text-sm font-medium text-stone-400 grow text-clip line-clamp-1">
           {com.body}
