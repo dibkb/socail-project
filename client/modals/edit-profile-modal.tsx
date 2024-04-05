@@ -10,6 +10,7 @@ import { User } from "@/src/stores/user-store";
 import AvatarForm from "@/components/home/avatar";
 import { update } from "@/actions/update";
 import Cropimagelayout from "./crop-image";
+import { useIsBelowWidth } from "@/hooks/isBelowWidth";
 interface EditProfilePortal {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
@@ -62,9 +63,15 @@ const EditProfilePortal = ({ setOpen }: EditProfilePortal) => {
       }
     });
   };
+  const { isBelowWidth } = useIsBelowWidth(600);
   return (
     <Modallayout setOpen={setOpen} closeOnClick={!(openEdit || cropImage)}>
-      <div style={styles.container}>
+      <div
+        style={{
+          ...styles.container,
+          minWidth: isBelowWidth ? "90vw" : 600,
+        }}
+      >
         <span className="flex justify-between">
           <Editprofileinput
             classname="grow"

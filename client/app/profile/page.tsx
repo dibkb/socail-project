@@ -28,14 +28,16 @@ const Profilepage = () => {
         <Spinner />
         <p>Loading</p>
       </div>
-    ) : posts.posts.length === 0 ? (
+    ) : posts?.posts?.length === 0 ? (
       <div className="flex items-center justify-center min-h-[400px]">
         <Button onClick={() => setOpenThreadModal(true)} variant={"outline"}>
           Start your first thread
         </Button>
       </div>
     ) : (
-      user && <Posts threads={posts.threads} posts={posts.posts} edit={true} />
+      user && (
+        <Posts threads={posts?.threads} posts={posts?.posts} edit={true} />
+      )
     );
 
   return (

@@ -1,6 +1,6 @@
 const styles: Record<string, React.CSSProperties> = {
   container: {
-    minWidth: 369,
+    // minWidth: 369,
     display: "flex",
     flexDirection: "column",
     alignItems: "start",

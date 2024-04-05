@@ -15,10 +15,10 @@ interface Posts {
 }
 const Posts = React.memo(({ posts, threads, edit = false }: Posts) => {
   const filterByThreadid = (id: string) => {
-    return posts.filter((p) => p.threadId === id);
+    return posts?.filter((p) => p.threadId === id);
   };
-  const threadsWithPosts = threads.sort(sortbyTimeAscending).map((thread) => ({
-    posts: filterByThreadid(thread.id),
+  const threadsWithPosts = threads?.sort(sortbyTimeAscending).map((thread) => ({
+    posts: filterByThreadid(thread?.id),
   }));
   return (
     <div>
@@ -47,13 +47,13 @@ const Posts = React.memo(({ posts, threads, edit = false }: Posts) => {
           {/* Thread-posts */}
           {threadsWithPosts &&
             threadsWithPosts.map((i, id) => {
-              if (i.posts.length)
+              if (i?.posts?.length)
                 return (
                   <div
                     key={id}
                     className="py-4 w-full border-b border-stone-700"
                   >
-                    {i.posts.sort(sortbyTimeDescending).map((th: Post) => {
+                    {i?.posts?.sort(sortbyTimeDescending).map((th: Post) => {
                       return <PostLayout key={th.id} post={th} edit={edit} />;
                     })}
                   </div>

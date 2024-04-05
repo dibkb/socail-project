@@ -34,9 +34,10 @@ export default function Username({ children }: Username) {
   const handleFollowUser = () => {
     startTransition(async () => {
       if (res?.data?.id && user) {
+        addFollowing(res?.data?.id);
         followuser(res?.data?.id).then((result) => {
-          if (res.data) {
-            addFollowing(res?.data?.id);
+          if (result.error) {
+            removeFollowing(res?.data?.id);
           }
         });
       }
@@ -45,9 +46,10 @@ export default function Username({ children }: Username) {
   const handleUnfollowUser = () => {
     startTransition(async () => {
       if (res?.data?.id && user) {
+        removeFollowing(res?.data?.id);
         unFollowUser(res?.data?.id).then((result) => {
-          if (res.data) {
-            removeFollowing(res?.data?.id);
+          if (result.error) {
+            addFollowing(res?.data?.id);
           }
         });
       }

@@ -9,6 +9,7 @@ import {
   getSmallUser,
   updateUser,
   testUsr,
+  searchUsers,
 } from "../controllers/user.controller";
 import { verifyRoute } from "../middlewares/verify-route";
 const router = express.Router();
@@ -18,6 +19,7 @@ router.get(`/name-avatar/:userid`, getSmallUser);
 router.post(`/signup`, signupUser);
 router.post(`/login`, loginUser);
 // protected route
+router.get(`/search/name&username`, verifyRoute, searchUsers);
 router.post(`/follow/:userid`, verifyRoute, followUser);
 router.post(`/unfollow/:userid`, verifyRoute, unFollowUser);
 // edit update

@@ -4,39 +4,48 @@ import { FaThreads } from "react-icons/fa6";
 import { DropdownMenu } from "./menu-icon";
 import { useIsBelowWidth } from "@/hooks/isBelowWidth";
 import NavbarCenter from "./center-nav";
+import Link from "next/link";
+import { useUserStore } from "@/src/providers/user-store-provider";
 const Navbar = () => {
-  const { isBelowWidth } = useIsBelowWidth(600);
+  const { user } = useUserStore((state) => state);
+  const { isBelowWidth, loading } = useIsBelowWidth(600);
   const right = (
     <div className="flex items-center justify-center h-16 w-20">
       <DropdownMenu />
     </div>
   );
   const left = (
-    <div className="h-16 w-20 flex items-center justify-center">
+    <Link className="h-16 w-20 flex items-center justify-center" href={"/"}>
       <FaThreads className="h-8 w-8 hover:scale-110 cursor-pointer transition-all" />
-    </div>
+    </Link>
   );
   let NAVBAR;
-  if (isBelowWidth) {
-    NAVBAR = (
-      <>
-        <nav className="flex justify-between min-h-14 py-1 bg-stone-950 w-full fixed z-50">
-          {left}
-          {right}
-        </nav>
-        <NavbarCenter className="fixed bg-stone-950 z-50 bottom-0 w-full" />
-      </>
-    );
-  } else {
-    NAVBAR = (
-      <nav className="flex justify-between min-h-14 py-1 bg-stone-950 w-full fixed z-50">
-        {left}
-        <NavbarCenter />
-        {right}
-      </nav>
-    );
-  }
-  return NAVBAR;
+  if (user)
+    if (!loading) {
+      if (isBelowWidth) {
+        NAVBAR = (
+          <>
+            <nav className="flex justify-between min-h-14 py-1 bg-stone-950 w-full fixed z-50">
+              {left}
+              {right}
+            </nav>
+            <NavbarCenter className="fixed bg-stone-950 z-50 bottom-0 w-full" />
+          </>
+        );
+      } else {
+        NAVBAR = (
+          <nav className="flex justify-between min-h-14 py-1 bg-stone-950 w-full fixed z-50">
+            {left}
+            <NavbarCenter />
+            {right}
+          </nav>
+        );
+      }
+      return NAVBAR;
+    } else
+      return (
+        <nav className="flex justify-between min-h-14 p-2 w-full fixed z-50 bg-transparent"></nav>
+      );
 };
 
 export default Navbar;

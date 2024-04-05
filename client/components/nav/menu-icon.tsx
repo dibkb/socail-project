@@ -1,10 +1,23 @@
 "use client";
 import { TbMenu } from "react-icons/tb";
-import menuitems from "../../utils/nav-dropdown-menu";
-import { cn } from "@/lib/utils";
 import { useState } from "react";
+import { useUserStore } from "@/src/providers/user-store-provider";
+import { logoutUser } from "@/actions/logout";
+import { useRouter } from "next/navigation";
 export function DropdownMenu() {
+  const router = useRouter();
+  const { setUser } = useUserStore((state) => state);
   const [showMenu, setShowMenu] = useState(false);
+  const logoutHandler = async () => {
+    logoutUser()
+      .then((r) => {
+        if (r.data) {
+          router.push("/auth/login");
+          setUser(null);
+        }
+      })
+      .catch((e) => console.log(e));
+  };
   return (
     <div className="relative z-100">
       <span
@@ -16,24 +29,14 @@ export function DropdownMenu() {
       {showMenu && (
         <div className="w-44 border-none bg-stone-800 rounded-xl absolute top-8 right-0 select-none z-50">
           <div className="flex flex-col">
-            {menuitems.map((item, id) => {
-              return (
-                <span
-                  key={item}
-                  className={cn(
-                    "rounded-none capitalize cursor-pointer py-3 border-stone-700 hover:bg-stone-700 px-4",
-                    `${
-                      id === menuitems.length - 1
-                        ? `border-none rounded-b-xl`
-                        : `border-b`
-                    }`,
-                    `${id === 0 && `rounded-t-xl`}`
-                  )}
-                >
-                  {item}
-                </span>
-              );
-            })}
+            <span
+              onClick={logoutHandler}
+              className={
+                "capitalize rounded-xl cursor-pointer py-3 border-stone-700 hover:bg-stone-700 px-4"
+              }
+            >
+              Logout
+            </span>
           </div>
         </div>
       )}

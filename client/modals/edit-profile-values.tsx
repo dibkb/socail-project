@@ -18,6 +18,7 @@ import { openModal } from "./edit-profile-modal";
 import { Button } from "@/components/ui/button";
 import { update, updateval } from "@/actions/update";
 import { useUserStore } from "@/src/providers/user-store-provider";
+import { useIsBelowWidth } from "@/hooks/isBelowWidth";
 type UserKeys = keyof updateval;
 const Editprofileitems = ({ setOpen, label, value }: Editprofileitems) => {
   const { setUser } = useUserStore((state) => state);
@@ -46,6 +47,7 @@ const Editprofileitems = ({ setOpen, label, value }: Editprofileitems) => {
       });
     });
   };
+  const { isBelowWidth } = useIsBelowWidth(600);
   return (
     <Modallayout setOpen={() => setOpen(false)} z={1001} closeOnClick={true}>
       <form
@@ -73,7 +75,13 @@ const Editprofileitems = ({ setOpen, label, value }: Editprofileitems) => {
             Done
           </Button>
         </div>
-        <div className="border bg-stone-800" style={styles.container}>
+        <div
+          className="border bg-stone-800"
+          style={{
+            ...styles.container,
+            minWidth: isBelowWidth ? "90vw" : 600,
+          }}
+        >
           <textarea
             value={editVal}
             onChange={onChangeTextArea}

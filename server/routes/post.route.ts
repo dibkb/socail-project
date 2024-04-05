@@ -11,6 +11,7 @@ import {
   likePost,
   unlikePost,
   updatePost,
+  deletePost,
 } from "../controllers/post.controller";
 import { getThread } from "../controllers/thread.controller";
 
@@ -28,4 +29,7 @@ router.post("/create", verifyRoute, createPost);
 router.post("/threads/create", verifyRoute, createThreads);
 // -------------PUT----------------
 router.put("/:postid", verifyRoute, updatePost);
+// --------------DELTETE-----------
+router.delete("/:postid", verifyRoute, deletePost);
+
 export default router;

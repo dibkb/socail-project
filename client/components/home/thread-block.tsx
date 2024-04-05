@@ -12,7 +12,7 @@ const Threadbock = () => {
     <div>
       <p className="text-sm font-medium">{user?.username || "dib.kb"}</p>
       <textarea
-        placeholder="Start a thread..."
+        placeholder="Start a shread..."
         className="text-sm bg-transparent focus:ring-transparent"
         style={styles.textarea}
         onChange={onChangeTextArea}
