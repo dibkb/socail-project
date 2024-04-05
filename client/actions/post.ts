@@ -11,7 +11,7 @@ export const createPost = async (data: post) => {
   const { threads, imgs } = data;
   try {
     if (!(threads || imgs)) throw new Error("No empty fields");
-    if (threads.length > 1 || imgs.length > 1) {
+    if (threads?.length > 1 || imgs?.length > 1) {
       //   THREADS POST
       const body = makeThreadsBody({ threads, imgs });
       const serverResponse = await axios.post(

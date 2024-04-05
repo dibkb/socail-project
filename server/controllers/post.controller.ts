@@ -220,9 +220,6 @@ export const getEveryPost = async (req: Request, res: Response) => {
     if (!user) throw new Error("No user provided");
 
     const offset = (Number(page) - 1) * Number(per_page);
-    // console.log("per_page", per_page);
-    // console.log("page", page);
-    // console.log("offset", offset);
     const posts = await prisma.post.findMany({
       take: Number(per_page),
       skip: offset,
@@ -282,6 +279,35 @@ export const updatePost = async (req: Request, res: Response) => {
       },
     });
     return res.status(200).json(updatedPost);
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+export const deletePost = async (req: Request, res: Response) => {
+  const { user } = req;
+  const { postid } = req.params;
+  try {
+    if (!user) throw new Error("No user provided");
+    if (!postid) throw new Error("No postid provided");
+    const post = await prisma.post.findUnique({
+      where: {
+        id: postid,
+      },
+    });
+    if (post?.userId !== user.id) {
+      throw new Error("Not authorized");
+    }
+    // delete cloudinary image if available
+    if (post.image) {
+      await cloudinary.uploader.destroy(post.image);
+    }
+    // Delete the post by its ID
+    const deletedPost = await prisma.post.delete({
+      where: {
+        id: postid,
+      },
+    });
+    return res.status(200).json(deletedPost);
   } catch (error: any) {
     return res.status(500).json({ message: error.message });
   }

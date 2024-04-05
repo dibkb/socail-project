@@ -122,7 +122,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
             className="flex flex-col items-center"
             style={styles.leftContainer}
           >
-            {threads.map((thread) => (
+            {threads?.map((thread) => (
               <React.Fragment key={thread.id + thread.value}>
                 <AvatarForm variant="self" />
                 <span className="border" style={styles.vertical} />
@@ -131,7 +131,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
             <AvatarForm className="inline-block h-6 w-6" variant="self" />
           </div>
           <div className="flex flex-col" style={styles.rightContainer}>
-            {threads.map((thread) => (
+            {threads?.map((thread) => (
               <ThreadsInput
                 key={thread.id}
                 id={thread.id}
@@ -145,7 +145,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
                 setErrorHandler={() => setError(true)}
               ></ThreadsInput>
             ))}
-            {threads[threads.length - 1].value.length === 0 ? (
+            {threads[threads?.length - 1]?.value?.length === 0 ? (
               <button
                 className={cn("text-sm")}
                 disabled={true}

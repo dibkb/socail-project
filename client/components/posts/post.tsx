@@ -17,8 +17,8 @@ const Posts = React.memo(({ posts, threads, edit = false }: Posts) => {
   const filterByThreadid = (id: string) => {
     return posts?.filter((p) => p.threadId === id);
   };
-  const threadsWithPosts = threads.sort(sortbyTimeAscending).map((thread) => ({
-    posts: filterByThreadid(thread.id),
+  const threadsWithPosts = threads?.sort(sortbyTimeAscending).map((thread) => ({
+    posts: filterByThreadid(thread?.id),
   }));
   return (
     <div>
