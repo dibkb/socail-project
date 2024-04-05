@@ -21,9 +21,10 @@ export const createComment = async (req: Request, res: Response) => {
         body: true,
         userId: true,
         createdAt: true,
+        post: true,
       },
     });
-    if (createdComment.userId !== user.id) {
+    if (createdComment.post.userId !== user.id) {
       await prisma.notification.create({
         data: {
           userId: createdComment.userId,
