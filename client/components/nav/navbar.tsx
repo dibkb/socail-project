@@ -41,7 +41,7 @@ const Navbar = () => {
     return NAVBAR;
   } else
     return (
-      <nav className="flex justify-between min-h-14 p-2 w-full fixed z-50 bg-stone-900 animate-pulse "></nav>
+      <nav className="flex justify-between min-h-14 p-2 w-full fixed z-50 bg-transparent"></nav>
     );
 };
 

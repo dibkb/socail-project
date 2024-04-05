@@ -8,6 +8,7 @@ import { TbPhoto } from "react-icons/tb";
 import { resizeFile } from "@/utils/compress-image";
 import { AlertDestructive } from "@/components/errors/error-message";
 import { Button } from "@/components/ui/button";
+import { useIsBelowWidth } from "@/hooks/isBelowWidth";
 interface Editpostmodal {
   setOpen: Dispatch<SetStateAction<boolean>>;
   post: Post;
@@ -35,13 +36,17 @@ const Editpostmodal = ({ setOpen, post }: Editpostmodal) => {
       }
     }
   };
+  const { isBelowWidth } = useIsBelowWidth(600);
   return (
     <Modallayout setOpen={setOpen}>
       <div className="flex flex-col gap-y-6 relative">
         <h3 className="text-center text-sm font-semibold">Edit Post</h3>
         <form
           className="border bg-stone-800"
-          style={styles.container}
+          style={{
+            ...styles.container,
+            minWidth: isBelowWidth ? "90vw" : 600,
+          }}
           //   onSubmit={createPostHandler}
         >
           <main className="flex flex-col gap-x-4" style={styles.main}>
