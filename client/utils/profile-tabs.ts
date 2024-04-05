@@ -9,11 +9,6 @@ const __ = [
     id: 1,
     link: "/profile/replies",
   },
-  {
-    name: "Reposts",
-    id: 2,
-    link: "/profile/reposts",
-  },
 ];
 export default __;
 
@@ -27,10 +22,5 @@ export const userProfileTabs = [
     name: "Replies",
     id: 1,
     link: "replies",
-  },
-  {
-    name: "Reposts",
-    id: 2,
-    link: "reposts",
   },
 ];

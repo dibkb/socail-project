@@ -38,7 +38,7 @@ const Userreplies = () => {
     return (
       <div>
         <div>
-          {data?.length &&
+          {data?.length ? (
             data?.map((c) => {
               return (
                 <MinimalPost
@@ -48,7 +48,14 @@ const Userreplies = () => {
                   commentUser={viewedUserData?.data}
                 />
               );
-            })}
+            })
+          ) : (
+            <div className="grow">
+              <div className="flex items-center justify-center h-44">
+                No replies yet
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
