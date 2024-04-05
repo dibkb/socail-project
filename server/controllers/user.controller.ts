@@ -18,6 +18,7 @@ import {
   removeUserFollowing,
 } from "../utils/unfollowing-user";
 import { searchNamesUserNames } from "../utils/search-names-usernmaes";
+import { NotificationType } from "@prisma/client";
 export const testUsr = async (req: Request, res: Response) => {
   return res.status(200).json("Shreads test user");
 };
@@ -178,6 +179,15 @@ export const followUser = async (req: Request, res: Response) => {
       userId: userToModify?.id,
       followerToAdd: currUserId,
     });
+    if (userid !== currUserId) {
+      await prisma.notification.create({
+        data: {
+          userId: userid,
+          type: NotificationType["FOLLOW"],
+          creatorId: currUserId,
+        },
+      });
+    }
     return res.status(200).json({
       message: `Following updated for ${currUserId}`,
     });

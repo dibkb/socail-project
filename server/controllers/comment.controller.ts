@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../index";
+import { NotificationType } from "@prisma/client";
 export const createComment = async (req: Request, res: Response) => {
   const { user } = req;
   const { postid } = req.params;
@@ -22,6 +23,15 @@ export const createComment = async (req: Request, res: Response) => {
         createdAt: true,
       },
     });
+    if (createdComment.userId !== user.id) {
+      await prisma.notification.create({
+        data: {
+          userId: createdComment.userId,
+          type: NotificationType["COMMENT"],
+          creatorId: user.id,
+        },
+      });
+    }
     return res.status(201).json(createdComment);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
