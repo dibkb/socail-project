@@ -4,6 +4,7 @@ import { FaThreads } from "react-icons/fa6";
 import { DropdownMenu } from "./menu-icon";
 import { useIsBelowWidth } from "@/hooks/isBelowWidth";
 import NavbarCenter from "./center-nav";
+import Link from "next/link";
 const Navbar = () => {
   const { isBelowWidth, loading } = useIsBelowWidth(600);
   const right = (
@@ -12,9 +13,9 @@ const Navbar = () => {
     </div>
   );
   const left = (
-    <div className="h-16 w-20 flex items-center justify-center">
+    <Link className="h-16 w-20 flex items-center justify-center" href={"/"}>
       <FaThreads className="h-8 w-8 hover:scale-110 cursor-pointer transition-all" />
-    </div>
+    </Link>
   );
   let NAVBAR;
   if (!loading) {

@@ -73,7 +73,7 @@ export default function Search() {
         </Link>
         {user?.followingIds?.includes(u.id) ? (
           <Button
-            variant={"outline"}
+            variant={"ghost"}
             className="rounded-xl px-8"
             onClick={() => unfollowHandler(u.id)}
           >
@@ -81,7 +81,7 @@ export default function Search() {
           </Button>
         ) : (
           <Button
-            variant={"default"}
+            variant={"outline"}
             className="rounded-xl px-8"
             onClick={() => followHandler(u.id)}
           >

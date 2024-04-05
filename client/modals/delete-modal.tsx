@@ -1,24 +1,23 @@
-import React, { Fragment } from "react";
+import React from "react";
 import styles from "@/styles/delete-modal";
 import Modallayout from "./modal-layout";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { useIsBelowWidth } from "@/hooks/isBelowWidth";
 interface DeleteModal {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const DeleteModal = ({ setOpen }: DeleteModal) => {
+  const { isBelowWidth } = useIsBelowWidth(369);
   return (
     <Modallayout setOpen={setOpen}>
-      <div style={styles.container} className="relative p-1">
-        {/* <h3
-          className="text-center font-medium"
-          style={{
-            fontSize: "2rem",
-            color: "#1c1917",
-          }}
-        >
-          Delete Post
-        </h3> */}
+      <div
+        style={{
+          ...styles.container,
+          minWidth: isBelowWidth ? "90vw" : 369,
+        }}
+        className="relative p-1"
+      >
         <main className="mt-2 text-sm flex flex-col gap-3 items-center">
           <Image
             src={`https://cdn.dribbble.com/users/897074/screenshots/16927015/media/b754d4f6646c58e7038ef672be5ea2b9.jpg?resize=300x300&vertical=center`}
@@ -27,7 +26,7 @@ const DeleteModal = ({ setOpen }: DeleteModal) => {
             alt="Dustbin"
           />
           <h3
-            className="text-base font-medium"
+            className="text-base font-medium text-center"
             style={{
               color: "#1c1917",
             }}
