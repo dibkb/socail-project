@@ -50,11 +50,14 @@ export const getComments = async (req: Request, res: Response) => {
 };
 export const getCommentsUser = async (req: Request, res: Response) => {
   const { user } = req;
-  if (!user) throw new Error("No user provided");
   try {
+    if (!user) throw new Error("No user provided");
     const allComments = await prisma.comment.findMany({
       where: {
         userId: user.id,
+      },
+      orderBy: {
+        createdAt: "desc",
       },
       include: {
         post: true,
@@ -68,11 +71,14 @@ export const getCommentsUser = async (req: Request, res: Response) => {
 export const getCommentsByUserId = async (req: Request, res: Response) => {
   const { user } = req;
   const { userid } = req.params;
-  if (!user) throw new Error("No user provided");
   try {
+    if (!user) throw new Error("No user provided");
     const allComments = await prisma.comment.findMany({
       where: {
         userId: userid,
+      },
+      orderBy: {
+        createdAt: "desc",
       },
       include: {
         post: true,
