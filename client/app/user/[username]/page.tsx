@@ -4,7 +4,7 @@ import {
   getUserThreadsByUsername,
 } from "@/actions/getUserPosts";
 import { usePathname } from "next/navigation";
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { getCleanedusername } from "@/utils/get-clean-username";
 import { PostSkeleton } from "@/components/guides/skeleton-loader";
 import Posts from "@/components/posts/post";
@@ -39,6 +39,14 @@ const Userprofilepage = () => {
     });
   const defaultTab = useRef<"single" | "shread">("single");
   if (!cleanedUsername) return <PostSkeleton />;
+  useEffect(() => {
+    if (posts.length || threads.length) {
+      setUser((p) => ({
+        ...p,
+        id: posts[0].userId || threads[0].userId,
+      }));
+    }
+  }, [posts]);
   const BODY =
     postsLoading || threadsLoading ? (
       <PostSkeleton />

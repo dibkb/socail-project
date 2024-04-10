@@ -18,6 +18,7 @@ export interface Threadsfull {
   id: string;
   createdAt: string;
   updatedAt: string;
+  userId: string;
   posts: Post[];
 }
 export interface Comment {
