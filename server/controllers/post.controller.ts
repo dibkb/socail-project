@@ -197,6 +197,7 @@ export const getAllThreadsUserId = async (req: Request, res: Response) => {
 };
 export const getAllPostsByUsername = async (req: Request, res: Response) => {
   const { username } = req.params;
+  const { per_page, page } = req.query;
   try {
     const foundUser = await prisma.user.findUnique({
       where: {
@@ -209,23 +210,56 @@ export const getAllPostsByUsername = async (req: Request, res: Response) => {
     if (!foundUser) {
       throw new Error("User not found");
     }
+    const offset = (Number(page) - 1) * Number(per_page);
     const posts = await prisma.post.findMany({
       where: {
         userId: foundUser.id,
+        threads: { is: null },
       },
-    });
-    const threads = await prisma.thread.findMany({
-      where: {
-        posts: {
-          some: {
-            userId: foundUser.id,
-          },
-        },
+      take: Number(per_page),
+      skip: offset,
+      orderBy: {
+        id: "desc",
       },
     });
     return res.status(200).json({
-      posts: posts,
-      threads: threads,
+      posts,
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
+export const getAllThreadsByUsername = async (req: Request, res: Response) => {
+  const { username } = req.params;
+  const { per_page, page } = req.query;
+  try {
+    const foundUser = await prisma.user.findUnique({
+      where: {
+        username: username,
+      },
+      select: {
+        id: true,
+      },
+    });
+    if (!foundUser) {
+      throw new Error("User not found");
+    }
+    const offset = (Number(page) - 1) * Number(per_page);
+    const threads = await prisma.thread.findMany({
+      where: {
+        userId: foundUser.id,
+      },
+      include: {
+        posts: true,
+      },
+      take: Number(per_page),
+      skip: offset,
+      orderBy: {
+        id: "desc",
+      },
+    });
+    return res.status(200).json({
+      threads,
     });
   } catch (error: any) {
     res.status(500).json({ message: error.message });

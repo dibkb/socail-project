@@ -14,6 +14,7 @@ import {
   deletePost,
   getEveryThread,
   getAllThreadsUserId,
+  getAllThreadsByUsername,
 } from "../controllers/post.controller";
 import { getThread } from "../controllers/thread.controller";
 
@@ -31,6 +32,7 @@ router.get(
   getAllThreadsUserId as any
 );
 router.get("/all/username/:username", getAllPostsByUsername as any);
+router.get("/all/threads/username/:username", getAllThreadsByUsername as any);
 // ------------POST--------------
 router.post("/like/:postid", verifyRoute as any, likePost as any);
 router.post("/unlike/:postid", verifyRoute as any, unlikePost as any);

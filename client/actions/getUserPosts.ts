@@ -18,21 +18,15 @@ export async function getUserThreads(parturl: string) {
     })
     .then((res) => res.data);
 }
-export async function getUserPostsByUsername(username: string) {
-  try {
-    const serverResponse = await axios(
-      `${SERVER}/api/v1/posts/all/username/${username}`,
-      {
-        method: "get",
-        withCredentials: true,
-      }
-    );
-    return {
-      data: serverResponse.data as { posts: Post[]; threads: Threads[] },
-    };
-  } catch (error: any) {
-    return {
-      error: error.message,
-    };
-  }
+export async function getUserPostsByUsername(parturl: string) {
+  // /all/username/:username
+  return instance.get(`${SERVER}/api/v1/posts${parturl}`, {
+    withCredentials: true,
+  });
+}
+export async function getUserThreadsByUsername(parturl: string) {
+  // /all/threads/username/:username
+  return instance.get(`${SERVER}/api/v1/posts${parturl}`, {
+    withCredentials: true,
+  });
 }

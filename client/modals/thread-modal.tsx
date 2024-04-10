@@ -193,7 +193,7 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
   );
   return (
     <Modallayout setOpen={setOpen} responsive={true}>
-      {!loading.state ? loadingFrame : body}
+      {loading.state ? loadingFrame : body}
     </Modallayout>
   );
 };
