@@ -27,7 +27,7 @@ export default function Home() {
       url: `all/threads?per_page=4&page=${threadsPage}`,
       loader: getAllThreads,
     }),
-    [postsPage]
+    [threadsPage]
   );
   const { postsLoading, threadsLoading, threads, posts } =
     usePaginatedPostsAndThreads({
@@ -46,8 +46,11 @@ export default function Home() {
               <Posts
                 posts={posts}
                 threads={threads}
-                loadMoreThreads={() => setPostsPage((prev) => prev + 1)}
-                loadMorePosts={() => setThreadsPage((prev) => prev + 1)}
+                loadMorePosts={() => setPostsPage((prev) => prev + 1)}
+                loadMoreThreads={() => {
+                  console.log("theraes");
+                  setThreadsPage((prev) => prev + 1);
+                }}
               />
             </>
           )}
