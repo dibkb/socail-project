@@ -23,10 +23,15 @@ export async function smallProfileFetcher(userid: string) {
     .then((res) => res.data);
 }
 export async function getAllPosts(parturl: string) {
-  console.log(parturl);
-  const PAGE_SIZE = 4;
   return instance
     .get(`${SERVER}/api/v1/posts/all?${parturl}`, {
+      withCredentials: true,
+    })
+    .then((res) => res.data);
+}
+export async function getAllThreads(parturl: string) {
+  return instance
+    .get(`${SERVER}/api/v1/posts/threads/all?${parturl}`, {
       withCredentials: true,
     })
     .then((res) => res.data);

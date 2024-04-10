@@ -1,6 +1,5 @@
 "use client";
-const SERVER = process.env.NEXT_PUBLIC_SERVER_URL;
-import { getAllPosts, smallProfileFetcher } from "@/actions/getComment";
+import { getAllPosts, getAllThreads } from "@/actions/getComment";
 import Loading from "@/components/guides/loading";
 import { PostSkeleton } from "@/components/guides/skeleton-loader";
 import Threadform from "@/components/home/thread-form";
@@ -12,46 +11,48 @@ import { useUserStore } from "@/src/providers/user-store-provider";
 import { Post, Threads } from "@/types";
 import { redirect } from "next/navigation";
 import { use, useEffect, useState } from "react";
-import useSWR from "swr";
+import useSWR, { SWRResponse } from "swr";
 export default function Home() {
-  const [data, setData] = useState<{ posts: Post[]; threads: Threads[] }>();
-  const [page, setPage] = useState<number>(1);
+  const [posts, setPosts] = useState<Post[]>([]);
   const { user } = useUserStore((state) => state);
   const isMounted = useIsMounted();
   if (!user && isMounted) return redirect("/auth/login");
   const [postsPage, setPostsPage] = useState(1);
+  const [threadsPage, setThreadsPage] = useState(1);
   const {
     data: postsData,
-    error,
-    isLoading,
-  } = useSWR(`per_page=${4}&page=${postsPage}`, getAllPosts);
-  console.log(postsData?.posts);
+    error: postsError,
+    isLoading: postsLoading,
+  }: SWRResponse<{ posts: Post[] }> = useSWR(
+    `per_page=${4}&page=${postsPage}`,
+    getAllPosts
+  );
+  const {
+    data: threadsData,
+    error: threadsError,
+    isLoading: threadsLoading,
+  }: SWRResponse<{ threads: Post[] }> = useSWR(
+    `per_page=${4}&page=${threadsPage}`,
+    getAllThreads
+  );
   useEffect(() => {
-    setData((prev) => {
-      if (prev)
-        return {
-          ...prev,
-          posts: [...(prev?.posts || []), ...(postsData?.posts || [])],
-        };
-      else {
-        return {
-          threads: [...(postsData?.threads || [])],
-          posts: [...(postsData?.posts || [])],
-        };
-      }
-    });
+    if (postsData?.posts) {
+      setPosts((prev) => {
+        return [...prev, ...postsData?.posts];
+      });
+    }
   }, [postsData]);
   const loadMoreThreads = () => {};
   const loadMorePosts = () => {};
-  console.log(data);
+  console.log(posts);
   return (
     <Globallayout>
       <Threadform />
-      {isLoading ? (
+      {postsLoading || threadsLoading ? (
         <PostSkeleton />
       ) : (
         <div className="grow mt-6">
-          {data?.posts && data?.threads && (
+          {/* {postsData && data?.threads && (
             <>
               <Posts
                 posts={data?.posts}
@@ -60,7 +61,7 @@ export default function Home() {
                 loadMorePosts={loadMorePosts}
               />
             </>
-          )}
+          )} */}
         </div>
       )}
     </Globallayout>
