@@ -184,14 +184,14 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
     </div>
   );
   const loadingFrame = (
-    <div className="flex items-center">
+    <div className="flex items-center justify-between">
       <Spinner maxHeight={"40px"} maxWidth={"40px"} />
       <h3>Posting...</h3>
     </div>
   );
   return (
     <Modallayout setOpen={setOpen} responsive={true}>
-      {loading.state ? loadingFrame : body}
+      {!loading.state ? loadingFrame : body}
     </Modallayout>
   );
 };
