@@ -39,7 +39,8 @@ export default function Home() {
       .catch((err) => console.error(err))
       .finally(() => setisLoading(false));
   }, [page]);
-
+  const loadMoreThreads = () => {};
+  const loadMorePosts = () => {};
   return (
     <Globallayout>
       <Threadform />
@@ -49,16 +50,12 @@ export default function Home() {
         <div className="grow mt-6">
           {data?.posts && data.threads && (
             <>
-              <Posts posts={data?.posts} threads={data?.threads} />
-              <div className="flex px-auto">
-                <Button
-                  className="my-3 mx-auto"
-                  variant={"ghost"}
-                  onClick={() => setPage((prev) => prev + 1)}
-                >
-                  Load more
-                </Button>
-              </div>
+              <Posts
+                posts={data?.posts}
+                threads={data?.threads}
+                loadMoreThreads={loadMoreThreads}
+                loadMorePosts={loadMorePosts}
+              />
             </>
           )}
         </div>
