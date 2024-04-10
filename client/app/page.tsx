@@ -12,35 +12,38 @@ import { useUserStore } from "@/src/providers/user-store-provider";
 import { Post, Threads } from "@/types";
 import { redirect } from "next/navigation";
 import { use, useEffect, useState } from "react";
+import useSWR from "swr";
 export default function Home() {
-  const [isLoading, setisLoading] = useState(true);
   const [data, setData] = useState<{ posts: Post[]; threads: Threads[] }>();
   const [page, setPage] = useState<number>(1);
   const { user } = useUserStore((state) => state);
   const isMounted = useIsMounted();
   if (!user && isMounted) return redirect("/auth/login");
+  const [postsPage, setPostsPage] = useState(1);
+  const {
+    data: postsData,
+    error,
+    isLoading,
+  } = useSWR(`per_page=${4}&page=${postsPage}`, getAllPosts);
+  console.log(postsData?.posts);
   useEffect(() => {
-    getAllPosts(page)
-      .then((res) => {
-        setData((prev) => {
-          if (page > 1)
-            return {
-              posts: [...(prev?.posts || []), ...(res?.posts || [])],
-              threads: [...(prev?.threads || []), ...(res?.threads || [])],
-            };
-          else {
-            return {
-              posts: res?.posts || [],
-              threads: res?.threads || [],
-            };
-          }
-        });
-      })
-      .catch((err) => console.error(err))
-      .finally(() => setisLoading(false));
-  }, [page]);
+    setData((prev) => {
+      if (prev)
+        return {
+          ...prev,
+          posts: [...(prev?.posts || []), ...(postsData?.posts || [])],
+        };
+      else {
+        return {
+          threads: [...(postsData?.threads || [])],
+          posts: [...(postsData?.posts || [])],
+        };
+      }
+    });
+  }, [postsData]);
   const loadMoreThreads = () => {};
   const loadMorePosts = () => {};
+  console.log(data);
   return (
     <Globallayout>
       <Threadform />
@@ -48,7 +51,7 @@ export default function Home() {
         <PostSkeleton />
       ) : (
         <div className="grow mt-6">
-          {data?.posts && data.threads && (
+          {data?.posts && data?.threads && (
             <>
               <Posts
                 posts={data?.posts}
