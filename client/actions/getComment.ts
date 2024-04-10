@@ -22,10 +22,18 @@ export async function smallProfileFetcher(userid: string) {
     })
     .then((res) => res.data);
 }
-export async function getAllPosts(index: number) {
-  const PAGE_SIZE = 4;
+export async function getAllPosts(parturl: string) {
+  // api/v1/posts/all?per_page=4&page=1
   return instance
-    .get(`${SERVER}/api/v1/posts/all?per_page=${PAGE_SIZE}&page=${index}`, {
+    .get(`${SERVER}/api/v1/posts/all?${parturl}`, {
+      withCredentials: true,
+    })
+    .then((res) => res.data);
+}
+export async function getAllThreads(parturl: string) {
+  // posts/all/threads?per_page=4&page=1
+  return instance
+    .get(`${SERVER}/api/v1/posts/${parturl}`, {
       withCredentials: true,
     })
     .then((res) => res.data);

@@ -146,7 +146,8 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
                 setErrorHandler={() => setError(true)}
               ></ThreadsInput>
             ))}
-            {threads[threads?.length - 1]?.value?.length === 0 ? (
+            {threads[threads?.length - 1]?.value?.length === 0 ||
+            threads?.length > 4 ? (
               <button
                 className={cn("text-sm")}
                 disabled={true}
@@ -184,10 +185,12 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
     </div>
   );
   const loadingFrame = (
-    <div className="flex items-center">
-      <Spinner maxHeight={"40px"} maxWidth={"40px"} />
-      <h3>Posting...</h3>
-    </div>
+    <main className="h-full flex items-center justify-center">
+      <div className="flex items-center">
+        <Spinner maxHeight={"40px"} maxWidth={"40px"} />
+        <h3>Posting...</h3>
+      </div>
+    </main>
   );
   return (
     <Modallayout setOpen={setOpen} responsive={true}>

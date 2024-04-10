@@ -9,6 +9,9 @@ export const getAllNotifications = async (req: Request, res: Response) => {
       where: {
         userId: user.id,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
     return res.status(200).json(allNotifications);
   } catch (error: any) {

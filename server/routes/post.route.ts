@@ -12,6 +12,9 @@ import {
   unlikePost,
   updatePost,
   deletePost,
+  getEveryThread,
+  getAllThreadsUserId,
+  getAllThreadsByUsername,
 } from "../controllers/post.controller";
 import { getThread } from "../controllers/thread.controller";
 
@@ -19,9 +22,17 @@ const router = express.Router();
 // ------------GET--------------
 router.get("/threads/:threadId", verifyRoute as any, getThread as any);
 router.get("/all", verifyRoute as any, getEveryPost as any);
+router.get("/all/threads", verifyRoute as any, getEveryThread as any);
+
 router.get("/:postid", verifyRoute as any, getPost as any);
 router.get("/all/:userid", verifyRoute as any, getAllPosts as any);
+router.get(
+  "/all/threads/:userid",
+  verifyRoute as any,
+  getAllThreadsUserId as any
+);
 router.get("/all/username/:username", getAllPostsByUsername as any);
+router.get("/all/threads/username/:username", getAllThreadsByUsername as any);
 // ------------POST--------------
 router.post("/like/:postid", verifyRoute as any, likePost as any);
 router.post("/unlike/:postid", verifyRoute as any, unlikePost as any);
