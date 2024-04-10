@@ -227,8 +227,6 @@ const createPosts = async (posts: any[], userid: string): Promise<any> => {
 export const getEveryPost = async (req: Request, res: Response) => {
   const { user } = req;
   const { per_page, page } = req.query;
-  console.log("post");
-
   try {
     if (!user) throw new Error("No user provided");
 
@@ -253,7 +251,6 @@ export const getEveryPost = async (req: Request, res: Response) => {
 export const getEveryThread = async (req: Request, res: Response) => {
   const { user } = req;
   const { per_page, page } = req.query;
-  console.log("thread");
   try {
     if (!user) throw new Error("No user provided");
     const offset = (Number(page) - 1) * Number(per_page);
@@ -278,7 +275,6 @@ export const updatePost = async (req: Request, res: Response) => {
   const { user } = req;
   const { postid } = req.params;
   const { body, image } = req.body;
-  console.log(body, image);
   try {
     if (!user) throw new Error("No user provided");
     if (!postid) throw new Error("No postid provided");
