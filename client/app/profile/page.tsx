@@ -44,7 +44,7 @@ const Profilepage = () => {
         <Spinner />
         <p>Loading</p>
       </div>
-    ) : posts?.length === 0 && threads?.length ? (
+    ) : posts?.length === 0 && threads?.length == 0 ? (
       <div className="flex items-center justify-center min-h-[400px]">
         <Button onClick={() => setOpenThreadModal(true)} variant={"outline"}>
           Start your first thread

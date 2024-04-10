@@ -146,7 +146,8 @@ const ThreadformPortal = ({ setOpen }: ThreadformPortal) => {
                 setErrorHandler={() => setError(true)}
               ></ThreadsInput>
             ))}
-            {threads[threads?.length - 1]?.value?.length === 0 ? (
+            {threads[threads?.length - 1]?.value?.length === 0 ||
+            threads?.length > 4 ? (
               <button
                 className={cn("text-sm")}
                 disabled={true}
