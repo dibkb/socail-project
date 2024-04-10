@@ -1,30 +1,23 @@
 import { Post, Threads } from "@/types";
 import axios from "axios";
+import { instance } from "./instance";
 const SERVER = process.env.NEXT_PUBLIC_SERVER_URL;
-export async function getUserPosts(userid: string) {
-  try {
-    const serverResponse = await axios.get(
-      `${SERVER}/api/v1/posts/all/${userid}`,
-      {
-        withCredentials: true,
-      }
-    );
-    return {
-      data: serverResponse.data,
-    };
-  } catch (error: any) {
-    return {
-      error: error.message,
-    };
-  }
+export async function getUserPosts(parturl: string) {
+  // api/v1/posts/all/65f291d200d69492e11a65e2?per_page=4&page=1
+  return instance
+    .get(`${SERVER}/api/v1/posts/all/${parturl}`, {
+      withCredentials: true,
+    })
+    .then((res) => res.data);
 }
-// export async function getUserPostsByUsername(userid: string) {
-//   return axios
-//     .get(`${SERVER}/api/v1/posts/all/username/${userid}`, {
-//       withCredentials: true,
-//     })
-//     .then((res) => res.data as );
-// }
+export async function getUserThreads(parturl: string) {
+  // api/v1/posts/all/threads/65f291d200d69492e11a65e2?per_page=4&page=1
+  return instance
+    .get(`${SERVER}/api/v1/posts/all/${parturl}`, {
+      withCredentials: true,
+    })
+    .then((res) => res.data);
+}
 export async function getUserPostsByUsername(username: string) {
   try {
     const serverResponse = await axios(

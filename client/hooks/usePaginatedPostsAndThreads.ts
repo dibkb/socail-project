@@ -31,7 +31,9 @@ const usePaginatedPostsAndThreads = ({
     threadsLoader.loader
   );
   useEffect(() => {
+    console.log(postsData);
     if (postsData?.posts) {
+      console.log("postsData?.posts", postsData?.posts);
       setPosts((prev) => {
         return [...prev, ...postsData?.posts];
       });
