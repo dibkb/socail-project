@@ -8,7 +8,7 @@ import { useIsMounted } from "@/hooks/isMounted";
 import usePaginatedPostsAndThreads from "@/hooks/usePaginatedPostsAndThreads";
 import { useUserStore } from "@/src/providers/user-store-provider";
 import { redirect } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 export default function Home() {
   const { user } = useUserStore((state) => state);
   const isMounted = useIsMounted();
@@ -34,6 +34,7 @@ export default function Home() {
       postsLoader,
       threadsLoader,
     });
+  const defaultTab = useRef<"single" | "shread">("single");
   return (
     <Globallayout>
       <Threadform />
@@ -46,10 +47,14 @@ export default function Home() {
               <Posts
                 posts={posts}
                 threads={threads}
-                loadMorePosts={() => setPostsPage((prev) => prev + 1)}
+                defaultTab={defaultTab}
+                loadMorePosts={() => {
+                  setPostsPage((prev) => prev + 1);
+                  defaultTab.current = "single";
+                }}
                 loadMoreThreads={() => {
-                  console.log("theraes");
                   setThreadsPage((prev) => prev + 1);
+                  defaultTab.current = "shread";
                 }}
               />
             </>

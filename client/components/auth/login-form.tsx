@@ -15,7 +15,6 @@ import { useForm } from "react-hook-form";
 import { loginSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CardContainer from "./card-container";
-import Link from "next/link";
 import { Input } from "../ui/input";
 import { login } from "@/actions/login";
 import { useUserStore } from "../../src/providers/user-store-provider";

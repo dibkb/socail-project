@@ -1,6 +1,6 @@
 "use client";
-import { Post, Threads, Threadsfull } from "@/types";
-import React from "react";
+import { Post, Threadsfull } from "@/types";
+import React, { MutableRefObject } from "react";
 import {
   sortbyTimeAscending,
   sortbyTimeDescending,
@@ -12,14 +12,22 @@ interface Posts {
   posts: Post[];
   threads: Threadsfull[];
   edit?: boolean;
+  defaultTab: MutableRefObject<"single" | "shread">;
   loadMorePosts: () => void;
   loadMoreThreads: () => void;
 }
 const Posts = React.memo(
-  ({ posts, threads, edit = false, loadMorePosts, loadMoreThreads }: Posts) => {
+  ({
+    posts,
+    threads,
+    edit = false,
+    loadMorePosts,
+    loadMoreThreads,
+    defaultTab,
+  }: Posts) => {
     return (
       <div>
-        <Tabs defaultValue="single" className="w-full">
+        <Tabs defaultValue={defaultTab.current} className="w-full">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="single" className="">
               Single posts
