@@ -27,7 +27,7 @@ const Userprofilepage = () => {
   );
   const threadsLoader = useMemo(
     () => ({
-      url: `/all/threads/username/${cleanedUsername}?per_page=4&page=${postsPage}`,
+      url: `/all/threads/username/${cleanedUsername}?per_page=4&page=${threadsPage}`,
       loader: getUserThreadsByUsername,
     }),
     [threadsPage, cleanedUsername]
@@ -37,8 +37,6 @@ const Userprofilepage = () => {
       postsLoader,
       threadsLoader,
     });
-  console.log(threads);
-  console.log(posts);
   const defaultTab = useRef<"single" | "shread">("single");
   if (!cleanedUsername) return <PostSkeleton />;
   useEffect(() => {
@@ -60,8 +58,14 @@ const Userprofilepage = () => {
           threads={threads}
           posts={posts}
           defaultTab={defaultTab}
-          loadMorePosts={() => setPostsPage((p) => p + 1)}
-          loadMoreThreads={() => setThreadsPage((t) => t + 1)}
+          loadMorePosts={() => {
+            setPostsPage((p) => p + 1);
+            defaultTab.current = "single";
+          }}
+          loadMoreThreads={() => {
+            setThreadsPage((t) => t + 1);
+            defaultTab.current = "shread";
+          }}
         />
       )
     );

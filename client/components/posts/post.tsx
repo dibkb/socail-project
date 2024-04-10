@@ -8,6 +8,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import PostLayout from "./post-layout";
 import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
 interface Posts {
   posts: Post[];
   threads: Threadsfull[];
@@ -49,8 +50,9 @@ const Posts = React.memo(
                 })}
             <div className="flex px-auto">
               <Button
-                className="my-3 mx-auto"
+                className={cn("my-3 mx-auto select-none")}
                 variant={"ghost"}
+                disabled={posts.length < 4}
                 onClick={loadMorePosts}
               >
                 Load more
@@ -77,6 +79,7 @@ const Posts = React.memo(
               <Button
                 className="my-3 mx-auto"
                 variant={"ghost"}
+                disabled={threads.length < 4}
                 onClick={loadMoreThreads}
               >
                 Load more
