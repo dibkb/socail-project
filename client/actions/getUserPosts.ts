@@ -20,13 +20,17 @@ export async function getUserThreads(parturl: string) {
 }
 export async function getUserPostsByUsername(parturl: string) {
   // /all/username/:username
-  return instance.get(`${SERVER}/api/v1/posts${parturl}`, {
-    withCredentials: true,
-  });
+  return instance
+    .get(`${SERVER}/api/v1/posts${parturl}`, {
+      withCredentials: true,
+    })
+    .then((res) => res.data);
 }
 export async function getUserThreadsByUsername(parturl: string) {
   // /all/threads/username/:username
-  return instance.get(`${SERVER}/api/v1/posts${parturl}`, {
-    withCredentials: true,
-  });
+  return instance
+    .get(`${SERVER}/api/v1/posts${parturl}`, {
+      withCredentials: true,
+    })
+    .then((res) => res.data);
 }

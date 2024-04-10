@@ -37,6 +37,8 @@ const Userprofilepage = () => {
       postsLoader,
       threadsLoader,
     });
+  console.log(threads);
+  console.log(posts);
   const defaultTab = useRef<"single" | "shread">("single");
   if (!cleanedUsername) return <PostSkeleton />;
   useEffect(() => {

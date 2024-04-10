@@ -37,27 +37,14 @@ const Profilepage = () => {
       threadsLoader,
     });
   const defaultTab = useRef<"single" | "shread">("single");
-
-  // const [posts, setPosts] = useState<
-  //   "loading" | { posts: Post[]; threads: Threads[] }
-  // >("loading");
-  // useEffect(() => {
-  //   async function getuser(id: string) {
-  //     const res = await getUserPosts(id);
-  //     return res;
-  //   }
-  //   user?.id && getuser(user.id).then((result) => setPosts(result.data));
-  // }, [user]);
   if (!user) return <Loading />;
-  // console.log(posts);
-  console.log("threads", threads);
   const BODY =
     postsLoading || threadsLoading ? (
       <div className="flex items-center justify-center">
         <Spinner />
         <p>Loading</p>
       </div>
-    ) : posts?.length === 0 ? (
+    ) : posts?.length === 0 && threads?.length ? (
       <div className="flex items-center justify-center min-h-[400px]">
         <Button onClick={() => setOpenThreadModal(true)} variant={"outline"}>
           Start your first thread
