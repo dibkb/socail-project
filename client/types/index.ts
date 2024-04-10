@@ -14,6 +14,12 @@ export interface Threads {
   createdAt: string;
   updatedAt: string;
 }
+export interface Threadsfull {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  posts: Post[];
+}
 export interface Comment {
   id: string;
   body: string;

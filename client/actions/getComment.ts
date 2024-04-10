@@ -30,8 +30,9 @@ export async function getAllPosts(parturl: string) {
     .then((res) => res.data);
 }
 export async function getAllThreads(parturl: string) {
+  console.log(parturl);
   return instance
-    .get(`${SERVER}/api/v1/posts/threads/all?${parturl}`, {
+    .get(`${SERVER}/api/v1/posts/${parturl}`, {
       withCredentials: true,
     })
     .then((res) => res.data);

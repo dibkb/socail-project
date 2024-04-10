@@ -5,15 +5,15 @@ import { PostSkeleton } from "@/components/guides/skeleton-loader";
 import Threadform from "@/components/home/thread-form";
 import { Globallayout } from "@/components/layouts/main";
 import Posts from "@/components/posts/post";
-import { Button } from "@/components/ui/button";
 import { useIsMounted } from "@/hooks/isMounted";
 import { useUserStore } from "@/src/providers/user-store-provider";
-import { Post, Threads } from "@/types";
+import { Post, Threads, Threadsfull } from "@/types";
 import { redirect } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import useSWR, { SWRResponse } from "swr";
 export default function Home() {
   const [posts, setPosts] = useState<Post[]>([]);
+  const [threads, setThreads] = useState<Threadsfull[]>([]);
   const { user } = useUserStore((state) => state);
   const isMounted = useIsMounted();
   if (!user && isMounted) return redirect("/auth/login");
@@ -31,8 +31,8 @@ export default function Home() {
     data: threadsData,
     error: threadsError,
     isLoading: threadsLoading,
-  }: SWRResponse<{ threads: Post[] }> = useSWR(
-    `per_page=${4}&page=${threadsPage}`,
+  }: SWRResponse<{ threads: Threadsfull[] }> = useSWR(
+    `all/threads?per_page=${4}&page=${threadsPage}`,
     getAllThreads
   );
   useEffect(() => {
@@ -42,9 +42,15 @@ export default function Home() {
       });
     }
   }, [postsData]);
+  useEffect(() => {
+    if (threadsData?.threads) {
+      setThreads((prev) => {
+        return [...prev, ...threadsData?.threads];
+      });
+    }
+  }, [threadsData]);
   const loadMoreThreads = () => {};
   const loadMorePosts = () => {};
-  console.log(posts);
   return (
     <Globallayout>
       <Threadform />
@@ -52,16 +58,16 @@ export default function Home() {
         <PostSkeleton />
       ) : (
         <div className="grow mt-6">
-          {/* {postsData && data?.threads && (
+          {threads && posts && (
             <>
               <Posts
-                posts={data?.posts}
-                threads={data?.threads}
+                posts={posts}
+                threads={threads}
                 loadMoreThreads={loadMoreThreads}
                 loadMorePosts={loadMorePosts}
               />
             </>
-          )} */}
+          )}
         </div>
       )}
     </Globallayout>

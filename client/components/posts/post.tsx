@@ -1,5 +1,5 @@
 "use client";
-import { Post, Threads } from "@/types";
+import { Post, Threads, Threadsfull } from "@/types";
 import React from "react";
 import {
   sortbyTimeAscending,
@@ -10,7 +10,7 @@ import PostLayout from "./post-layout";
 import { Button } from "../ui/button";
 interface Posts {
   posts: Post[];
-  threads: Threads[];
+  threads: Threadsfull[];
   edit?: boolean;
   loadMorePosts: () => void;
   loadMoreThreads: () => void;
@@ -18,14 +18,14 @@ interface Posts {
 }
 const Posts = React.memo(
   ({ posts, threads, edit = false, loadMorePosts, loadMoreThreads }: Posts) => {
-    const filterByThreadid = (id: string) => {
-      return posts?.filter((p) => p.threadId === id);
-    };
-    const threadsWithPosts = threads
-      ?.sort(sortbyTimeAscending)
-      .map((thread) => ({
-        posts: filterByThreadid(thread?.id),
-      }));
+    // const filterByThreadid = (id: string) => {
+    //   return posts?.filter((p) => p.threadId === id);
+    // };
+    // const threadsWithPosts = threads
+    //   ?.sort(sortbyTimeAscending)
+    //   .map((thread) => ({
+    //     posts: filterByThreadid(thread?.id),
+    //   }));
     return (
       <div>
         <Tabs defaultValue="single" className="w-full">
@@ -60,8 +60,8 @@ const Posts = React.memo(
           </TabsContent>
           <TabsContent value="shread">
             {/* Thread-posts */}
-            {threadsWithPosts &&
-              threadsWithPosts.map((i, id) => {
+            {threads &&
+              threads.map((i, id) => {
                 if (i?.posts?.length)
                   return (
                     <div
