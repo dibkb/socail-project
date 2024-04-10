@@ -49,8 +49,12 @@ export default function Home() {
       });
     }
   }, [threadsData]);
-  const loadMoreThreads = () => {};
-  const loadMorePosts = () => {};
+  const loadMoreThreads = () => {
+    setThreadsPage((prev) => prev + 1);
+  };
+  const loadMorePosts = () => {
+    setPostsPage((prev) => prev + 1);
+  };
   return (
     <Globallayout>
       <Threadform />

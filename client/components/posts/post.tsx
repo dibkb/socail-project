@@ -14,18 +14,9 @@ interface Posts {
   edit?: boolean;
   loadMorePosts: () => void;
   loadMoreThreads: () => void;
-  // user?: User | { id: string; username: string };
 }
 const Posts = React.memo(
   ({ posts, threads, edit = false, loadMorePosts, loadMoreThreads }: Posts) => {
-    // const filterByThreadid = (id: string) => {
-    //   return posts?.filter((p) => p.threadId === id);
-    // };
-    // const threadsWithPosts = threads
-    //   ?.sort(sortbyTimeAscending)
-    //   .map((thread) => ({
-    //     posts: filterByThreadid(thread?.id),
-    //   }));
     return (
       <div>
         <Tabs defaultValue="single" className="w-full">
