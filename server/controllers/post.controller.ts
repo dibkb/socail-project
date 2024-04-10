@@ -227,27 +227,48 @@ const createPosts = async (posts: any[], userid: string): Promise<any> => {
 export const getEveryPost = async (req: Request, res: Response) => {
   const { user } = req;
   const { per_page, page } = req.query;
+  console.log("post");
+
   try {
     if (!user) throw new Error("No user provided");
 
     const offset = (Number(page) - 1) * Number(per_page);
     const posts = await prisma.post.findMany({
+      where: {
+        threads: { is: null },
+      },
       take: Number(per_page),
       skip: offset,
       orderBy: {
-        createdAt: "desc",
+        id: "desc",
       },
     });
+    return res.status(200).json({
+      posts,
+    });
+  } catch (error: any) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+export const getEveryThread = async (req: Request, res: Response) => {
+  const { user } = req;
+  const { per_page, page } = req.query;
+  console.log("thread");
+  try {
+    if (!user) throw new Error("No user provided");
+    const offset = (Number(page) - 1) * Number(per_page);
     const threads = await prisma.thread.findMany({
       take: Number(per_page),
       skip: offset,
+      include: {
+        posts: true,
+      },
       orderBy: {
         createdAt: "desc",
       },
     });
     return res.status(200).json({
-      posts: posts,
-      threads: threads,
+      threads,
     });
   } catch (error: any) {
     return res.status(500).json({ message: error.message });

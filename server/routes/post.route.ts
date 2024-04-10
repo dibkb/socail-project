@@ -12,6 +12,7 @@ import {
   unlikePost,
   updatePost,
   deletePost,
+  getEveryThread,
 } from "../controllers/post.controller";
 import { getThread } from "../controllers/thread.controller";
 
@@ -19,6 +20,8 @@ const router = express.Router();
 // ------------GET--------------
 router.get("/threads/:threadId", verifyRoute as any, getThread as any);
 router.get("/all", verifyRoute as any, getEveryPost as any);
+router.get("/all/threads", verifyRoute as any, getEveryThread as any);
+
 router.get("/:postid", verifyRoute as any, getPost as any);
 router.get("/all/:userid", verifyRoute as any, getAllPosts as any);
 router.get("/all/username/:username", getAllPostsByUsername as any);
